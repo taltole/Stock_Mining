@@ -122,11 +122,18 @@ class StockScrapper:
 def main():
 
     scrap = StockScrapper(URL)
+
+    # getting urls for individual stock and sectors mining
     sites, sectors = scrap.get_urls()
-    print(sites)
+    print(sites, sectors)
+
+    # printing info to console and file
     top_stocks = scrap.summarizer()
-    print(top_stocks)
     scrap.to_csv()
+
+    print(top_stocks)
+
+    # clossing driver
     driver.close()
 
 
