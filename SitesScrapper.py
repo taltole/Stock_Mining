@@ -16,10 +16,7 @@ chorme_options.add_argument("--headless")
 chorme_options.add_argument("--no-sandbox")
 
 # constant
-if sys.platform == 'win32':
-    DRIVER = os.path.join(os.getcwd(), 'WINchromedriver')
-else:
-    DRIVER = os.path.join(os.getcwd(), 'chromedriver')
+DRIVER = os.path.join(os.getcwd(), 'chromedriver')
 DELAY = random.randint(1, 5)
 driver = webdriver.Chrome(DRIVER)
 URL = "https://www.tradingview.com/symbols/NYSE-MO/"
@@ -31,15 +28,16 @@ class Table:
 
     def financial_titles(self):
         column_info = []
-        financial_titles = self.driver.find_elements_by_xpath(
-            "//div[contains(@class,'tv-widget-fundamentals__item')]//div[contains(@class,'tv-widget-fundamentals__title')]")
+        financial_titles = self.driver.find_elements_by_xpath("//div[contains(@class,'tv-widget-fundamentals__item')]"
+                                                              "//div[contains(@class,'tv-widget-fundamentals__title')]")
         for data in financial_titles:
             column_info.append(str(data.text).split('\n')[0])
         return column_info
 
     def rating_elements(self):
         elements = self.driver.find_elements_by_xpath(
-            "//div[contains(@class,'tv-widget-fundamentals__item')]//div[contains(@class,'tv-widget-fundamentals__row')]//span[contains(@class, 'tv-widget-fundamentals__label apply-overflow-tooltip')]")
+            "//div[contains(@class,'tv-widget-fundamentals__item')]//div[contains(@class,'tv-widget-fundamentals__row')"
+            "]//span[contains(@class, 'tv-widget-fundamentals__label apply-overflow-tooltip')]")
         element_info = []
         for element in elements:
             element_info.append(str(element.text).split('\n')[0])
@@ -47,7 +45,8 @@ class Table:
 
     def rating_values(self):
         values = self.driver.find_elements_by_xpath(
-            "//div[contains(@class,'tv-widget-fundamentals__item')]//div[contains(@class,'tv-widget-fundamentals__row')]//span[contains(@class, 'tv-widget-fundamentals__value apply-overflow-tooltip')]")
+            "//div[contains(@class,'tv-widget-fundamentals__item')]//div[contains(@class,'tv-widget-fundamentals__row')"
+            "]//span[contains(@class, 'tv-widget-fundamentals__value apply-overflow-tooltip')]")
         value_info = []
         for value in values:
             value_info.append(str(value.text).split('\n')[0])
@@ -80,7 +79,12 @@ class Table:
         return table
 
 
-if __name__ == '__main__':
+def main():
     table = Table(driver)
     driver.get(URL)
     print(table.financial_table())
+    driver.close()
+
+
+if __name__ == '__main__':
+    main()

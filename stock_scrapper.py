@@ -133,7 +133,7 @@ def main():
 
     print(top_stocks)
 
-    # clossing driver
+    # closing driver
     driver.close()
 
 
