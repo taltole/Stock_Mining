@@ -24,6 +24,9 @@ URL = "https://www.tradingview.com/symbols/NYSE-MO/"
 
 class Table:
     def __init__(self, driver):
+        """
+        Instantiates the driver.
+        """
         self.driver = driver
 
     def financial_titles(self):
