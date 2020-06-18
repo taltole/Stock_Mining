@@ -25,7 +25,6 @@ chrome_options.headless = True
 URL = 'https://www.tradingview.com/markets/stocks-usa/market-movers-large-cap/'
 DELAY = random.randint(1, 5)
 driver = webdriver.Chrome(os.path.join(os.getcwd(), 'chromedriver'))
-driver.get(URL)
 
 
 class StockScrapper:
@@ -38,12 +37,13 @@ class StockScrapper:
         get SUBJECT from cl_reader as variable to look for on google
         :return: review sites
         """
+        driver.get(URL)
 
         # getting stock urls and sectors urls
-        stocks = driver.find_elements_by_class_name('tv-data-table__tbody')        
+        stocks = driver.find_elements_by_class_name('tv-data-table__tbody')
         links = [stock.find_elements_by_tag_name('a') for stock in stocks]
         urls = [link.get_attribute("href") for link in links[1]]
-        
+
         sectors_urls = []
         stocks_urls = []
         for i in range(len(urls)):
@@ -59,13 +59,14 @@ class StockScrapper:
         this func will look for kw for each site main_scraper returns
         :return: purchase links, prices, top choices.
         """
+        driver.get(URL)
         stocks_urls, sectors_urls = self.get_urls()
 
         # getting top stocks concise info
         stock = []
         name = []
         info = []
-        stocks = driver.find_elements_by_class_name('tv-data-table__tbody')        
+        stocks = driver.find_elements_by_class_name('tv-data-table__tbody')
         data_list = [i.text for i in stocks[1:]][0].split('\n')
         data_len = len(data_list)
         for i in range(0, data_len-2, 3):
@@ -83,6 +84,8 @@ class StockScrapper:
         """
         sum info in data frame
         """
+        driver.get(URL)
+
         # get table inputs
         urls = self.get_urls()[0]
         stock, name, info = self.stock_scrapper()
@@ -125,7 +128,7 @@ def main():
 
     # getting urls for individual stock and sectors mining
     sites, sectors = scrap.get_urls()
-    print(sites, sectors)
+    print(sites, sectors, sep='\n')
 
     # printing info to console and file
     top_stocks = scrap.summarizer()
