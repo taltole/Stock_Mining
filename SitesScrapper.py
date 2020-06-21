@@ -1,3 +1,10 @@
+"""
+This file contains contains a class which creates a table of rating elements and its respective values for a given url.
+
+Itamar Meimon, Tal Toledano, Kevin Daniels
+"""
+
+
 import os
 import sys
 from selenium import webdriver
@@ -8,25 +15,35 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 import time
 import random
+import stock_scrapper
+import pandas as pd
 
-chorme_options = Options()
-chorme_options.add_experimental_option('excludeSwitches', ['enable-logging'])
-chorme_options.add_argument("--disable-gpu")
-chorme_options.add_argument("--headless")
-chorme_options.add_argument("--no-sandbox")
+chrome_options = Options()
+chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
+chrome_options.add_argument("--disable-gpu")
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--no-sandbox")
 
-# constant
-DRIVER = os.path.join(os.getcwd(), 'chromedriver')
 DELAY = random.randint(1, 5)
-driver = webdriver.Chrome(DRIVER)
-URL = "https://www.tradingview.com/symbols/NYSE-MO/"
+
 
 
 class Table:
+    """
+    This class integrates several functions to retrieve the information of rating elements given a certain stock and
+    creates a dictionary with all the information for each one of them.
+    """
     def __init__(self, driver):
+        """
+        Constructs the driver for the class.
+        """
         self.driver = driver
 
     def financial_titles(self):
+        """
+        This function retrieves the headers of the differnt groups of rating elements.
+        :return: list
+        """
         column_info = []
         financial_titles = self.driver.find_elements_by_xpath("//div[contains(@class,'tv-widget-fundamentals__item')]"
                                                               "//div[contains(@class,'tv-widget-fundamentals__title')]")
@@ -35,6 +52,10 @@ class Table:
         return column_info
 
     def rating_elements(self):
+        """
+        List of all the rating elements for each stock.
+        :return: list
+        """
         elements = self.driver.find_elements_by_xpath(
             "//div[contains(@class,'tv-widget-fundamentals__item')]//div[contains(@class,'tv-widget-fundamentals__row')"
             "]//span[contains(@class, 'tv-widget-fundamentals__label apply-overflow-tooltip')]")
@@ -44,6 +65,11 @@ class Table:
         return element_info
 
     def rating_values(self):
+        """
+        List of rating values for each rating element. It has the same size as
+        rating_elements and the indexes correspond to the same order.
+        :return: list
+        """
         values = self.driver.find_elements_by_xpath(
             "//div[contains(@class,'tv-widget-fundamentals__item')]//div[contains(@class,'tv-widget-fundamentals__row')"
             "]//span[contains(@class, 'tv-widget-fundamentals__value apply-overflow-tooltip')]")
@@ -53,6 +79,10 @@ class Table:
         return value_info
 
     def financial_table(self):
+        """
+        Creates a dictionary representing a financial table for each stock.
+        :return: dict
+        """
         column_titles = self.financial_titles()
         rating_elements = self.rating_elements()
         rating_values = self.rating_values()
@@ -80,11 +110,33 @@ class Table:
 
 
 def main():
-    table = Table(driver)
-    driver.get(URL)
-    print(table.financial_table())
-    driver.close()
-
+    """
+    Given a URL of the stock market and the url's for each stock imported from stock_scrapper.py, creates a DataFrame
+    and financial table of all the stocks.
+    :return: DF and dict
+    """
+    URL = 'https://www.tradingview.com/markets/stocks-usa/market-movers-large-cap/'
+    urls = stock_scrapper.StockScrapper(URL).get_urls()[1]
+    stocks = stock_scrapper.StockScrapper(URL).stock_scrapper()
+    list_stocks = stocks[0]
+    index_stock = 0
+    stock_table = {}
+    list_values = []
+    list_elements = [[]]
+    for url in urls:
+        print(len(urls) - index_stock, url)
+        DRIVER = os.path.join(os.getcwd(), 'chromedriver')
+        driver = webdriver.Chrome(DRIVER, chrome_options=chrome_options)
+        table = Table(driver)
+        driver.get(url)
+        list_elements[0].append(table.rating_elements())
+        list_values.append(table.rating_values())
+        stock_table[list_stocks[index_stock]] = table.financial_table()
+        driver.close()
+        index_stock += 1
+    df_table = pd.DataFrame(list_values, index=list_stocks, columns=list_elements[0][0])
+    print(stock_table)
+    print(df_table)
 
 if __name__ == '__main__':
     main()
