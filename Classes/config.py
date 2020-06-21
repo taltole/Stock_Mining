@@ -1,0 +1,26 @@
+import os
+import selenium
+import sys
+import random
+import pandas as pd
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+
+chrome_options = Options()
+chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
+chrome_options.add_argument("--disable-gpu")
+chrome_options.add_argument("--headless")
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument('start-maximized')
+chrome_options.add_argument('disable-infobars')
+chrome_options.add_argument("--disable-extensions")
+chrome_options.headless = True
+
+
+# constant
+URL = 'https://www.tradingview.com/markets/stocks-usa/market-movers-large-cap/'
+URL_INDUSTRY = 'https://www.tradingview.com/markets/stocks-usa/sectorandindustry-industry/'
+driver = webdriver.Chrome(os.path.join(os.getcwd(), 'chromedriver'), options=chrome_options)
+STOCK = 0
+SECTOR = 1
+DELAY = random.randint(1, 5)
