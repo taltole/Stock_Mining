@@ -2,7 +2,6 @@ from DataMining.DataMining.Classes import TopMarketScrapper, StockScrapper, Indu
 from DataMining.DataMining.Classes.config import *
 import pandas as pd
 from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
 
 
 def main():

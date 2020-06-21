@@ -10,11 +10,6 @@ from itertools import takewhile
 #
 from DataMining.DataMining.Classes.config import *
 
-#
-# URL = 'https://www.tradingview.com/markets/stocks-usa/sectorandindustry-industry/'
-# DELAY = random.randint(1, 5)
-# driver = webdriver.Chrome(os.path.join(os.getcwd(), 'chromedriver'))
-
 
 class IndustryScrapper:
 
