@@ -1,8 +1,8 @@
-##Data Mining Project
+## Data Mining Project
 ### By Kevin Daniels, Itamar Meimon  & Tal Toledano.
-####This is the first part of the “Web Scrapping” project conducted to retrieve information from a selected website and manage it such as to present it in a clear and summarised way.
+####. This is the first part of the “Web Scrapping” project conducted to retrieve information from a selected website and manage it such as to present it in a clear and summarised way.
 
-###The website of choice:  www.tradeview.com
+### The website of choice:  www.tradeview.com
 Containing up to date information about NASDAQ market stocks.
 
 In the repository a main file which will execute the three files under the ‘Classes’ folder:
