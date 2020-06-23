@@ -71,7 +71,7 @@ class IndustryScrapper:
 
         # get main page headers
         header_industry = driver.find_element_by_xpath('//*[@id="js-screener-container"]/div[3]/table/thead')
-        header_industry = header_industry.text.replace('INDUSTRY\n\n128 matches', 'INDUSTRY').split('\n')
+        header_industry = header_industry.text.replace('INDUSTRY\n\n129 matches', 'INDUSTRY').split('\n')
 
         # creating data frame
         df_industry = pd.DataFrame(index=industry, data=final_list, columns=header_industry[1:])
