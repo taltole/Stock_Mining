@@ -1,6 +1,4 @@
 import os
-import selenium
-import sys
 import random
 import pandas as pd
 from selenium import webdriver
@@ -16,11 +14,15 @@ chrome_options.add_argument('disable-infobars')
 chrome_options.add_argument("--disable-extensions")
 chrome_options.headless = True
 
-
 # constant
 URL = 'https://www.tradingview.com/markets/stocks-usa/market-movers-large-cap/'
+URL_SECTOR = 'https://www.tradingview.com/markets/stocks-usa/sectorandindustry-sector/'
 URL_INDUSTRY = 'https://www.tradingview.com/markets/stocks-usa/sectorandindustry-industry/'
 driver = webdriver.Chrome(os.path.join(os.getcwd(), 'chromedriver'), options=chrome_options)
 STOCK = 0
 SECTOR = 1
+ARG_NAME = 0
+ARG_OPTION = 1
+REQUIRED_NUM_OF_ARGS = 3
 DELAY = random.randint(1, 5)
+MYSQL_USERNAME = 'root'

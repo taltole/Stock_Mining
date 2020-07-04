@@ -10,6 +10,7 @@ class TopMarketScrapper:
     def __init__(self, URL):
         self.URL = URL
 
+    @classmethod
     def get_urls(self):
         """
         function gets urls from main site to read by other classes
@@ -28,9 +29,10 @@ class TopMarketScrapper:
                 stocks_urls.append(urls[i])
             else:
                 sectors_urls.append(urls[i])
-                
+
         return stocks_urls, sectors_urls
 
+    @classmethod
     def stock_scrapper(self):
         """
         this func will look for kw for each site main_scraper returns
@@ -66,7 +68,7 @@ class TopMarketScrapper:
         df = pd.DataFrame(index=stock, data=info, columns=header)
         return df
 
-    def to_csv(self):
+    def create_csv(self):
         """
         get df and output to csv file
         """
@@ -75,7 +77,7 @@ class TopMarketScrapper:
         # create CSV file
         if not df.empty:
             # if file does not exist write header
-            file_name = '../Stock Info.csv'
+            file_name = 'Database\Stock Info.csv'
             if not os.path.isfile(file_name):
                 df.to_csv(file_name, encoding='utf-8')
             else:  # else it exists so append without writing the header

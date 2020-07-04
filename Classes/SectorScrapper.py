@@ -1,29 +1,29 @@
 """
-Get industry analysis, stats and updates
+Get sectors analysis, stats and updates
 """
 from itertools import takewhile
 from DataMining.DataMining.Classes.config import *
 
 
-class IndustryScrapper:
+class SectorScrapper:
 
-    def __init__(self, URL_INDUSTRY):
-        self.URL_INDUSTRY = URL_INDUSTRY
+    def __init__(self, URL_SECTOR):
+        self.URL_SECTOR = URL_SECTOR
 
     @classmethod
-    def industry_scrapper(self):
+    def sector_scrapper(self):
         """
         this func will look for kw for each site main_scraper returns
         :return: purchase links, prices, top choices.
         """
-        driver.get(URL_INDUSTRY)
+        driver.get(URL_SECTOR)
 
         # getting sectors concise info
-        industry = []
+        sector = []
         data_list = []
-        industries = driver.find_elements_by_class_name('tv-data-table__tbody')
+        sectors = driver.find_elements_by_class_name('tv-data-table__tbody')
 
-        data_list_long = [i.text for i in industries[1:]][0].split('\n')
+        data_list_long = [i.text for i in sectors[1:]][0].split('\n')
         for j in data_list_long:
             data_list.append(''.join(takewhile(lambda x: not x.isdigit(), j)))
 
@@ -53,9 +53,9 @@ class IndustryScrapper:
 
         data_len = len(data_list_long)
         for i in range(0, data_len):
-            industry.append(data_list[i])
+            sector.append(data_list[i])
 
-        return industry, final_list
+        return sector, final_list
 
     @classmethod
     def summarizer(self):
@@ -63,29 +63,28 @@ class IndustryScrapper:
         sum info in data frame
         """
         driver.get(URL_INDUSTRY)
-        industry, final_list = self.industry_scrapper()
+        sector, final_list = self.sector_scrapper()
 
         # get main page headers
-        header_industry = driver.find_element_by_xpath('//*[@id="js-screener-container"]/div[3]/table/thead')
-        header_industry = header_industry.text.replace('INDUSTRY\n\n128 matches', 'INDUSTRY').split('\n')
+        header_sector = driver.find_element_by_xpath('//*[@id="js-screener-container"]/div[3]/table/thead')
+        header_sector = header_sector.text.replace('SECTOR\n\n20 matches', 'SECTOR').split('\n')
 
         # creating data frame
-        df_industry = pd.DataFrame(index=industry, data=final_list, columns=header_industry[1:])
+        df_sector = pd.DataFrame(index=sector, data=final_list, columns=header_sector[1:])
 
-        return df_industry
+        return df_sector
 
     def create_csv(self):
         """
         get df and output to csv file
         """
-        df_industry = self.summarizer()
+        df_sector = self.summarizer()
 
         # create CSV file
-        if not df_industry.empty:
+        if not df_sector.empty:
             # if file does not exist write header
-            file_name = 'Database\Industry_info.csv'
+            file_name = 'Database\Sector_info.csv'
             if not os.path.isfile(file_name):
-                df_industry.to_csv(file_name, encoding='utf-8')
+                df_sector.to_csv(file_name, encoding='utf-8')
             else:  # else it exists so append without writing the header
-                df_industry.to_csv(file_name, encoding='utf-8', mode='w', header=False)
-
+                df_sector.to_csv(file_name, encoding='utf-8', mode='w', header=False)
