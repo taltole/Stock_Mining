@@ -20,8 +20,11 @@ class TopMarketScrapper:
         # getting stocks urls and sectors urls
         stocks = driver.find_elements_by_class_name('tv-data-table__tbody')
         links = [stock.find_elements_by_tag_name('a') for stock in stocks]
-        urls = [link.get_attribute("href") for link in links[1]]
+        try:
+            urls = [link.get_attribute("href") for link in links[1]]
+        except:
 
+            urls = [link.get_attribute("href") for link in links[0]]
         sectors_urls = []
         stocks_urls = []
         for i in range(len(urls)):
@@ -35,7 +38,7 @@ class TopMarketScrapper:
     @classmethod
     def stock_scrapper(self):
         """
-        this func will look for kw for each site main_scraper returns
+        this counter will look for kw for each site main_scraper returns
         :return: purchase links, prices, top choices.
         """
         driver.get(URL)
@@ -44,15 +47,20 @@ class TopMarketScrapper:
         stock = []
         name = []
         info = []
+        data = []
         stocks = driver.find_elements_by_class_name('tv-data-table__tbody')
-        data_list = [i.text for i in stocks[1:]][0].split('\n')
+        data_list = [i.text for i in stocks][0].split('\n')
         data_len = len(data_list)
-        for i in range(0, data_len-2, 3):
+        for i in range(0, data_len - 2, 3):
             stock.append(data_list[i])
-            name.append('_'.join(data_list[i+1].split()))
-            info.append(data_list[i+2].replace('Strong Buy', 'Strong_Buy'))
-        info = [i.split()[0:8] for i in info]
-        return stock, name, info
+            name.append('_'.join(data_list[i + 1].split()))
+            info.append(data_list[i + 2].replace('Strong Buy', 'Strong_Buy').replace('Strong Sell', 'Strong_Sell'))
+            if info[-1].split()[-1] not in ['Finance', 'Communications', 'Transportation', 'Utilities']:
+                data.append(info[-1].split()[:-2])
+                data[-1].insert(len(data[-1]), '_'.join(info[-1].split()[-2:]))
+            else:
+                data.append(info[-1].split())
+        return stock, name, data
 
     def summarizer(self):
         """
@@ -62,7 +70,7 @@ class TopMarketScrapper:
         stock, name, info = self.stock_scrapper()
 
         # get main page headers
-        header = ['STOCK', 'LAST', 'CHG %', 'CHG', 'RATING', 'VOL', 'MKT CAP', 'P/E']
+        header = ['LAST', 'CHG %', 'CHG', 'RATING', 'VOL', 'MKT CAP', 'P/E', 'EPS', 'EMPLOYEES', 'SECTOR']
 
         # creating data frame
         df = pd.DataFrame(index=stock, data=info, columns=header)

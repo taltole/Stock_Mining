@@ -13,7 +13,7 @@ class IndustryScrapper:
     @classmethod
     def industry_scrapper(self):
         """
-        this func will look for kw for each site main_scraper returns
+        this counter will look for kw for each site main_scraper returns
         :return: purchase links, prices, top choices.
         """
         driver.get(URL_INDUSTRY)

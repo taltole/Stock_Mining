@@ -90,7 +90,7 @@ def create_tables(con):
           "Ticker" varchar(255) [pk, increment]
           "Name" varchar(255)
           "Last" int
-          "Change %" int
+          "Change_precent" float
           "Rating" varchar(255)
           "Volume" int
           "Mkt_Cap" int
