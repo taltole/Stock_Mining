@@ -23,7 +23,7 @@ class IndustryScrapper:
         data_list = []
         industries = driver.find_elements_by_class_name('tv-data-table__tbody')
 
-        data_list_long = [i.text for i in industries[1:]][0].split('\n')
+        data_list_long = [i.text for i in industries][0].split('\n')
         for j in data_list_long:
             data_list.append(''.join(takewhile(lambda x: not x.isdigit(), j)))
 
@@ -83,7 +83,7 @@ class IndustryScrapper:
         # create CSV file
         if not df_industry.empty:
             # if file does not exist write header
-            file_name = 'Database\Industry_info.csv'
+            file_name = 'Industry_info.csv'
             if not os.path.isfile(file_name):
                 df_industry.to_csv(file_name, encoding='utf-8')
             else:  # else it exists so append without writing the header

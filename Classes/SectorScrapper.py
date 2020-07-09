@@ -23,7 +23,7 @@ class SectorScrapper:
         data_list = []
         sectors = driver.find_elements_by_class_name('tv-data-table__tbody')
 
-        data_list_long = [i.text for i in sectors[1:]][0].split('\n')
+        data_list_long = [i.text for i in sectors][0].split('\n')
         for j in data_list_long:
             data_list.append(''.join(takewhile(lambda x: not x.isdigit(), j)))
 
@@ -83,7 +83,7 @@ class SectorScrapper:
         # create CSV file
         if not df_sector.empty:
             # if file does not exist write header
-            file_name = 'Database\Sector_info.csv'
+            file_name = 'Sector_info.csv'
             if not os.path.isfile(file_name):
                 df_sector.to_csv(file_name, encoding='utf-8')
             else:  # else it exists so append without writing the header
