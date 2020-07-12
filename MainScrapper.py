@@ -11,7 +11,7 @@ def stock_parser():
     The program receives user arguments and prints the info under query.
     """
     parser = argparse.ArgumentParser(
-        description="usage: MainScrapper.py [-h] [ind|sec|all] [from row] [to row] [-ind_me]")
+        description="usage: MainScrapper.py [-h] [ind|sec|all] [from row] [to row]")
     parser.add_argument('scrapper', choices=['ind', 'sec', 'all'], help='select the query to perform')
     parser.add_argument('from_row', type=int, help='row index from which to start')
     parser.add_argument('to_row', type=int, help='row index from which to end')

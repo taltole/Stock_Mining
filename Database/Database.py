@@ -5,14 +5,16 @@ Database class:
 """
 
 import pymysql.cursors
-from DataMining.DataMining.Classes.config import *
+from config import *
+
 
 
 class Database:
     def __init__(self, CSV_FILE):
         """ connect to database. if don't exists - create database and tables. """
 
-        self.con, self.cur = setup_mysql_db()
+        self.con = setup_mysql_db()
+        self.cur = self.con.cursor()
         self.df = read_csv(CSV_FILE)
 
     def close_connect_db(self):
@@ -48,10 +50,10 @@ class Database:
         """ from CSV file, insert Industry table to mysql """
         df = self.df
         for i, r in df.iterrows():
-            print(i,r)
             sql = """
-            INSERT IGNORE INTO Industry (industry id, Industry Name, Mkt_Cap, Dividend Yield, Change Percent, 
-            Vol, Sector, Stocks) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);"""
+            INSERT IGNORE INTO Industry (industry_id, Industry_Name, Mkt_Cap, Dividend_Yield, Change_Percent, 
+            Vol, Sector, Stocks) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            ;"""
             val = (None, r['INDUSTRY'], r['MKT CAP'], r['DIV YIELD'], r['CHG PERCENT'], r['VOL'], r['SECTOR'], r['STOCKS'])
             self.cur.execute(sql, val)
         self.con.commit()
@@ -177,13 +179,6 @@ def read_csv(file):
 
 def setup_mysql_db():
     """ connect to mysql server. and create database and tables if don't exists."""
-
-    # con = pymysql.connect(host='localhost',
-    #                 user='root',
-    #                 password='Kevin248',
-    #                 db='Stock_Stats',
-    #                 charset='utf8mb4',
-    #                 cursorclass=pymysql.cursors.DictCursor)
     con = pymysql.Connect(host='localhost',
                           user='root',
                           password='12345678',
@@ -191,9 +186,10 @@ def setup_mysql_db():
                           charset='utf8mb4',
                           cursorclass=pymysql.cursors.DictCursor)
 
+
     # create if don't exists:
     create_database(con)
-    return con, con.cursor()
+    return con
 
 
 def create_database(con):
@@ -230,11 +226,11 @@ def create_tables(con):
 
     create_Industry = '''
           CREATE TABLE IF NOT EXISTS 'Industry' (
-          'industry id' double PRIMARY KEY AUTO_INCREMENT, 
-          'Industry Name' varchar,
+          'industry_id' double PRIMARY KEY AUTO_INCREMENT, 
+          'Industry_Name' varchar,
           'Mkt_Cap' varchar,
-          'Dividend Yield' varchar,
-          'change Percent' varchar,
+          'Dividend_Yield' varchar,
+          'change_Percent' varchar,
           'Vol' varchar,
           'Sector' varchar(255)
           'Stocks' double
@@ -386,19 +382,27 @@ def create_tables(con):
 
 
 def main():
-    # db = Database()
-    # con = setup_mysql_db()
-    # tables = create_tables(con[0])
-    # db.insert_industry_table()
-    # print(db.read_from_db(tables))
-    # convert the csv file to tables in database
-    print("Convert CSV to MySQL Database. ")
+    while True:
+        FILENAME = input("Input name of the csv file: ")
+        if FILENAME == 'Industry info.csv' or FILENAME == 'Sector info.csv' or FILENAME == 'Stock info.csv':
+            db = Database(FILENAME)
+            con = setup_mysql_db()
+            tables = create_tables(con)
+            db.insert_industry_table()
+            print(db.read_from_db(tables))
+        else:
+            print("File not found, please enter a correct filename")
 
-    db = Database('Industry info.csv')
-    db.insert_industry_table()
+
+
+    # convert the csv file to tables in database
+    # print("Convert CSV to MySQL Database. ")
+    # create_tables(con[1])
+    # db = Database('Industry info.csv')
+    # db.insert_industry_table()
 
     db.close_connect_db()
-    print("Done. ")
+    # print("Done. ")
 
 
 if __name__ == "__main__":
