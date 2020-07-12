@@ -2,7 +2,7 @@
 Get sectors analysis, stats and updates
 """
 from itertools import takewhile
-from DataMining.DataMining.Classes.config import *
+from Classes.config import *
 
 
 class SectorScrapper:
@@ -11,7 +11,7 @@ class SectorScrapper:
         self.URL_SECTOR = URL_SECTOR
 
     @classmethod
-    def sector_scrapper(self, rows):
+    def sector_scrapper(self):
         """
         this counter will look for kw for each site main_scraper returns
         :return: purchase links, prices, top choices.
@@ -55,30 +55,30 @@ class SectorScrapper:
         for i in range(0, data_len):
             sector.append(data_list[i])
 
-        return sector[:rows], final_list
+        return sector, final_list
 
     @classmethod
-    def summarizer(self, rows):
+    def summarizer(self, from_row, to_row):
         """
         sum info in data frame
         """
         driver.get(URL_INDUSTRY)
-        sector, final_list = self.sector_scrapper(rows)
+        sector, final_list = self.sector_scrapper()
         [final_list[i].insert(0, sector[i][:]) for i in range(len(sector))]
 
         # get main page headers
         header_sector = ['SECTOR', 'MKT CAP', 'DIV YIELD', 'CHG %', 'VOL', 'INDUSTRIES', 'STOCKS']
 
         # creating data frame
-        df_sector = pd.DataFrame(data=final_list, columns=header_sector)
+        df_sector = pd.DataFrame(data=final_list[from_row:to_row], columns=header_sector)
 
         return df_sector
 
-    def create_csv(self, rows):
+    def create_csv(self, from_row, to_row):
         """
         get df and output to csv file
         """
-        df_sector = self.summarizer(rows)
+        df_sector = self.summarizer(from_row, to_row)
 
         # create CSV file
         if not df_sector.empty:

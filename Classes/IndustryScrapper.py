@@ -2,7 +2,7 @@
 Get industry analysis, stats and updates
 """
 from itertools import takewhile
-from DataMining.DataMining.Classes.config import *
+from Classes.config import *
 
 
 class IndustryScrapper:
@@ -11,7 +11,7 @@ class IndustryScrapper:
         self.URL_INDUSTRY = URL_INDUSTRY
 
     @classmethod
-    def industry_scrapper(self, rows):
+    def industry_scrapper(self):
         """
         this counter will look for kw for each site main_scraper returns
         :return: purchase links, prices, top choices.
@@ -55,30 +55,30 @@ class IndustryScrapper:
         for i in range(0, data_len):
             industry.append(data_list[i])
 
-        return industry[:rows], final_list
+        return industry, final_list
 
     @classmethod
-    def summarizer(self, rows):
+    def summarizer(self, from_row, to_row):
         """
         sum info in data frame
         """
         driver.get(URL_INDUSTRY)
-        industry, final_list = self.industry_scrapper(rows)
+        industry, final_list = self.industry_scrapper()
         [final_list[i].insert(0, industry[i][:]) for i in range(len(industry))]
 
         # get main page headers
         header_industry = ['INDUSTRY', 'MKT CAP', 'DIV YIELD', 'CHG %', 'VOL', 'SECTOR', 'STOCKS']
 
         # creating data frame
-        df_industry = pd.DataFrame(data=final_list, columns=header_industry)
+        df_industry = pd.DataFrame(data=final_list[from_row:to_row], columns=header_industry)
 
         return df_industry
 
-    def create_csv(self, rows):
+    def create_csv(self, from_row, to_row):
         """
         get df and output to csv file
         """
-        df_industry = self.summarizer(rows)
+        df_industry = self.summarizer(from_row, to_row)
 
         # create CSV file
         if not df_industry.empty:

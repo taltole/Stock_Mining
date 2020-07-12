@@ -2,7 +2,7 @@
 Get top market's stock analysis, stats and updates
 """
 # Imports
-from DataMining.DataMining.Classes.config import *
+from Classes.config import *
 
 
 class TopMarketScrapper:
@@ -62,7 +62,7 @@ class TopMarketScrapper:
                 data.append(info[-1].split())
         return stock, name, data
 
-    def summarizer(self):
+    def summarizer(self, from_row, to_row):
         """
         sum info in data frame
         """
@@ -74,14 +74,14 @@ class TopMarketScrapper:
         header = ['TICKER', 'LAST', 'CHG %', 'CHG', 'RATING', 'VOL', 'MKT CAP', 'P/E', 'EPS', 'EMPLOYEES', 'SECTOR']
 
         # creating data frame
-        df = pd.DataFrame(data=info, columns=header)
+        df = pd.DataFrame(data=info[from_row:to_row], columns=header)
         return df
 
-    def create_csv(self):
+    def create_csv(self, from_row, to_row):
         """
         get df and output to csv file
         """
-        df = self.summarizer()
+        df = self.summarizer(from_row, to_row)
 
         # create CSV file
         if not df.empty:
