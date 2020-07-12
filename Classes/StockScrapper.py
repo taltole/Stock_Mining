@@ -111,7 +111,7 @@ def main():
         driver.close()
         index_stock += 1
     df_table = pd.DataFrame(list_values, index=list_stocks, columns=list_elements[0][0])
-    df_table.to_csv()
+    df_table.to_csv(path_or_buf=PATH_DB+filename)
     print(stock_table)
     print(df_table)
 

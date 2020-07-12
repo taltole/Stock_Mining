@@ -68,12 +68,13 @@ class TopMarketScrapper:
         """
         driver.get(URL)
         stock, name, info = self.stock_scrapper()
+        [info[i].insert(0, stock[i]) for i in range(len(stock))]
 
         # get main page headers
-        header = ['LAST', 'CHG %', 'CHG', 'RATING', 'VOL', 'MKT CAP', 'P/E', 'EPS', 'EMPLOYEES', 'SECTOR']
+        header = ['TICKER', 'LAST', 'CHG %', 'CHG', 'RATING', 'VOL', 'MKT CAP', 'P/E', 'EPS', 'EMPLOYEES', 'SECTOR']
 
         # creating data frame
-        df = pd.DataFrame(index=stock, data=info, columns=header)
+        df = pd.DataFrame(data=info, columns=header)
         return df
 
     def create_csv(self):
@@ -85,8 +86,8 @@ class TopMarketScrapper:
         # create CSV file
         if not df.empty:
             # if file does not exist write header
-            file_name = '../Database/Stock Info.csv'
-            if not os.path.isfile(file_name):
-                df.to_csv(file_name, encoding='utf-8')
+            filename = 'Stock Info.csv'
+            if not os.path.isfile(PATH_DB+filename):
+                df.to_csv(PATH_DB+filename, encoding='utf-8')
             else:  # else it exists so append without writing the header
-                df.to_csv(file_name, encoding='utf-8', mode='w', header=False)
+                df.to_csv(PATH_DB+filename, encoding='utf-8', mode='w', header=True)

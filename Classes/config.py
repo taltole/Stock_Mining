@@ -15,10 +15,12 @@ chrome_options.add_argument("--disable-extensions")
 chrome_options.headless = True
 
 # constant
+filename = ''
 URL = 'https://www.tradingview.com/markets/stocks-usa/market-movers-large-cap/'
 URL_SECTOR = 'https://www.tradingview.com/markets/stocks-usa/sectorandindustry-sector/'
 URL_INDUSTRY = 'https://www.tradingview.com/markets/stocks-usa/sectorandindustry-industry/'
 driver = webdriver.Chrome(os.path.join(os.getcwd(), 'chromedriver'), options=chrome_options)
+PATH_DB = os.path.join(os.getcwd().replace('Classes', 'Database'), filename)
 STOCK = 0
 SECTOR = 1
 ARG_NAME = 0

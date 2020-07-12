@@ -64,13 +64,13 @@ class IndustryScrapper:
         """
         driver.get(URL_INDUSTRY)
         industry, final_list = self.industry_scrapper()
+        [final_list[i].insert(0, industry[i][:]) for i in range(len(industry))]
 
         # get main page headers
-        header_industry = driver.find_element_by_xpath('//*[@id="js-screener-container"]/div[3]/table/thead')
-        header_industry = header_industry.text.replace('INDUSTRY\n\n128 matches', 'INDUSTRY').split('\n')
+        header_industry = ['INDUSTRY', 'MKT CAP', 'DIV YIELD', 'CHG %', 'VOL', 'SECTOR', 'STOCKS']
 
         # creating data frame
-        df_industry = pd.DataFrame(index=industry, data=final_list, columns=header_industry[1:])
+        df_industry = pd.DataFrame(data=final_list, columns=header_industry)
 
         return df_industry
 
@@ -83,9 +83,9 @@ class IndustryScrapper:
         # create CSV file
         if not df_industry.empty:
             # if file does not exist write header
-            file_name = 'Industry_info.csv'
-            if not os.path.isfile(file_name):
-                df_industry.to_csv(file_name, encoding='utf-8')
+            filename = 'Industry info.csv'
+            if not os.path.isfile(PATH_DB+filename):
+                df_industry.to_csv(PATH_DB+filename, encoding='utf-8')
             else:  # else it exists so append without writing the header
-                df_industry.to_csv(file_name, encoding='utf-8', mode='w', header=False)
+                df_industry.to_csv(PATH_DB+filename, encoding='utf-8', mode='w', header=True)
 
