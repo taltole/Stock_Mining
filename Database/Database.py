@@ -22,7 +22,7 @@ class Database:
     def insert_all_to_mysql(self):
         """from CSV file, insert all tables:"""
 
-        # self.insert_main_table()
+        self.insert_main_table()
         self.insert_industry_table()
         self.insert_sectors_table()
         self.insert_valuation_table()
@@ -39,7 +39,7 @@ class Database:
         for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Main (Ticker, Last, Change Percent, Change, Rating, Volume, Mkt Cap, " \
                   "Price to Earnings, EPS, Employees, Sector) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            val = (None, r['TICKER'], r['LAST'], r['CHG %'], r['CHG'], r['RATING'], r['VOL'], r['MKT CAP'],
+            val = (None, r['TICKER'], r['LAST'], r['CHG PERCENT'], r['CHG'], r['RATING'], r['VOL'], r['MKT CAP'],
                r['P/E'], r['EPS'], r['EMPLOYEES'], r['SECTOR'])
             self.cur.execute(sql, val)
         self.con.commit()
