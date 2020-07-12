@@ -1,8 +1,8 @@
 """
 This file contains contains a class which creates a table of rating elements and its respective values for a given url.
 """
-from DataMining.DataMining.Classes import TopMarketScrapper
-from DataMining.DataMining.Classes.config import *
+from Classes import TopMarketScrapper
+from Classes.config import *
 
 
 class StockScrapper:
