@@ -20,7 +20,7 @@ class Database:
         self.con.close()
 
     def insert_all_to_mysql(self):
-        """from CSV file, insert all tables: Countries, Clubs, Leagues, Players to Mysql database."""
+        """from CSV file, insert all tables:"""
 
         self.insert_main_table()
         self.insert_industry_table()

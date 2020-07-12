@@ -13,7 +13,7 @@ def stock_parser():
         -sum      -> print top market stock stats.
         -stock "AAPL"   -> print full AAPL stats.
         -ind "Airlines" -> print all industry stock summary.
-        -sec "Finance"  -> print all Real Madrid players.
+        -sec "Finance"  -> print all Finance for sec.
     """
     parser = argparse.ArgumentParser(description=
                                      "Print stocks (sum|stock|ind|sec) stats following CL args")
