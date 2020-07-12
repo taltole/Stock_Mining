@@ -394,7 +394,7 @@ def main():
 
     # convert the csv file to tables in database
     # print("Convert CSV to MySQL Database. ")
-    # create_tables(con[1])
+    # create_tables(con)
     # db = Database('Industry info.csv')
     # db.insert_industry_table()
 
