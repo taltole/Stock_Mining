@@ -5,16 +5,14 @@ Database class:
 """
 
 import pymysql.cursors
-from config import *
-
+from DataMining.DataMining.Classes.config import *
 
 
 class Database:
     def __init__(self, CSV_FILE):
         """ connect to database. if don't exists - create database and tables. """
 
-        self.con = setup_mysql_db()
-        self.cur = self.con.cursor()
+        self.con, self.cur = setup_mysql_db()
         self.df = read_csv(CSV_FILE)
 
     def close_connect_db(self):
@@ -179,6 +177,13 @@ def read_csv(file):
 
 def setup_mysql_db():
     """ connect to mysql server. and create database and tables if don't exists."""
+
+    # con = pymysql.connect(host='localhost',
+    #                 user='root',
+    #                 password='Kevin248',
+    #                 db='Stock_Stats',
+    #                 charset='utf8mb4',
+    #                 cursorclass=pymysql.cursors.DictCursor)
     con = pymysql.Connect(host='localhost',
                           user='root',
                           password='12345678',
@@ -186,10 +191,9 @@ def setup_mysql_db():
                           charset='utf8mb4',
                           cursorclass=pymysql.cursors.DictCursor)
 
-
     # create if don't exists:
     create_database(con)
-    return con
+    return con, con.cursor()
 
 
 def create_database(con):
@@ -382,22 +386,15 @@ def create_tables(con):
 
 
 def main():
-    while True:
-        FILENAME = input("Input name of the csv file: ")
-        if FILENAME == 'Industry info.csv' or FILENAME == 'Sector info.csv' or FILENAME == 'Stock info.csv':
-            db = Database(FILENAME)
-            con = setup_mysql_db()
-            tables = create_tables(con)
-            db.insert_industry_table()
-            print(db.read_from_db(tables))
-        else:
-            print("File not found, please enter a correct filename")
-
-
+    db = Database('Industry info.csv')
+    con = setup_mysql_db()
+    tables = create_tables(con[1])
+    db.insert_industry_table()
+    print(db.read_from_db(tables))
 
     # convert the csv file to tables in database
     # print("Convert CSV to MySQL Database. ")
-    # create_tables(con[1])
+    # create_tables(con)
     # db = Database('Industry info.csv')
     # db.insert_industry_table()
 
