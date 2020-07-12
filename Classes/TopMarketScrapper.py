@@ -85,7 +85,7 @@ class TopMarketScrapper:
         # create CSV file
         if not df.empty:
             # if file does not exist write header
-            file_name = 'Database\Stock Info.csv'
+            file_name = '../Database/Stock Info.csv'
             if not os.path.isfile(file_name):
                 df.to_csv(file_name, encoding='utf-8')
             else:  # else it exists so append without writing the header
