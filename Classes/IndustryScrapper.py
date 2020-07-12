@@ -67,7 +67,7 @@ class IndustryScrapper:
         [final_list[i].insert(0, industry[i][:]) for i in range(len(industry))]
 
         # get main page headers
-        header_industry = ['INDUSTRY', 'MKT CAP', 'DIV YIELD', 'CHG %', 'VOL', 'SECTOR', 'STOCKS']
+        header_industry = ['INDUSTRY', 'MKT CAP', 'DIV YIELD', 'CHG PERCENT', 'VOL', 'SECTOR', 'STOCKS']
 
         # creating data frame
         df_industry = pd.DataFrame(data=final_list[from_row:to_row], columns=header_industry)

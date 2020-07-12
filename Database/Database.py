@@ -22,7 +22,7 @@ class Database:
     def insert_all_to_mysql(self):
         """from CSV file, insert all tables:"""
 
-        # self.insert_main_table()
+        self.insert_main_table()
         self.insert_industry_table()
         self.insert_sectors_table()
         self.insert_valuation_table()
@@ -37,38 +37,37 @@ class Database:
         """ from CSV file, insert Main table to mysql """
         df = self.df
         for i, r in df.iterrows():
-            sql = "INSERT IGNORE INTO Main (Ticker, Last, Change %, Change, Rating, Volume, Mkt Cap, " \
+            sql = "INSERT IGNORE INTO Main (Ticker, Last, Change Percent, Change, Rating, Volume, Mkt Cap, " \
                   "Price to Earnings, EPS, Employees, Sector) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            val = (None, r['TICKER'], r['LAST'], r['CHG %'], r['CHG'], r['RATING'], r['VOL'], r['MKT CAP'],
+            val = (None, r['TICKER'], r['LAST'], r['CHG PERCENT'], r['CHG'], r['RATING'], r['VOL'], r['MKT CAP'],
                r['P/E'], r['EPS'], r['EMPLOYEES'], r['SECTOR'])
             self.cur.execute(sql, val)
         self.con.commit()
 
     def insert_industry_table(self):
         """ from CSV file, insert Industry table to mysql """
-
         df = self.df
         for i, r in df.iterrows():
-            sql = "INSERT IGNORE INTO Industry (industry_id, Industry Name, Mkt_Cap, Dividend Yield, " \
-                  "Change %, Vol, Sector, Stocks) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-            val = (None, r['INDUSTRY'], r['MKT CAP'], r['DIV YIELD'], r['CHG %'], r['VOL'], r['SECTOR'], r['STOCKS'])
+            print(i,r)
+            sql = """
+            INSERT IGNORE INTO Industry (industry id, Industry Name, Mkt_Cap, Dividend Yield, Change Percent, 
+            Vol, Sector, Stocks) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);"""
+            val = (None, r['INDUSTRY'], r['MKT CAP'], r['DIV YIELD'], r['CHG PERCENT'], r['VOL'], r['SECTOR'], r['STOCKS'])
             self.cur.execute(sql, val)
         self.con.commit()
 
     def insert_sectors_table(self):
         """ from CSV file, insert Sectors table to mysql """
-
         df = self.df
         for i, r in df.iterrows():
-            sql = "INSERT IGNORE INTO Sectors (sector_id, Sector Name, Market Cap, Dividend Yield, Change %, Vol, " \
-                  "Industries, Stocks) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-            val = (None, r['SECTOR'], r['MKT CAP'], r['DIV YIELD'], r['CHG %'], r['VOL'], r['INDUSTRIES'], r['STOCKS'])
+            sql = "INSERT IGNORE INTO Sectors (sector_id, Sector Name, Market Cap, Dividend Yield, Change Percent, " \
+                  "Vol, Industries, Stocks) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            val = (None, r['SECTOR'], r['MKT CAP'], r['DIV YIELD'], r['CHG PERCENT'], r['VOL'], r['INDUSTRIES'], r['STOCKS'])
             self.cur.execute(sql, val)
         self.con.commit()
 
     def insert_valuation_table(self):
         """ from CSV file, insert Valuation table to mysql """
-
         df = self.df
         for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Valuation (Ticker, Market Cap, Enterprise Value, Enterprise Value to EBITDA," \
@@ -83,7 +82,6 @@ class Database:
 
     def insert_metrics_table(self):
         """ from CSV file, insert Metrics table to mysql """
-
         df = self.df
         for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Metrics (Ticker, Return on Assets, Return on Equity, Return on Invested Capital," \
@@ -95,7 +93,6 @@ class Database:
 
     def insert_balance_sheet_table(self):
         """ from CSV file, insert Balance_Sheet table to mysql """
-
         df = self.df
         for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Balance_Sheet (Ticker, Quick Ratio, Current Ratio, Debt to Equity, Net Debt" \
@@ -107,7 +104,6 @@ class Database:
 
     def insert_price_history_table(self):
         """ from CSV file, insert Price_History table to mysql """
-
         df = self.df
         for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Price_History (Ticker, Average Volume (10 days), 1 Year beta, 52 week high," \
@@ -119,7 +115,6 @@ class Database:
 
     def insert_dividends_table(self):
         """ from CSV file, insert Dividends table to mysql """
-
         df = self.df
         for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Dividends (id, Ticker, Dividends Paid, Dividends Yield, Dividends per Share)" \
@@ -130,7 +125,6 @@ class Database:
 
     def insert_margins_table(self):
         """ from CSV file, insert Margins table to mysql """
-
         df = self.df
         for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Margins (Ticker, Net Margin, Gross Margin, Operating Margin, Pretax Margin" \
@@ -142,7 +136,6 @@ class Database:
 
     def insert_income_table(self):
         """ from CSV file, insert Income table to mysql """
-
         df = self.df
         for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Income (Ticker, Basic EPS FY, Basic EPS TTM, EPS Diluted, Net Income, EBITDA," \
@@ -237,12 +230,12 @@ def create_tables(con):
 
     create_Industry = '''
           CREATE TABLE IF NOT EXISTS 'Industry' (
-          'Id' double PRIMARY KEY AUTO_INCREMENT, 
-          'Name' varchar,
-          'Mkt_Cap' int,
-          'Dividend Yield' float,
-          'change_Percent' double,
-          'Vol' int,
+          'industry id' double PRIMARY KEY AUTO_INCREMENT, 
+          'Industry Name' varchar,
+          'Mkt_Cap' varchar,
+          'Dividend Yield' varchar,
+          'change Percent' varchar,
+          'Vol' varchar,
           'Sector' varchar(255)
           'Stocks' double
         );
@@ -391,6 +384,7 @@ def create_tables(con):
     cur.execute(keys, multi=True)
     con.commit()
 
+
 def main():
     # db = Database()
     # con = setup_mysql_db()
@@ -400,11 +394,9 @@ def main():
     # convert the csv file to tables in database
     print("Convert CSV to MySQL Database. ")
 
-    # KEVIN depends on file/args call the relevent insert_all_to_mysql()
     db = Database('Industry info.csv')
-    db.insert_all_to_mysql()
-    ####################
-    
+    db.insert_industry_table()
+
     db.close_connect_db()
     print("Done. ")
 

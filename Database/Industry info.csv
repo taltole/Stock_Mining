@@ -1,6 +1,6 @@
-,INDUSTRY,MKT CAP,DIV YIELD,CHG %,VOL,SECTOR,STOCKS
+,INDUSTRY,MKT CAP,DIV YIELD,CHG PERCENT,VOL,SECTOR,STOCKS
 0,Advertising/Marketing Services ,57.565B,—,1.91%,1.398M,Commercial Services,23
-1,Aerospace & Defense ,577.108B,—,2.14%,15.459M,Electronic Technology,49
+1,Aerospace_Defense ,577.108B,—,2.14%,15.459M,Electronic Technology,49
 2,Agricultural Commodities/Milling ,63.009B,—,4.27%,2.126M,Process Industries,26
 3,Air Freight/Couriers ,193.045B,—,0.61%,1.796M,Transportation,13
 4,Airlines ,90.041B,—,5.30%,24.817M,Transportation,19

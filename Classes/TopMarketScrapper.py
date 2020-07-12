@@ -71,7 +71,7 @@ class TopMarketScrapper:
         [info[i].insert(0, stock[i]) for i in range(len(stock))]
 
         # get main page headers
-        header = ['TICKER', 'LAST', 'CHG %', 'CHG', 'RATING', 'VOL', 'MKT CAP', 'P/E', 'EPS', 'EMPLOYEES', 'SECTOR']
+        header = ['TICKER', 'LAST', 'CHG PERCENT', 'CHG', 'RATING', 'VOL', 'MKT CAP', 'P/E', 'EPS', 'EMPLOYEES', 'SECTOR']
 
         # creating data frame
         df = pd.DataFrame(data=info[from_row:to_row], columns=header)
