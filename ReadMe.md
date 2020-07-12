@@ -1,13 +1,30 @@
 ## Data Mining Project
 ### By Kevin Daniels, Itamar Meimon  & Tal Toledano.
-#### This is the first part of the “Web Scrapping” project conducted to retrieve information from a selected website and manage it such as to present it in a clear and summarised way.
+#### This "Web Scraping Project" currently includes the first two checkpoints required for the ITC data science group project assignment. The purpose is to retrieve data from a selected website and transfer it for storage in a separate database designed by the team.  
 
-### The website of choice:  www.tradeview.com
-Containing up to date information about NASDAQ market stocks.
+### The website of choice: https://www.tradingview.com/
+Containing real time information about the U.S stock market.
 
-In the repository a main file which will execute the three files under the ‘Classes’ folder:
+	- The MainScrapper.py file contains a class StockScrapper.py which creates a dataframe and dictionary from the data by integrating several functions.
 
- 	- The first file (industry_scrapper) summaries the market stock by different industries in a DataFrame and a CSV file.
-	- The second file (topstock_scrapper) retrieves the information from the stock market and creates a DataFrame.
-	- The third file (stock_scrapper) obtained the url for every stock scrapes values of each stock and creates a DataFrame for top market stocks.
+	- The other three classes ending in Scrapper.py (TopMarket, Industry, and Sector) are each responsible to collect their respective data.
 
+	- The stock_parser function can receive user inputs and print relevant output following queries. 
+
+	- For each individual parsed stock tables were split into seven columns and grouped by category.
+
+To run the code the user will use the CLI to select the following information from the main scrappers. This will be done exclusively through MainScrapper.py, which will retrieve the information from each individual scrapper, and display the final result depending on what the user wishes to display: 
+
+	- Select what table with its corresponding information will be displayed. The user can choose between:
+		- Industry scrapper.
+		- Sector scrapper.
+		- All (Includes industry, sector and stocks scrapper)
+
+	- Select from which row to scrap.
+
+	- Select up to which row to scrap.
+
+The database folder contains a Database.py which creates a database with relevant tables in SQL.
+
+	- Following the scrapping in the classes, CSV files are created.
+	- Database.py converts the generated CSV's to databases first by creating the tables and afterwards by inserting the data in them.
