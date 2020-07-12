@@ -11,7 +11,7 @@ class IndustryScrapper:
         self.URL_INDUSTRY = URL_INDUSTRY
 
     @classmethod
-    def industry_scrapper(self):
+    def industry_scrapper(self, rows):
         """
         this counter will look for kw for each site main_scraper returns
         :return: purchase links, prices, top choices.
@@ -55,15 +55,15 @@ class IndustryScrapper:
         for i in range(0, data_len):
             industry.append(data_list[i])
 
-        return industry, final_list
+        return industry[:rows], final_list
 
     @classmethod
-    def summarizer(self):
+    def summarizer(self, rows):
         """
         sum info in data frame
         """
         driver.get(URL_INDUSTRY)
-        industry, final_list = self.industry_scrapper()
+        industry, final_list = self.industry_scrapper(rows)
         [final_list[i].insert(0, industry[i][:]) for i in range(len(industry))]
 
         # get main page headers
@@ -74,11 +74,11 @@ class IndustryScrapper:
 
         return df_industry
 
-    def create_csv(self):
+    def create_csv(self, rows):
         """
         get df and output to csv file
         """
-        df_industry = self.summarizer()
+        df_industry = self.summarizer(rows)
 
         # create CSV file
         if not df_industry.empty:
