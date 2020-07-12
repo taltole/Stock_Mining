@@ -22,7 +22,7 @@ class Database:
     def insert_all_to_mysql(self):
         """from CSV file, insert all tables:"""
 
-        self.insert_main_table()
+        # self.insert_main_table()
         self.insert_industry_table()
         self.insert_sectors_table()
         self.insert_valuation_table()
@@ -49,8 +49,8 @@ class Database:
 
         df = self.df
         for i, r in df.iterrows():
-            sql = "INSERT IGNORE INTO Industry (Industry Name, Mkt_Cap, Dividend Yield, Change %, Vol, Sector, Stocks)" \
-              " VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            sql = "INSERT IGNORE INTO Industry (industry_id, Industry Name, Mkt_Cap, Dividend Yield, " \
+                  "Change %, Vol, Sector, Stocks) VALUES (%s, %s, %s, %s, %s, %s, %s)"
             val = (None, r['INDUSTRY'], r['MKT CAP'], r['DIV YIELD'], r['CHG %'], r['VOL'], r['SECTOR'], r['STOCKS'])
             self.cur.execute(sql, val)
         self.con.commit()
@@ -60,7 +60,7 @@ class Database:
 
         df = self.df
         for i, r in df.iterrows():
-            sql = "INSERT IGNORE INTO Sectors (Sector Name, Market Cap, Dividend Yield, Change %, Vol, " \
+            sql = "INSERT IGNORE INTO Sectors (sector_id, Sector Name, Market Cap, Dividend Yield, Change %, Vol, " \
                   "Industries, Stocks) VALUES (%s, %s, %s, %s, %s, %s, %s)"
             val = (None, r['SECTOR'], r['MKT CAP'], r['DIV YIELD'], r['CHG %'], r['VOL'], r['INDUSTRIES'], r['STOCKS'])
             self.cur.execute(sql, val)
@@ -399,8 +399,12 @@ def main():
     # print(db.read_from_db(tables))
     # convert the csv file to tables in database
     print("Convert CSV to MySQL Database. ")
-    db = Database('Stock info.csv')
+
+    # KEVIN depends on file/args call the relevent insert_all_to_mysql()
+    db = Database('Industry info.csv')
     db.insert_all_to_mysql()
+    ####################
+    
     db.close_connect_db()
     print("Done. ")
 
