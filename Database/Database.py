@@ -7,11 +7,13 @@ Database class:
 # TODO: handle duplicate insert values.
 
 import pymysql.cursors
+
+
 from DataMining.Classes.config import *
 
 
 class Database:
-    def __init__(self):
+    def __init__(self, CSV_FILE):
         """ connect to database. if don't exists - create database and tables. """
 
         self.con, self.cur = setup_mysql_db()
@@ -22,66 +24,140 @@ class Database:
         self.con.close()
 
     def insert_main_table(self):
-        """ from CSV file, insert Countries table to mysql """
+        """ from CSV file, insert Main table to mysql """
+
+        for i, r in df.iterrows():
+            sql = "INSERT IGNORE INTO Main (Ticker, Name, Last, Change %, Rating, Volume, Mkt Cap, Price to Earnings," \
+              " Employees, Sector) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+            val = (None, r['Ticker'], r['Name'], r['Last'], r['Change_Percent'], r['Rating'], r['Volume'], r['Mkt_Cap'],
+               r['Price_to_Earnings'], r['Employees'], r['Sector'])
+            self.cur.execute(sql, val)
+            self.con.commit()
+
+    def insert_industry_table(self):
+        """ from CSV file, insert Industry table to mysql """
 
         df = self.df
         for i, r in df.iterrows():
-            sql = "INSERT IGNORE INTO Main (Ticker, Name, Last, Change %, Rating, Volume, Mkt Cap, Price to Earnings," \
-                  " Employees, Sector) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
-            val = (None, r['Ticker'], r['Name'], r['Last'], r['Change_Percent'], r['Rating'], r['Volume'], r['Mkt_Cap'],
-                   r['Price_to_Earnings'], r['Employees'], r['Sector'])
             sql = "INSERT IGNORE INTO Industry (id, Name, Mkt_Cap, Change %, Vol, Sector)" \
-                  " VALUES (%s, %s, %s, %s, %s, %s)"
+              " VALUES (%s, %s, %s, %s, %s, %s)"
             val = (None, r['id'], r['Name'], r['Mkt_Cap'], r['Change_Percent'], r['Vol'], r['Sector'])
+            self.cur.execute(sql, val)
+            self.con.commit()
+
+    def insert_sectors_table(self):
+        """ from CSV file, insert Sectors table to mysql """
+
+        df = self.df
+        for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Sectors (id, Name, Mkt_Cap, Change %, Vol)" \
-                  " VALUES (%s, %s, %s, %s, %s)"
+              " VALUES (%s, %s, %s, %s, %s)"
             val = (None, r['id'], r['Name'], r['Mkt_Cap'], r['Change_Percent'], r['Vol'])
+            self.cur.execute(sql, val)
+            self.con.commit()
+
+    def insert_valuation_table(self):
+        """ from CSV file, insert Valuation table to mysql """
+
+        df = self.df
+        for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Valuation (id, Ticker, Market Cap, Enterprise Value, Enterprise Value to EBITDA," \
-                  "Total_Shares_Outstanding, Number of Employees, Number of Shareholders, Price to Earnings," \
-                  "Price to Revenue, Price to Book, Price to Sales ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"\
+              "Total_Shares_Outstanding, Number of Employees, Number of Shareholders, Price to Earnings," \
+              "Price to Revenue, Price to Book, Price to Sales ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, " \
+              "%s) "
             val = (None, r['id'], r['Ticker'], r['Mkt_Cap'], r['Enterprise_Value'], r['Enterprise_Value_EBITDA'],
-                   r['Total_Shares_Outstanding'], r['Number_Employees'], r['Number_Shareholders'], r['Price_to_Earnings'],
-                   r['Price_to_Revenue'], r['Price_Book'], r['Price_Sales'])
+               r['Total_Shares_Outstanding'], r['Number_Employees'], r['Number_Shareholders'], r['Price_to_Earnings'],
+               r['Price_to_Revenue'], r['Price_Book'], r['Price_Sales'])
+            self.cur.execute(sql, val)
+            self.con.commit()
+
+    def insert_metrics_table(self):
+        """ from CSV file, insert Metrics table to mysql """
+
+        df = self.df
+        for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Metrics (id, Ticker, Return on Assets, Return on Equity, Return on Invested Capital," \
-                  "Revenue per Employee) VALUES (%s, %s, %s, %s, %s, %s)" \
+              "Revenue per Employee) VALUES (%s, %s, %s, %s, %s, %s)"
             val = (None, r['id'], r['Ticker'], r['Return_on_Assets'], r['Return_on_Equity'], r['Return_on_Invested_Capital'],
                    r['Revenue_per_Employee'])
+            self.cur.execute(sql, val)
+            self.con.commit()
+
+    def insert_balance_sheet_table(self):
+        """ from CSV file, insert Balance_Sheet table to mysql """
+
+        df = self.df
+        for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Balance_Sheet (id, Ticker, Quick Ratio, Current Ratio, Debt to Equity, Net Debt" \
-                  "Total Debt, Total Assets) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
+              "Total Debt, Total Assets) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
             val = (None, r['id'], r['Ticker'], r['Quick_Ratio'], r['Current_Ratio'], r['Debt_to_Equity'], r['Net_Debt'],
-                   r['Total_Debt'], r['Total_Assets'])
+               r['Total_Debt'], r['Total_Assets'])
+            self.cur.execute(sql, val)
+            self.con.commit()
+
+    def insert_price_history_table(self):
+        """ from CSV file, insert Price_History table to mysql """
+
+        df = self.df
+        for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Price_History (id, Ticker, Average Volume (10 days), 1 Year beta, 52 week high," \
-                  "52 week low) VALUES (%s, %s, %s, %s, %s, %s)"
-            val = (None, r['id'], r['Ticker'], r['Average_Volume_10d'], r['1_Year_beta'], r['52_Week_High'], r['52_Week_Low'])
+              "52 week low) VALUES (%s, %s, %s, %s, %s, %s)"
+            val = (
+            None, r['id'], r['Ticker'], r['Average_Volume_10d'], r['1_Year_beta'], r['52_Week_High'], r['52_Week_Low'])
+            self.cur.execute(sql, val)
+            self.con.commit()
+
+    def insert_dividends_table(self):
+        """ from CSV file, insert Dividends table to mysql """
+
+        df = self.df
+        for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Dividends (id, Ticker, Dividends Paid, Dividends Yield, Dividends per Share)" \
-                  " VALUES (%s, %s, %s, %s, %s)"
+              " VALUES (%s, %s, %s, %s, %s)"
             val = (None, r['id'], r['Ticker'], r['Dividends_Paid'], r['Dividends_Yield'], r['Dividends_per_Share'])
+            self.cur.execute(sql, val)
+            self.con.commit()
+
+    def insert_margins_table(self):
+        """ from CSV file, insert Margins table to mysql """
+
+        df = self.df
+        for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Margins (id, Ticker, Net Margin, Gross Margin, Operating Margin, Pretax Margin" \
-                  " VALUES (%s, %s, %s, %s, %s, %s)"
-            val = (None, r['id'], r['Ticker'], r['Net_Margin'], r['Gross_Margin'], r['Operating_Margin'], r['Pretax_Margin'])
+              " VALUES (%s, %s, %s, %s, %s, %s)"
+            val = (
+            None, r['id'], r['Ticker'], r['Net_Margin'], r['Gross_Margin'], r['Operating_Margin'], r['Pretax_Margin'])
+            self.cur.execute(sql, val)
+            self.con.commit()
+
+    def insert_income_table(self):
+        """ from CSV file, insert Income table to mysql """
+
+        df = self.df
+        for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Income (id, Ticker, Basic EPS FY, Basic EPS TTM, EPS Diluted, Net Income, EBITDA," \
-                  "Gross Profit MRQ, Gross Profit FY, Last Year Revenue, Total Revenue, Free Cash Flow" \
-                  " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+              "Gross Profit MRQ, Gross Profit FY, Last Year Revenue, Total Revenue, Free Cash Flow" \
+              " VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
             val = (None, r['id'], r['Ticker'], r['Basic_EPS_FY'], r['Basic_EPS_TTM'], r['EPS_Diluted'], r['Net_Income'],
-                   r['EBITDA'], r['Gross_Profit_MRQ'], r['Gross_Profit_FY'], r['Last_Year_Revenue'], r['Total_Revenue'],
-                   r['Free_Cash_Flow'])
-
-
+               r['EBITDA'], r['Gross_Profit_MRQ'], r['Gross_Profit_FY'], r['Last_Year_Revenue'], r['Total_Revenue'],
+               r['Free_Cash_Flow'])
 
         self.cur.execute(sql, val)
         self.con.commit()
-        # todo def_TABLE_table for all tables - DONE (SEE ABOVE)
 
-    def read_from_db(self, columns, table, where=''):
+    # todo def_TABLE_table for all tables - DONE (SEE ABOVE)
+
+    def read_from_db(self, table):
         """ read and print from Mysql database by statement.
             params:       Columns(str),
                           Table(str),
                 optional: Where(column(str),value(str)  """
 
-        if where:
-            self.cur.execute("SELECT {} FROM {} WHERE {}='{}'".format(columns, table, where[0], where[1]))
-        else:
-            self.cur.execute("SELECT {} FROM {} ".format(columns, table))
+        self.cur.execute("SELECT * FROM {}".format(table))
+        # if where:
+        #     self.cur.execute("SELECT {} FROM {} WHERE {}='{}'".format(columns, table, where[0], where[1]))
+        # else:
+        #     self.cur.execute("SELECT {} FROM {} ".format(columns, table))
 
         result = self.cur.fetchall()
 
@@ -101,12 +177,18 @@ def read_csv(file):
 def setup_mysql_db():
     """ connect to mysql server. and create database and tables if don't exists."""
 
-    con = pymysql.cursors.connect(
-        host='localhost', user=MYSQL_USERNAME, use_pure=True, auth_plugin='mysql_native_password')
+    con = pymysql.connect(host='localhost',
+                    user='root',
+                    password='Kevin248',
+                    db='porto',
+                    charset='utf8mb4',
+                    cursorclass=pymysql.cursors.DictCursor)
+   # con = pymysql.Connect(
+    #host='localhost', user=MYSQL_USERNAME, use_pure=True, auth_plugin='mysql_native_password')
 
     # create if don't exists:
-    create_database(con)
-    create_tables(con)
+    # create_database(con)
+
 
     return con, con.cursor()
 
@@ -124,28 +206,26 @@ def create_tables(con):
     cur = con.cursor()
 
     create_Main = '''
-          CREATE TABLE IF NOT EXISTS `Main` (
-          "Ticker" varchar(255) [pk, increment]
+          CREATE TABLE IF NOT EXISTS 'Main' (
+          "Ticker" varchar(255)
           "Name" varchar(255)
           "Last" int
           "Change_Percent" float
           "Rating" varchar(255)
           "Volume" int
           "Mkt_Cap" int
-          "Price_to_Earnings" int 
+          "Price_to_Earnings" int
           "Employees" int
-          "Sector" varchar(255) [ref: > Sectors.Id]
+          "Sector" varchar(255)
         );'''
 
     cur.execute(create_Main)
 
-
     #############################
 
-
     create_Industry = '''
-          CREATE TABLE IF NOT EXISTS `Industry` (
-          "Id" int [pk, increment]
+          CREATE TABLE IF NOT EXISTS 'Industry' (
+          "Id" int 
           "Name" varchar
           "Mkt_Cap" int
           "change_Percent" int
@@ -159,7 +239,7 @@ def create_tables(con):
 
     create_Sectors = '''
           CREATE TABLE IF NOT EXISTS 'Sectors' (
-          "id" double [pk, increment]
+          "id" double 
           "Name" varchar(255)
           "Mkt_Cap" float
           "Change_Percent" float
@@ -172,7 +252,7 @@ def create_tables(con):
 
     create_Valuation = '''
           CREATE TABLE IF NOT EXISTS 'Valuation' (
-          "id" double [pk, increment]
+          "id" double 
           "Ticker" varchar(255)
           "Market_Capitalization" float
           "Enterprise_Value" float
@@ -192,7 +272,7 @@ def create_tables(con):
 
     create_Metrics = '''
           CREATE TABLE IF NOT EXISTS 'Metrics' (
-          "id" double [pk, increment]
+          "id" double
           "Ticker" varchar(255)
           "Return_on_Assets" float
           "Return_on_Equity" float
@@ -206,7 +286,7 @@ def create_tables(con):
 
     create_Balance_Sheet = '''
           CREATE TABLE IF NOT EXISTS 'Balance_Sheet' (
-          "id" double [pk, increment]
+          "id" double 
           "Ticker" varchar(255)
           "Quick_Ratio" float
           "Current_Ratio" float
@@ -222,7 +302,7 @@ def create_tables(con):
 
     create_Price_History = '''
           CREATE TABLE IF NOT EXISTS 'Price_History' (
-          "id" double [pk, increment]
+          "id" double 
           "Ticker" varchar(255)
           "Average_Volume_10d" float
           "1_Year_beta" float
@@ -236,7 +316,7 @@ def create_tables(con):
 
     create_Dividends = '''
           CREATE TABLE IF NOT EXISTS 'Dividends' (
-          "id" double [pk, increment]
+          "id" double 
           "Ticker" varchar(255)
           "Dividends_Paid" float
           "Dividends_Yield" float
@@ -249,7 +329,7 @@ def create_tables(con):
 
     create_Margins = '''
           CREATE TABLE IF NOT EXISTS 'Margins' (
-          "id" double [pk, increment]
+          "id" double 
           "Ticker" varchar(255)
           "Net_Margin" float
           "Gross_Margin" float
@@ -263,7 +343,7 @@ def create_tables(con):
 
     create_Income = '''
           CREATE TABLE IF NOT EXISTS 'Income' (
-          "id" double [pk, increment]
+          "id" double 
           "Ticker" varchar(255)
           "Basic_EPS_FY" float
           "Basic_EPS_TTM" float
@@ -278,16 +358,20 @@ def create_tables(con):
 
         );
         '''
-    cur.execute(create_Margins)
+    cur.execute(create_Income)
 
     #############################
 
-# todo add for all tables - DONE - See above. Main table still has [ref: > Sectors.Id] from before - to delete?
+
+# todo add for all tables - DONE - See above.
 
 
 def main():
-    db = Database()
-    return
+    db = Database('Industry_info.csv')
+    con = setup_mysql_db()
+    tables = create_tables(con[0])
+    db.insert_industry_table()
+    print(db.read_from_db(tables))
 
 
 if __name__ == "__main__":
