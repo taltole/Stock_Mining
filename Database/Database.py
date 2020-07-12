@@ -48,10 +48,10 @@ class Database:
         """ from CSV file, insert Industry table to mysql """
         df = self.df
         for i, r in df.iterrows():
-            print(i,r)
             sql = """
-            INSERT IGNORE INTO Industry (industry id, Industry Name, Mkt_Cap, Dividend Yield, Change Percent, 
-            Vol, Sector, Stocks) VALUES (%s, %s, %s, %s, %s, %s, %s, %s);"""
+            INSERT IGNORE INTO Industry (industry_id, Industry_Name, Mkt_Cap, Dividend_Yield, Change_Percent, 
+            Vol, Sector, Stocks) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+            ;"""
             val = (None, r['INDUSTRY'], r['MKT CAP'], r['DIV YIELD'], r['CHG PERCENT'], r['VOL'], r['SECTOR'], r['STOCKS'])
             self.cur.execute(sql, val)
         self.con.commit()
@@ -230,11 +230,11 @@ def create_tables(con):
 
     create_Industry = '''
           CREATE TABLE IF NOT EXISTS 'Industry' (
-          'industry id' double PRIMARY KEY AUTO_INCREMENT, 
-          'Industry Name' varchar,
+          'industry_id' double PRIMARY KEY AUTO_INCREMENT, 
+          'Industry_Name' varchar,
           'Mkt_Cap' varchar,
-          'Dividend Yield' varchar,
-          'change Percent' varchar,
+          'Dividend_Yield' varchar,
+          'change_Percent' varchar,
           'Vol' varchar,
           'Sector' varchar(255)
           'Stocks' double
@@ -386,19 +386,20 @@ def create_tables(con):
 
 
 def main():
-    # db = Database()
-    # con = setup_mysql_db()
-    # tables = create_tables(con[0])
-    # db.insert_industry_table()
-    # print(db.read_from_db(tables))
-    # convert the csv file to tables in database
-    print("Convert CSV to MySQL Database. ")
-
     db = Database('Industry info.csv')
+    con = setup_mysql_db()
+    tables = create_tables(con[1])
     db.insert_industry_table()
+    print(db.read_from_db(tables))
+
+    # convert the csv file to tables in database
+    # print("Convert CSV to MySQL Database. ")
+    # create_tables(con[1])
+    # db = Database('Industry info.csv')
+    # db.insert_industry_table()
 
     db.close_connect_db()
-    print("Done. ")
+    # print("Done. ")
 
 
 if __name__ == "__main__":
