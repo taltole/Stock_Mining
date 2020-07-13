@@ -236,7 +236,8 @@ def create_tables(con):
     `change_Percent` DOUBLE,
     `Vol` DOUBLE,
     `Sector` VARCHAR(255),
-    `Stocks` DOUBLE
+    `Stocks` DOUBLE,
+    FOREIGN KEY (`Sector`) REFERENCES `Sectors` (`Name`)
     );'''
     cur.execute(create_Industry)
 
@@ -270,7 +271,8 @@ def create_tables(con):
     `Price_to_Earnings` DOUBLE,
     `Price_to_Revenue` DOUBLE,
     `Price_Book` DOUBLE,
-    `Price_Sales` DOUBLE
+    `Price_Sales` DOUBLE,
+    FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`)
         );
         '''
     cur.execute(create_Valuation)
@@ -284,7 +286,8 @@ def create_tables(con):
           `Return_on_Assets` DOUBLE,
           `Return_on_Equity` DOUBLE,
           `Return_on_Invested_Capital` DOUBLE,
-          `Revenue_per_Employee` DOUBLE
+          `Revenue_per_Employee` DOUBLE,
+          FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`)
         );
         '''
     cur.execute(create_Metrics)
@@ -300,7 +303,8 @@ def create_tables(con):
           `Debt_to_Equity` DOUBLE,
           `Net_Debt` DOUBLE,
           `Total_Debt` DOUBLE,
-          `Total_Assets` DOUBLE
+          `Total_Assets` DOUBLE,
+          FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`)
         );
         '''
     cur.execute(create_Balance_Sheet)
@@ -314,7 +318,8 @@ def create_tables(con):
     `Average_Volume_10d` DOUBLE,
     `1_Year_beta` DOUBLE,
     `52_Week_High` DOUBLE,
-    `52_Week_Low` DOUBLE
+    `52_Week_Low` DOUBLE,
+    FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`)
     );'''
     cur.execute(create_Price_History)
 
@@ -326,7 +331,8 @@ def create_tables(con):
     `Ticker` varchar(255),
     `Dividends_Paid` DOUBLE,
     `Dividends_Yield` DOUBLE,
-    `Dividends_per_Share` DOUBLE
+    `Dividends_per_Share` DOUBLE,
+    FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`)
     );'''
     cur.execute(create_Dividends)
 
@@ -339,7 +345,8 @@ def create_tables(con):
           `Net_Margin` DOUBLE,
           `Gross_Margin` DOUBLE,
           `Operating_Margin` DOUBLE,
-          `Pretax_Margin` DOUBLE
+          `Pretax_Margin` DOUBLE,
+          FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`)
         );
         '''
     cur.execute(create_Margins)
@@ -359,30 +366,12 @@ def create_tables(con):
           `Gross_Profit_FY` DOUBLE,
           `Last_Year_Revenue` DOUBLE,
           `Total_Revenue` DOUBLE,
-          `Free_Cash_Flow` DOUBLE
+          `Free_Cash_Flow` DOUBLE,
+          FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`)
         );
         '''
     cur.execute(create_Income)
 
-    #############################
-    keys = ''' 
-    ALTER TABLE `Income` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`),
-    
-    ALTER TABLE `Margins` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`),
-    
-    ALTER TABLE `Dividends` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`),
-    
-    ALTER TABLE `Price_History` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`),
-    
-    ALTER TABLE `Balance_Sheet` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`),
-    
-    ALTER TABLE `Metrics` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`),
-    
-    ALTER TABLE `Valuation` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`),
-    
-    ALTER TABLE `Industry` ADD FOREIGN KEY (`Sector`) REFERENCES `Sectors` (`Name`);
-    '''
-    cur.execute(keys)
     con.commit()
 
 
