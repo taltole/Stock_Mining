@@ -1,5 +1,5 @@
-from Classes import TopMarketScrapper, StockScrapper, IndustryScrapper, SectorScrapper
-from Classes.config import *
+from DataMining.DataMining.Classes import TopMarketScrapper, StockScrapper, IndustryScrapper, SectorScrapper
+from DataMining.DataMining.Classes.config import *
 from selenium import webdriver
 import pandas as pd
 import argparse

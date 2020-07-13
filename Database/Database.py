@@ -60,7 +60,7 @@ class Database:
         """ from CSV file, insert Sectors table to mysql """
         df = self.df
         for i, r in df.iterrows():
-            sql = "INSERT IGNORE INTO Sectors (sector_id, Sector Name, Market Cap, Dividend Yield, Change Percent, " \
+            sql = "INSERT IGNORE INTO Sectors (sector_id, Sector_Name, Market_Cap, Dividend_Yield, Change_Percent, " \
                   "Vol, Industries, Stocks) VALUES (%s, %s, %s, %s, %s, %s, %s)"
             val = (None, r['SECTOR'], r['MKT CAP'], r['DIV YIELD'], r['CHG PERCENT'], r['VOL'], r['INDUSTRIES'], r['STOCKS'])
             self.cur.execute(sql, val)
@@ -106,8 +106,8 @@ class Database:
         """ from CSV file, insert Price_History table to mysql """
         df = self.df
         for i, r in df.iterrows():
-            sql = "INSERT IGNORE INTO Price_History (Ticker, Average Volume (10 days), 1 Year beta, 52 week high," \
-              "52 week low) VALUES (%s, %s, %s, %s, %s)"
+            sql = "INSERT IGNORE INTO Price_History (Ticker, Average_Volume_10d, 1_Year_beta, 52_week_high," \
+              "52_week_low) VALUES (%s, %s, %s, %s, %s)"
             val = (
             None, r['Ticker'], r['Average Volume (10 day)'], r['1-Year Beta'], r['52 Week High'], r['52 Week Low'])
             self.cur.execute(sql, val)
@@ -193,6 +193,7 @@ def setup_mysql_db():
 
     # create if don't exists:
     create_database(con)
+    # create_tables(con)
     return con, con.cursor()
 
 
@@ -208,72 +209,68 @@ def create_tables(con):
 
     cur = con.cursor()
 
-    create_Main = """
-    CREATE TABLE IF NOT EXISTS 'Main' (
-    'Id' double PRIMARY KEY AUTO_INCREMENT, 
-    'Ticker' varchar(255),
-    'Last' int,
-    'Change_Percent' float,
-    'Change' float,
-    'Rating' varchar(255),
-    'Volume' int,
-    'Mkt_Cap' int,
-    'Price_to_Earnings' int,
-    'Employees' int,
-    'Sector' varchar(255)
-    );
-    """
-
+    create_Main = ''' 
+    CREATE TABLE IF NOT EXISTS `Main` (
+    `id` INT PRIMARY KEY AUTO_INCREMENT, 
+    `Ticker` VARCHAR(255), 
+    `Last` DOUBLE, 
+    `Change_Percent` DOUBLE, 
+    `Change` DOUBLE, 
+    `Rating` VARCHAR(255), 
+    `Volume` DOUBLE, 
+    `Mkt_Cap` DOUBLE, 
+    `Price_to_Earnings` DOUBLE, 
+    `Employees` DOUBLE, 
+    `Sector` VARCHAR(255)
+    );'''
     cur.execute(create_Main)
 
     #############################
 
     create_Industry = '''
-          CREATE TABLE IF NOT EXISTS 'Industry' (
-          'industry_id' double PRIMARY KEY AUTO_INCREMENT, 
-          'Industry_Name' varchar,
-          'Mkt_Cap' varchar,
-          'Dividend_Yield' varchar,
-          'change_Percent' varchar,
-          'Vol' varchar,
-          'Sector' varchar(255)
-          'Stocks' double
-        );
-        '''
+    CREATE TABLE IF NOT EXISTS `Industry` (
+    `industry_id` INT PRIMARY KEY AUTO_INCREMENT,
+    `Industry_Name` VARCHAR(255),
+    `Mkt_Cap` DOUBLE,
+    `Dividend_Yield` DOUBLE,
+    `change_Percent` DOUBLE,
+    `Vol` DOUBLE,
+    `Sector` VARCHAR(255),
+    `Stocks` DOUBLE
+    );'''
     cur.execute(create_Industry)
 
     #############################
 
     create_Sectors = '''
-          CREATE TABLE IF NOT EXISTS 'Sectors' (
-          'id' double PRIMARY KEY AUTO_INCREMENT, 
-          'Name' varchar(255),
-          'Market Cap' float,
-          'Dividend Yield' float,
-          'Change %' float,
-          'Vol' float,
-          'Industries' double, 
-          'Stocks' double
-        );
-        '''
-    cur.execute(create_Sectors)
+    CREATE TABLE IF NOT EXISTS `Sectors` (
+    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `Name` VARCHAR(255),
+    `Market_Cap` DOUBLE,
+    `Dividend_Yield` DOUBLE,
+    `Change_Percent` DOUBLE,
+    `Vol` DOUBLE,
+    `Industries` DOUBLE,
+    `Stocks` DOUBLE
+    );'''
 
+    cur.execute(create_Sectors)
     #############################
 
     create_Valuation = '''
-          CREATE TABLE IF NOT EXISTS 'Valuation' (
-          'id' double PRIMARY KEY AUTO_INCREMENT, 
-          'Ticker' varchar(255),
-          'Market_Capitalization' float,
-          'Enterprise_Value' float,
-          'Enterprise_Value_EBITDA' float,
-          'Total_Shares_Outstanding' float,
-          'Number_Employees' float,
-          'Number_Shareholders' float,
-          'Price_to_Earnings' float,
-          'Price_to_Revenue' float,
-          'Price_Book' float,
-          'Price_Sales' float
+    CREATE TABLE IF NOT EXISTS `Valuation` (
+    `id` double PRIMARY KEY AUTO_INCREMENT,
+    `Ticker` VARCHAR(255),
+    `Market_Capitalization` DOUBLE,
+    `Enterprise_Value` DOUBLE,
+    `Enterprise_Value_EBITDA` DOUBLE,
+    `Total_Shares_Outstanding` DOUBLE,
+    `Number_Employees` DOUBLE,
+    `Number_Shareholders` DOUBLE,
+    `Price_to_Earnings` DOUBLE,
+    `Price_to_Revenue` DOUBLE,
+    `Price_Book` DOUBLE,
+    `Price_Sales` DOUBLE
         );
         '''
     cur.execute(create_Valuation)
@@ -281,13 +278,13 @@ def create_tables(con):
     #############################
 
     create_Metrics = '''
-          CREATE TABLE IF NOT EXISTS 'Metrics' (
-          'id' double PRIMARY KEY AUTO_INCREMENT,
-          'Ticker' varchar(255),
-          'Return_on_Assets' float,
-          'Return_on_Equity' float,
-          'Return_on_Invested_Capital' float,
-          'Revenue_per_Employee' float
+          CREATE TABLE IF NOT EXISTS `Metrics` (
+          `id` double PRIMARY KEY AUTO_INCREMENT,
+          `Ticker` varchar(255),
+          `Return_on_Assets` DOUBLE,
+          `Return_on_Equity` DOUBLE,
+          `Return_on_Invested_Capital` DOUBLE,
+          `Revenue_per_Employee` DOUBLE
         );
         '''
     cur.execute(create_Metrics)
@@ -295,15 +292,15 @@ def create_tables(con):
     #############################
 
     create_Balance_Sheet = '''
-          CREATE TABLE IF NOT EXISTS 'Balance_Sheet' (
-          "id" double PRIMARY KEY AUTO_INCREMENT,
-          "Ticker" varchar(255),
-          "Quick_Ratio" float,
-          "Current_Ratio" float,
-          "Debt_to_Equity" float,
-          "Net_Debt" float,
-          "Total_Debt" float,
-          "Total_Assets" float
+          CREATE TABLE IF NOT EXISTS `Balance_Sheet` (
+          `id` double PRIMARY KEY AUTO_INCREMENT,
+          `Ticker` varchar(255),
+          `Quick_Ratio` DOUBLE,
+          `Current_Ratio` DOUBLE,
+          `Debt_to_Equity` DOUBLE,
+          `Net_Debt` DOUBLE,
+          `Total_Debt` DOUBLE,
+          `Total_Assets` DOUBLE
         );
         '''
     cur.execute(create_Balance_Sheet)
@@ -311,40 +308,38 @@ def create_tables(con):
     #############################
 
     create_Price_History = '''
-          CREATE TABLE IF NOT EXISTS 'Price_History' (
-          "id" double PRIMARY KEY AUTO_INCREMENT,
-          "Ticker" varchar(255),
-          "Average_Volume_10d" float,
-          "1_Year_beta" float,
-          "52_Week_High" float,
-          "52_Week_Low" float,
-        );
-        '''
+    CREATE TABLE IF NOT EXISTS `Price_History` (
+    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `Ticker` varchar(255),
+    `Average_Volume_10d` DOUBLE,
+    `1_Year_beta` DOUBLE,
+    `52_Week_High` DOUBLE,
+    `52_Week_Low` DOUBLE
+    );'''
     cur.execute(create_Price_History)
 
     #############################
 
     create_Dividends = '''
-          CREATE TABLE IF NOT EXISTS 'Dividends' (
-          "id" double PRIMARY KEY AUTO_INCREMENT,
-          "Ticker" varchar(255),
-          "Dividends_Paid" float,
-          "Dividends_Yield" float,
-          "Dividends_per_Share" float,
-        );
-        '''
+    CREATE TABLE IF NOT EXISTS `Dividends` (
+    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `Ticker` varchar(255),
+    `Dividends_Paid` DOUBLE,
+    `Dividends_Yield` DOUBLE,
+    `Dividends_per_Share` DOUBLE
+    );'''
     cur.execute(create_Dividends)
 
     #############################
 
     create_Margins = '''
-          CREATE TABLE IF NOT EXISTS 'Margins' (
-          "id" double PRIMARY KEY AUTO_INCREMENT,
-          "Ticker" varchar(255),
-          "Net_Margin" float,
-          "Gross_Margin" float,
-          "Operating_Margin" float,
-          "Pretax_Margin" float,
+          CREATE TABLE IF NOT EXISTS `Margins` (
+          `id` INT PRIMARY KEY AUTO_INCREMENT,
+          `Ticker` varchar(255),
+          `Net_Margin` DOUBLE,
+          `Gross_Margin` DOUBLE,
+          `Operating_Margin` DOUBLE,
+          `Pretax_Margin` DOUBLE
         );
         '''
     cur.execute(create_Margins)
@@ -352,45 +347,51 @@ def create_tables(con):
     #############################
 
     create_Income = '''
-          CREATE TABLE IF NOT EXISTS 'Income' (
-          "id" double PRIMARY KEY AUTO_INCREMENT,
-          "Ticker" varchar(255),
-          "Basic_EPS_FY" float,
-          "Basic_EPS_TTM" float,
-          "EPS_Diluted" float,
-          "Net_Income" float,
-          "EBITDA" float,
-          "Gross_Profit_MRQ" float,
-          "Gross_Profit_FY" float,
-          "Last_Year_Revenue" float,
-          "Total_Revenue" float,
-          "Free_Cash_Flow" float,
+          CREATE TABLE IF NOT EXISTS `Income` (
+          `id` double PRIMARY KEY AUTO_INCREMENT,
+          `Ticker` varchar(255),
+          `Basic_EPS_FY` DOUBLE,
+          `Basic_EPS_TTM` DOUBLE,
+          `EPS_Diluted` DOUBLE,
+          `Net_Income` DOUBLE,
+          `EBITDA` DOUBLE,
+          `Gross_Profit_MRQ` DOUBLE,
+          `Gross_Profit_FY` DOUBLE,
+          `Last_Year_Revenue` DOUBLE,
+          `Total_Revenue` DOUBLE,
+          `Free_Cash_Flow` DOUBLE
         );
         '''
     cur.execute(create_Income)
 
     #############################
     keys = ''' 
-    ALTER TABLE `Income` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`);
-    ALTER TABLE `Margins` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`);
-    ALTER TABLE `Dividends` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`);
-    ALTER TABLE `Price_History` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`);
-    ALTER TABLE `Balance_Sheet` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`);
-    ALTER TABLE `Metrics` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`);
-    ALTER TABLE `Valuation` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`);
-    ALTER TABLE `Industry` ADD FOREIGN KEY (`Sector`) REFERENCES `Sectors` (`Name`);
+    ALTER TABLE `Income` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`),
     
-     '''
-    cur.execute(keys, multi=True)
+    ALTER TABLE `Margins` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`),
+    
+    ALTER TABLE `Dividends` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`),
+    
+    ALTER TABLE `Price_History` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`),
+    
+    ALTER TABLE `Balance_Sheet` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`),
+    
+    ALTER TABLE `Metrics` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`),
+    
+    ALTER TABLE `Valuation` ADD FOREIGN KEY (`Ticker`) REFERENCES `Main` (`TICKER`),
+    
+    ALTER TABLE `Industry` ADD FOREIGN KEY (`Sector`) REFERENCES `Sectors` (`Name`);
+    '''
+    cur.execute(keys)
     con.commit()
 
 
 def main():
     db = Database('Industry info.csv')
-    con = setup_mysql_db()
-    tables = create_tables(con[1])
+    con = setup_mysql_db()[0]
+    create_tables(con)
     db.insert_industry_table()
-    print(db.read_from_db(tables))
+    print(db.read_from_db())
 
     # convert the csv file to tables in database
     # print("Convert CSV to MySQL Database. ")
