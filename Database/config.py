@@ -21,6 +21,7 @@ URL_SECTOR = 'https://www.tradingview.com/markets/stocks-usa/sectorandindustry-s
 URL_INDUSTRY = 'https://www.tradingview.com/markets/stocks-usa/sectorandindustry-industry/'
 driver = webdriver.Chrome(os.path.join(os.getcwd(), 'chromedriver'), options=chrome_options)
 PATH_DB = os.path.join(os.getcwd().replace('Classes', 'Database'), filename)
+CSV_FILE = 'Industry info.csv'
 STOCK = 0
 SECTOR = 1
 ARG_NAME = 0

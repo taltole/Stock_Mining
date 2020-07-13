@@ -6,10 +6,11 @@ Database class:
 
 import pymysql.cursors
 from DataMining.DataMining.Classes.config import *
+CSV_FILE = 'Industry info.csv'
 
 
 class Database:
-    def __init__(self, CSV_FILE):
+    def __init__(self):
         """ connect to database. if don't exists - create database and tables. """
 
         self.con, self.cur = setup_mysql_db()
@@ -61,7 +62,7 @@ class Database:
         df = self.df
         for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Sectors (sector_id, Sector_Name, Market_Cap, Dividend_Yield, Change_Percent, " \
-                  "Vol, Industries, Stocks) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+                  "Vol, Industries, Stocks) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
             val = (None, r['SECTOR'], r['MKT CAP'], r['DIV YIELD'], r['CHG PERCENT'], r['VOL'], r['INDUSTRIES'], r['STOCKS'])
             self.cur.execute(sql, val)
         self.con.commit()
@@ -148,17 +149,17 @@ class Database:
             self.cur.execute(sql, val)
         self.con.commit()
 
-    def read_from_db(self, table):
+    def read_from_db(self, columns, table, where=''):
         """ read and print from Mysql database by statement.
             params:       Columns(str),
                           Table(str),
                 optional: Where(column(str),value(str)  """
 
         self.cur.execute("SELECT * FROM {}".format(table))
-        # if where:
-        #     self.cur.execute("SELECT {} FROM {} WHERE {}='{}'".format(columns, table, where[0], where[1]))
-        # else:
-        #     self.cur.execute("SELECT {} FROM {} ".format(columns, table))
+        if where:
+            self.cur.execute("SELECT {} FROM {} WHERE {}='{}'".format(columns, table, where[0], where[1]))
+        else:
+            self.cur.execute("SELECT {} FROM {} ".format(columns, table))
 
         result = self.cur.fetchall()
 
@@ -245,8 +246,8 @@ def create_tables(con):
 
     create_Sectors = '''
     CREATE TABLE IF NOT EXISTS `Sectors` (
-    `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `Name` VARCHAR(255),
+    `sector_id` INT PRIMARY KEY AUTO_INCREMENT,
+    `Sector_Name` VARCHAR(255),
     `Market_Cap` DOUBLE,
     `Dividend_Yield` DOUBLE,
     `Change_Percent` DOUBLE,
@@ -254,7 +255,6 @@ def create_tables(con):
     `Industries` DOUBLE,
     `Stocks` DOUBLE
     );'''
-
     cur.execute(create_Sectors)
     #############################
 
@@ -376,20 +376,14 @@ def create_tables(con):
 
 
 def main():
-    db = Database('Industry info.csv')
-    con = setup_mysql_db()[0]
-    create_tables(con)
-    db.insert_industry_table()
-    print(db.read_from_db())
 
     # convert the csv file to tables in database
-    # print("Convert CSV to MySQL Database. ")
-    # create_tables(con)
-    # db = Database('Industry info.csv')
-    # db.insert_industry_table()
-
+    print("Convert CSV to MySQL Database. ")
+    db = Database()
+    result = db.read_from_db(columns='*', table='Industry')  # TODO read by user command line.
+    print(result)
     db.close_connect_db()
-    # print("Done. ")
+    print("Done. ")
 
 
 if __name__ == "__main__":
