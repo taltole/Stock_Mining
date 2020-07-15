@@ -18,6 +18,7 @@ def stock_parser():
     args = parser.parse_args()
     return args.scrapper, args.from_row, args.to_row
 
+
 def main():
     """
     Given a URL of the stock market and the url's for each stock imported from TopMarketScrapper.py,
@@ -25,27 +26,27 @@ def main():
     :return: DF and dict
     """
     user_options = stock_parser()
-    if user_options[0] == 'all':
+    if user_options[ARG_OPTION] == 'all':
         # getting urls for individual stock and sectors mining
         scrap_top = TopMarketScrapper.TopMarketScrapper(URL)
         stock, sectors = scrap_top.get_urls()
         print('Links to Stocks and Sectors:', stock, sectors, sep='\n')
 
         # printing info to console and file
-        top_stocks = scrap_top.summarizer(user_options[1], user_options[2])
-        scrap_top.create_csv(user_options[1], user_options[2])
+        top_stocks = scrap_top.summarizer(user_options[START], user_options[END])
+        scrap_top.create_csv(user_options[START], user_options[END])
         print('', 'Stock Summary', top_stocks, sep='\n')
 
         # printing info to console and file
         scrap_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY)
-        top_industries = scrap_industries.summarizer(user_options[1], user_options[2])
-        scrap_industries.create_csv(user_options[1], user_options[2])
+        top_industries = scrap_industries.summarizer(user_options[START], user_options[END])
+        scrap_industries.create_csv(user_options[START], user_options[END])
         print('Industry Summary', top_industries, sep='\n')
 
         # printing info to console and file
         scrap_sectors = SectorScrapper.SectorScrapper(URL_SECTOR)
-        top_sectors = scrap_sectors.summarizer(user_options[1], user_options[2])
-        scrap_sectors.create_csv(user_options[1], user_options[2])
+        top_sectors = scrap_sectors.summarizer(user_options[START], user_options[END])
+        scrap_sectors.create_csv(user_options[START], user_options[END])
         print('Sectors Summary', top_sectors, sep='\n')
 
         # Stock financial in depth info
@@ -56,7 +57,7 @@ def main():
         stock_table = {}
         list_values = []
         list_elements = [[]]
-        for url in urls[user_options[1]:user_options[2]]:
+        for url in urls[user_options[START]:user_options[END]]:
             print(len(urls) - index_stock, url)
             DRIVER = os.path.join(os.getcwd(), 'chromedriver')
             driver = webdriver.Chrome(DRIVER, chrome_options=chrome_options)
@@ -66,21 +67,22 @@ def main():
             list_values.append(table.rating_values())
             stock_table[list_stocks[index_stock]] = table.financial_table()
             index_stock += 1
-        df_table = pd.DataFrame(list_values[user_options[1]:user_options[2]], index=list_stocks[user_options[1]:user_options[2]], columns=list_elements[0][0])
+        df_table = pd.DataFrame(list_values[user_options[START]:user_options[END]],
+                                index=list_stocks[user_options[START]:user_options[END]], columns=list_elements[0][0])
         df_table.to_csv()
         print(stock_table)
         print(df_table)
 
-    elif user_options[0] == 'ind':
+    elif user_options[ARG_OPTION] == 'ind':
         scrap_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY)
-        top_industries = scrap_industries.summarizer(user_options[1], user_options[2])
-        scrap_industries.create_csv(user_options[1], user_options[2])
+        top_industries = scrap_industries.summarizer(user_options[START], user_options[END])
+        scrap_industries.create_csv(user_options[START], user_options[END])
         print('Industry Summary', top_industries, sep='\n')
 
-    elif user_options[0] == 'sec':
+    elif user_options[ARG_OPTION] == 'sec':
         scrap_sectors = SectorScrapper.SectorScrapper(URL_SECTOR)
-        top_sectors = scrap_sectors.summarizer(user_options[1], user_options[2])
-        scrap_sectors.create_csv(user_options[1], user_options[2])
+        top_sectors = scrap_sectors.summarizer(user_options[START], user_options[END])
+        scrap_sectors.create_csv(user_options[START], user_options[END])
         print('Sectors Summary', top_sectors, sep='\n')
 
 
