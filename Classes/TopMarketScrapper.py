@@ -2,7 +2,7 @@
 Get top market's stock analysis, stats and updates
 """
 # Imports
-from DataMining.DataMining.Classes.config import *
+from config import *
 
 
 class TopMarketScrapper:

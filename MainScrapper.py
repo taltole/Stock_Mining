@@ -1,5 +1,5 @@
 from Classes import TopMarketScrapper, StockScrapper, IndustryScrapper, SectorScrapper, api_scrapper
-from Classes.config import *
+from config import *
 from selenium import webdriver
 import pandas as pd
 import argparse

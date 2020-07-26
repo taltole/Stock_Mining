@@ -2,7 +2,7 @@
 This file contains contains a class which creates a table of rating elements and its respective values for a given url.
 """
 from Classes import TopMarketScrapper
-from Classes.config import *
+from config import *
 import numpy as np
 
 
@@ -143,7 +143,6 @@ def main(user_option):
         driver.get(url)
         list_elements[0].append(table.rating_elements())
         list_values.append(table.rating_values())
-        print(list_stocks)
         stock_table[list_stocks[index_stock]] = table.financial_table()
         driver.close()
         df_table = pd.DataFrame(np.array(list_values[0]).reshape(1, 41).tolist(), index=[list_stocks[index_stock]], columns=list_elements[0][0])

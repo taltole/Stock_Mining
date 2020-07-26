@@ -1,5 +1,5 @@
 import requests
-from Classes.config import *
+from config import *
 
 def api_overview(ticker):
     """
