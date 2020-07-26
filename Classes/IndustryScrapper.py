@@ -2,7 +2,7 @@
 Get industry analysis, stats and updates
 """
 from itertools import takewhile
-from Classes.config import *
+from config import *
 
 
 class IndustryScrapper:
