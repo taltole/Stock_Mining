@@ -33,16 +33,6 @@ def main():
     print(user_options[0])
     print(user_options[1])
     if user_options[0] == 'concise':
-        # getting urls for individual stock and sectors mining
-        scrap_top = TopMarketScrapper.TopMarketScrapper(URL)
-        stock, sectors = scrap_top.get_urls()
-        # print('Links to Stocks and Sectors:', stock, sectors, sep='\n')
-
-        # printing info to console and file
-        top_stocks = scrap_top.summarizer()
-        print('', 'Stock Summary', top_stocks, sep='\n')
-        db.insert_main_table(top_stocks)
-
         # printing info to console and file
         scrap_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY)
         top_industries = scrap_industries.summarizer()
@@ -58,9 +48,19 @@ def main():
         # Stock financial in depth info
 
         top_market = TopMarketScrapper.TopMarketScrapper(URL).summarizer()
-
         print('Top Market Values', top_market)
 
+        # getting urls for individual stock and sectors mining
+        scrap_top = TopMarketScrapper.TopMarketScrapper(URL)
+        stock, sectors = scrap_top.get_urls()
+        # print('Links to Stocks and Sectors:', stock, sectors, sep='\n')
+        # printing info to console and file
+        top_stocks = scrap_top.summarizer()
+        print('', 'Stock Summary', top_stocks, sep='\n')
+        try:
+            db.insert_main_table(top_stocks)
+        except:
+            pass
 
     elif user_options[0] == 'expanded':
         scrap_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY)

@@ -9,44 +9,44 @@ from config import *
 
 
 class Database:
-    def __init__(self, CSV_FILE):
+    def __init__(self):
         """ connect to database. if don't exists - create database and tables. """
 
         self.con, self.cur = setup_mysql_db()
-        self.df = read_csv(CSV_FILE)
 
     def close_connect_db(self):
         """ close connection to Mysql database. """
         self.con.close()
 
-    def insert_all_to_mysql(self):
+    def insert_all_to_mysql(self, top_stocks, top_industries, top_sectors):
         """from CSV file, insert all tables:"""
 
-        self.insert_main_table()
-        self.insert_industry_table()
-        self.insert_sectors_table()
-        self.insert_valuation_table()
-        self.insert_metrics_table()
-        self.insert_balance_sheet_table()
-        self.insert_price_history_table()
-        self.insert_dividends_table()
-        self.insert_margins_table()
-        self.insert_income_table()
+        self.insert_main_table(top_stocks)
+        self.insert_industry_table(top_industries)
+        self.insert_sectors_table(top_sectors)
+        self.insert_valuation_table(top_stocks)
+        self.insert_metrics_table(top_stocks)
+        self.insert_balance_sheet_table(top_stocks)
+        self.insert_price_history_table(top_stocks)
+        self.insert_dividends_table(top_stocks)
+        self.insert_margins_table(top_stocks)
+        self.insert_income_table(top_stocks)
 
-    def insert_main_table(self):
+    def insert_main_table(self, top_stocks):
         """ from CSV file, insert Main table to mysql """
-        df = self.df
+        df = top_stocks
+        print(df)
         for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Main (Ticker, Last, Change Percent, Change, Rating, Volume, Mkt Cap, " \
                   "Price to Earnings, EPS, Employees, Sector) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
             val = (r['TICKER'], r['LAST'], r['CHG PERCENT'], r['CHG'], r['RATING'], r['VOL'], r['MKT CAP'],
-               r['P/E'], r['EPS'], r['EMPLOYEES'], r['SECTOR'])
+               r['P_E'], r['EPS'], r['EMPLOYEES'], r['SECTOR'])
             self.cur.execute(sql, val)
         self.con.commit()
 
-    def insert_industry_table(self):
+    def insert_industry_table(self, top_industries):
         """ from CSV file, insert Industry table to mysql """
-        df = self.df
+        df = top_industries
         for i, r in df.iterrows():
             sql = """
             INSERT IGNORE INTO Industry (Industry_Name, Mkt_Cap, Dividend_Yield, Change_Percent, 
@@ -56,9 +56,9 @@ class Database:
             self.cur.execute(sql, val)
         self.con.commit()
 
-    def insert_sectors_table(self):
+    def insert_sectors_table(self, top_sectors):
         """ from CSV file, insert Sectors table to mysql """
-        df = self.df.iloc[:, 1:]
+        df = top_sectors
         print(df)
         for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Sectors (Name, Market_Cap, Dividend_Yield, Change_Percent, " \
@@ -67,9 +67,11 @@ class Database:
             self.cur.execute(sql, val)
         self.con.commit()
 
-    def insert_valuation_table(self):
+    def insert_valuation_table(self, top_stocks):
         """ from CSV file, insert Valuation table to mysql """
-        df = self.df
+        # df = top_stocks.iloc[:, :10]
+        df = top_stocks
+        print(df)
         for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Valuation (Ticker, Market Cap, Enterprise Value, Enterprise Value to EBITDA," \
               "Total_Shares_Outstanding, Number of Employees, Number of Shareholders, Price to Earnings," \
@@ -80,9 +82,10 @@ class Database:
             self.cur.execute(sql, val)
         self.con.commit()
 
-    def insert_metrics_table(self):
+    def insert_metrics_table(self, top_stocks):
         """ from CSV file, insert Metrics table to mysql """
-        df = self.df
+        # df = top_stocks.iloc[:, 23:27]
+        df = top_stocks
         for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Metrics (Ticker, Return on Assets, Return on Equity, Return on Invested Capital," \
               "Revenue per Employee) VALUES (%s, %s, %s, %s, %s)"
@@ -91,9 +94,11 @@ class Database:
             self.cur.execute(sql, val)
         self.con.commit()
 
-    def insert_balance_sheet_table(self):
+    def insert_balance_sheet_table(self, top_stocks):
         """ from CSV file, insert Balance_Sheet table to mysql """
-        df = self.df
+        # df = top_stocks.iloc[:, 14:20]
+        df = top_stocks
+        print(df)
         for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Balance_Sheet (Ticker, Quick Ratio, Current Ratio, Debt to Equity, Net Debt" \
               "Total Debt, Total Assets) VALUES (%s, %s, %s, %s, %s, %s, %s)"
@@ -102,9 +107,11 @@ class Database:
             self.cur.execute(sql, val)
         self.con.commit()
 
-    def insert_price_history_table(self):
+    def insert_price_history_table(self, top_stocks):
         """ from CSV file, insert Price_History table to mysql """
-        df = self.df
+        # df = top_stocks.iloc[:, 10:14]
+        df = top_stocks
+        print(df)
         for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Price_History (Ticker, Average_Volume_10d, 1_Year_beta, 52_week_high," \
               "52_week_low) VALUES (%s, %s, %s, %s, %s)"
@@ -112,9 +119,11 @@ class Database:
             self.cur.execute(sql, val)
         self.con.commit()
 
-    def insert_dividends_table(self):
+    def insert_dividends_table(self, top_stocks):
         """ from CSV file, insert Dividends table to mysql """
-        df = self.df
+        # df = top_stocks.iloc[:, 20:23]
+        df = top_stocks
+        print(df)
         for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Dividends (Ticker, Dividends Paid, Dividends Yield, Dividends per Share)" \
               " VALUES (%s, %s, %s, %s)"
@@ -122,9 +131,11 @@ class Database:
             self.cur.execute(sql, val)
         self.con.commit()
 
-    def insert_margins_table(self):
+    def insert_margins_table(self, top_stocks):
         """ from CSV file, insert Margins table to mysql """
-        df = self.df
+        # df = top_stocks.iloc[:, 27:31]
+        df = top_stocks
+        print(df)
         for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Margins (Ticker, Net Margin, Gross Margin, Operating Margin, Pretax Margin)" \
               " VALUES (%s, %s, %s, %s, %s)"
@@ -132,9 +143,11 @@ class Database:
             self.cur.execute(sql, val)
         self.con.commit()
 
-    def insert_income_table(self):
+    def insert_income_table(self, top_stocks):
         """ from CSV file, insert Income table to mysql """
-        df = self.df
+        # df = top_stocks.iloc[:, 31:40]
+        df = top_stocks
+        print(df)
         for i, r in df.iterrows():
             sql = "INSERT IGNORE INTO Income (Ticker, Basic EPS FY, Basic EPS TTM, EPS Diluted, Net Income, EBITDA," \
               "Gross Profit MRQ, Gross Profit FY, Last Year Revenue, Total Revenue, Free Cash Flow)" \
@@ -378,11 +391,6 @@ def main():
     db.insert_valuation_table()
     print(db.read_from_db('Valuation'))
 
-    # convert the csv file to tables in database
-    # print("Convert CSV to MySQL Database. ")
-    # create_tables(con)
-    # db = Database('Industry info.csv')
-    # db.insert_industry_table()
 
     db.close_connect_db()
     # print("Done. ")
