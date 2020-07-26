@@ -2,7 +2,7 @@
 This file contains contains a class which creates a table of rating elements and its respective values for a given url.
 """
 from Classes import TopMarketScrapper
-from Classes.config import *
+from config import *
 import numpy as np
 
 

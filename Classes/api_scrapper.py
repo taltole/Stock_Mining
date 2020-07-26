@@ -1,5 +1,6 @@
 import requests
-from Classes.config import *
+from config import *
+
 
 def api_overview(ticker):
     """
@@ -20,12 +21,12 @@ def api_overview(ticker):
     json = response.json()
 
     try:
-        data = {'Ticker': [ticker + 'D'], 'Moving Average (200 days)': [api_sma(ticker)[-1]], 'Exchange': [json['Exchange']],
+        data = {'Ticker': [ticker], 'Moving Average (200 days)': [api_sma(ticker)[-1]], 'Exchange': [json['Exchange']],
                 'Address': [json['Address']], 'Description': [json['Description']]}
         df = pd.DataFrame(data)
 
     except Exception as ERR:
-        df = [ticker + 'D', None, None, None, None]
+        df = [ticker, None, None, None, None]
         print(ERR)
 
     return df
@@ -54,14 +55,15 @@ def api_sma(ticker):
     sma = json["Technical Analysis: SMA"][lr]["SMA"]
 
     try:
-        df = [ticker + 'D', lr, sma]
+        df = [ticker, lr, sma]
     except Exception as ERR:
         print(f'{ticker}: Failed')
-        df = [ticker + 'D', None, None, None]
+        df = [ticker, None, None, None]
 
     return df
 
 if __name__ == '__main__':
-    df = api_overview()
+    df = api_overview('AAPL')
+
     print(df)
     driver.close()

@@ -1,5 +1,5 @@
 from Classes import TopMarketScrapper, StockScrapper, IndustryScrapper, SectorScrapper, api_scrapper
-from Classes.config import *
+from config import *
 from selenium import webdriver
 import pandas as pd
 import argparse
@@ -13,10 +13,11 @@ def stock_parser():
     parser = argparse.ArgumentParser(
         description="usage: MainScrapper.py [-h] [concise|expanded] [-ticker_to_scrap]")
     parser.add_argument('scrapper', choices=['concise', 'expanded'], help='select the query to perform')
-    parser.add_argument('-ticker_to_scrap', '--ticker',type=str, nargs='?',default='all_stocks',
+    parser.add_argument('-ticker_to_scrap', '--ticker', type=str, nargs='?',default='all_stocks',
                         help='choose stock to scrap')
     args = parser.parse_args()
     return args.scrapper, args.ticker
+
 
 def main():
     """
@@ -55,7 +56,6 @@ def main():
         top_market = TopMarketScrapper.TopMarketScrapper(URL).summarizer()
 
         print('Top Market Values', top_market)
-
 
     elif user_options[0] == 'expanded':
         scrap_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY)

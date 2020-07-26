@@ -2,7 +2,7 @@
 Get top market's stock analysis, stats and updates
 """
 # Imports
-from DataMining.DataMining.Classes.config import *
+from config import *
 
 
 class TopMarketScrapper:
@@ -52,7 +52,7 @@ class TopMarketScrapper:
         data_list = [i.text for i in stocks][0].split('\n')
         data_len = len(data_list)
         for i in range(0, data_len - 2, 3):
-            stock.append(data_list[i])
+            stock.append(data_list[i][:-1])
             name.append('_'.join(data_list[i + 1].split()))
             info.append(data_list[i + 2].replace('Strong Buy', 'Strong_Buy').replace('Strong Sell', 'Strong_Sell'))
             if info[-1].split()[-1] not in ['Finance', 'Communications', 'Transportation', 'Utilities']:
