@@ -1,7 +1,6 @@
 import requests
 from config import *
 
-
 def api_overview(ticker):
     """
     get data from api about specific stock.
@@ -63,7 +62,6 @@ def api_sma(ticker):
     return df
 
 if __name__ == '__main__':
-    df = api_overview('AAPL')
-
+    df = api_overview()
     print(df)
     driver.close()

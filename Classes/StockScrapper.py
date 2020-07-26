@@ -103,6 +103,8 @@ def main(user_option):
     urls = TopMarketScrapper.TopMarketScrapper(URL).get_urls()[STOCK]
     stocks = TopMarketScrapper.TopMarketScrapper(URL).stock_scrapper()
     list_stocks = stocks[0]
+    for i in range(len(list_stocks)):
+        list_stocks[i] = list_stocks[i][:-1]
     index_stock = 0
     stock_table = {}
     list_values = []

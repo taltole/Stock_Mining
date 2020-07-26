@@ -71,7 +71,7 @@ def main():
         top_stocks = StockScrapper.main(user_options[1])
         print('Stock Summary', top_stocks, sep='\n')
 
-        api_overview = api_scrapper.api_overview(user_options[1][:-1])
+        api_overview = api_scrapper.api_overview(user_options[1])
         print('Api Summary', api_overview, sep='\n')
 
 
