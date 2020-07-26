@@ -58,7 +58,7 @@ class SectorScrapper:
         return sector, final_list
 
     @classmethod
-    def summarizer(self, from_row, to_row):
+    def summarizer(self):
         """
         sum info in data frame
         """
@@ -70,15 +70,15 @@ class SectorScrapper:
         header_sector = ['SECTOR', 'MKT CAP', 'DIV YIELD', 'CHG PERCENT', 'VOL', 'INDUSTRIES', 'STOCKS']
 
         # creating data frame
-        df_sector = pd.DataFrame(data=final_list[from_row:to_row], columns=header_sector)
+        df_sector = pd.DataFrame(data=final_list, columns=header_sector)
 
         return df_sector
 
-    def create_csv(self, from_row, to_row):
+    def create_csv(self):
         """
         get df and output to csv file
         """
-        df_sector = self.summarizer(from_row, to_row)
+        df_sector = self.summarizer()
 
         # create CSV file
         if not df_sector.empty:
