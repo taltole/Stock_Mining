@@ -25,11 +25,16 @@ URL = 'https://www.tradingview.com/markets/stocks-usa/market-movers-large-cap/'
 URL_SECTOR = 'https://www.tradingview.com/markets/stocks-usa/sectorandindustry-sector/'
 URL_INDUSTRY = 'https://www.tradingview.com/markets/stocks-usa/sectorandindustry-industry/'
 driver = webdriver.Chrome(os.path.join(os.getcwd(), 'chromedriver'), options=chrome_options)
-PATH_DB = os.path.join(os.getcwd().replace('Classes', 'Database'), filename)
+try:
+    PATH_DB = os.path.join(os.getcwd().replace('Classes', 'Database'), filename)
+except:
+    PATH_DB = os.path.join(os.getcwd(), filename)
 STOCK = 0
 SECTOR = 1
-ARG_NAME = 0
-ARG_OPTION = 1
+# ARG_NAME = 1
+ARG_OPTION = 0
+START = 0
+END = 1
 REQUIRED_NUM_OF_ARGS = 3
 DELAY = random.randint(1, 5)
 MYSQL_USERNAME = 'root'
