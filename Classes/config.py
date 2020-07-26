@@ -3,6 +3,11 @@ import random
 import pandas as pd
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import numpy as np
+desired_width = 320
+pd.set_option('display.width', desired_width)
+np.set_printoptions(linewidth=desired_width)
+pd.set_option('display.max_columns', 10)
 
 chrome_options = Options()
 chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])

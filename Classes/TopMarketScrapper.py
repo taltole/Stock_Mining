@@ -62,7 +62,7 @@ class TopMarketScrapper:
                 data.append(info[-1].split())
         return stock, name, data
 
-    def summarizer(self, from_row, to_row):
+    def summarizer(self):
         """
         sum info in data frame
         """
@@ -74,14 +74,14 @@ class TopMarketScrapper:
         header = ['TICKER', 'LAST', 'CHG PERCENT', 'CHG', 'RATING', 'VOL', 'MKT CAP', 'P_E', 'EPS', 'EMPLOYEES', 'SECTOR']
 
         # creating data frame
-        df = pd.DataFrame(data=info[from_row:to_row], columns=header)
+        df = pd.DataFrame(data=info, columns=header)
         return df
 
-    def create_csv(self, from_row, to_row):
+    def create_csv(self):
         """
         get df and output to csv file
         """
-        df = self.summarizer(from_row, to_row)
+        df = self.summarizer()
 
         # create CSV file
         if not df.empty:

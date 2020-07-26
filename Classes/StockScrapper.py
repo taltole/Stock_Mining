@@ -3,6 +3,8 @@ This file contains contains a class which creates a table of rating elements and
 """
 from Classes import TopMarketScrapper
 from Classes.config import *
+import numpy as np
+
 
 
 class StockScrapper:
@@ -38,7 +40,10 @@ class StockScrapper:
             "]//span[contains(@class, 'tv-widget-fundamentals__label apply-overflow-tooltip')]")
         element_info = []
         for element in elements:
-            element_info.append(str(element.text).split('\n')[0])
+            try:
+                element_info.append(str(element.text).split('\n')[0])
+            except:
+                element_info.append('Unknown')
         return element_info
 
     def rating_values(self):
@@ -52,7 +57,10 @@ class StockScrapper:
             "]//span[contains(@class, 'tv-widget-fundamentals__value apply-overflow-tooltip')]")
         value_info = []
         for value in values:
-            value_info.append(str(value.text).split('\n')[0])
+            try:
+                value_info.append(str(value.text).split('\n')[0])
+            except:
+                value_info.append('Unknown')
         return value_info
 
     def financial_table(self):
@@ -86,7 +94,7 @@ class StockScrapper:
         return table
 
 
-def main():
+def main(user_option):
     """
     Given a URL of the stock market and the url's for each stock imported from TopMarketScrapper.py, creates a DataFrame
     and financial table of all the stocks.
@@ -99,8 +107,34 @@ def main():
     stock_table = {}
     list_values = []
     list_elements = [[]]
-    for url in urls:
-        print(len(urls) - index_stock, url)
+    if user_option == 'all_stocks':
+        for url in urls:
+            print(len(urls) - index_stock, url)
+            DRIVER = os.path.join(os.getcwd(), 'chromedriver')
+            driver = webdriver.Chrome(DRIVER, chrome_options=chrome_options)
+            table = StockScrapper(driver)
+            driver.get(url)
+            if len(list_elements[0]) < 1:
+                list_elements[0].append(table.rating_elements())
+            if '-' not in table.rating_elements() and 'Unknown' not in table.rating_elements():
+                list_elements[0].append(table.rating_elements())
+            list_values.append(table.rating_values())
+            stock_table[list_stocks[index_stock]] = table.financial_table()
+            driver.close()
+            index_stock += 1
+        df_table = pd.DataFrame(list_values, index=list_stocks, columns=list_elements[0][0])
+
+    else:
+        for i in range(len(list_stocks)):
+            if list_stocks[i] == user_option:
+                index_stock = i
+                break
+        try:
+            url = TopMarketScrapper.TopMarketScrapper(URL).get_urls()[STOCK][index_stock]
+            print(url)
+        except:
+            print('Please input the correct name of the stock')
+            quit()
         DRIVER = os.path.join(os.getcwd(), 'chromedriver')
         driver = webdriver.Chrome(DRIVER, chrome_options=chrome_options)
         table = StockScrapper(driver)
@@ -109,12 +143,10 @@ def main():
         list_values.append(table.rating_values())
         stock_table[list_stocks[index_stock]] = table.financial_table()
         driver.close()
-        index_stock += 1
-    df_table = pd.DataFrame(list_values, index=list_stocks, columns=list_elements[0][0])
-    df_table.to_csv(path_or_buf=PATH_DB+filename)
-    print(stock_table)
-    print(df_table)
+        df_table = pd.DataFrame(np.array(list_values[0]).reshape(1, 41).tolist(), index=[list_stocks[index_stock]], columns=list_elements[0][0])
+    return df_table
+
 
 
 if __name__ == '__main__':
-    main()
+    main(user_option)
