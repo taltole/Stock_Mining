@@ -5,7 +5,7 @@ Database class:
 """
 # imports
 import pymysql.cursors
-from DataMining.DataMining.Classes.config import *
+from Classes.config import *
 
 
 class Database:

@@ -1,0 +1,5 @@
+# list to ignore on repo
+
+.ipynb_checkpoints
+*.ipynb
+
