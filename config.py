@@ -19,7 +19,8 @@ filename = ''
 URL = 'https://www.tradingview.com/markets/stocks-usa/market-movers-large-cap/'
 URL_SECTOR = 'https://www.tradingview.com/markets/stocks-usa/sectorandindustry-sector/'
 URL_INDUSTRY = 'https://www.tradingview.com/markets/stocks-usa/sectorandindustry-industry/'
-driver = webdriver.Chrome(os.path.join(os.getcwd(), 'chromedriver'), options=chrome_options)
+PATH = '/Users/tal/Dropbox/ITC20/DataMining/DataMining/Database/chromedriver'
+driver = webdriver.Chrome(os.path.join(os.getcwd(), PATH), options=chrome_options)
 PATH_DB = os.path.join(os.getcwd().replace('Classes', 'Database'), filename)
 CSV_FILE = 'Database/Industry info.csv'
 STOCK = 0
