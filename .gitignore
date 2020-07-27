@@ -1,5 +1,5 @@
 # list to ignore on repo
-
+.idea
 .ipynb_checkpoints
 *.ipynb
 
