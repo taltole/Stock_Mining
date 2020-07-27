@@ -1,7 +1,22 @@
+from config import *
+
+# ############################# ############################# ############################# ############################
+# todo add this to config (it for us to see df without truncated ... option
+import numpy as np
+desired_width = 320
+pd.set_option('display.width', desired_width)
+np.set_printoptions(linewidth=desired_width)
+pd.set_option('display.max_columns', 10)
+
+
+# ############################# ############################# ############################# ############################
+
+# todo api function might go to main or topmarket
 import requests
 from config import *
 
-def api_overview(ticker):
+
+def api_overview(ticker='AAPL'):
     """
     get data from api about specific stock.
     params: the stock name on trade view
@@ -60,6 +75,44 @@ def api_sma(ticker):
         df = [ticker, None, None, None]
 
     return df
+
+
+# ############################# ############################# ############################# ############################
+
+# todo api to db each function for their right place on db.py
+
+
+def insert_data_from_api(self, api_df):
+    """ from api, insert data to mysql
+    params: api_df with a general summary per user stock input
+    """
+
+    # add data to Image table
+    sql = """INSERT IGNORE INTO InfoAPI
+                (ticker_id, 'Ticker', 'Moving Average (200 days)', 'Exchange', 'Address', 'Description')
+                VALUES (%s, %s, %s, %s, %s, %s)"""
+    val = (None, api_df['Ticker'], api_df['Moving Average (200 days)'], api_df['Exchange'], api_df['Address'],
+           api_df['Description'])
+    self.cur.execute(sql, val)
+    self.con.commit()
+
+
+### todo here you dont need the def... line just shove it before create_Main
+
+def create_tables(con):
+    create_InfoAPI = '''
+            CREATE TABLE IF NOT EXISTS `InfoAPI` (
+              `ticker_id` INT PRIMARY KEY AUTO_INCREMENT,
+              `Ticker` VARCHAR(255),
+              `Moving Average (200 days)` DOUBLE,
+              `Exchange` VARCHAR(255),
+              `Address` VARCHAR(255),
+              `Description` VARCHAR(255)
+            );
+    '''
+    cur.execute(create_InfoAPI)
+    #############################
+
 
 if __name__ == '__main__':
     df = api_overview()

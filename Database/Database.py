@@ -295,8 +295,8 @@ def create_tables(con):
 
     create_Balance_Sheet = '''
     CREATE TABLE IF NOT EXISTS `Balance_Sheet` (
-    `id` double PRIMARY KEY AUTO_INCREMENT,
-    `Ticker_id` DOUBLE,
+    `id` INT PRIMARY KEY AUTO_INCREMENT,
+    `Ticker_id` INT,
     `Ticker` VARCHAR(255),
     `Quick_Ratio` DOUBLE,
     `Current_Ratio` DOUBLE,
@@ -314,7 +314,7 @@ def create_tables(con):
     create_Price_History = '''
     CREATE TABLE IF NOT EXISTS `Price_History` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `Ticker_id` DOUBLE,
+    `Ticker_id` INT,
     `Ticker` VARCHAR(255),
     `Average_Volume_10d` DOUBLE,
     `1_Year_beta` DOUBLE,
@@ -330,7 +330,7 @@ def create_tables(con):
     create_Dividends = '''
     CREATE TABLE IF NOT EXISTS `Dividends` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `Ticker_id` DOUBLE,
+    `Ticker_id` INT,
     `Ticker` VARCHAR(255),
     `Dividends_Paid` DOUBLE,
     `Dividends_Yield` DOUBLE,
@@ -345,7 +345,7 @@ def create_tables(con):
     create_Margins = '''
     CREATE TABLE IF NOT EXISTS `Margins` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
-    `Ticker_id` DOUBLE,
+    `Ticker_id` INT,
     `Ticker` VARCHAR(255),
     `Net_Margin` DOUBLE,
     `Gross_Margin` DOUBLE,
@@ -361,7 +361,7 @@ def create_tables(con):
     create_Income = '''
     CREATE TABLE IF NOT EXISTS `Income` (
     `id` double PRIMARY KEY AUTO_INCREMENT,
-    `Ticker_id` DOUBLE,
+    `Ticker_id` INT,
     `Ticker` VARCHAR(255),
     `Basic_EPS_FY` DOUBLE,
     `Basic_EPS_TTM` DOUBLE,
