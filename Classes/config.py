@@ -33,3 +33,6 @@ ARG_TICKER = 1
 REQUIRED_NUM_OF_ARGS = 3
 DELAY = random.randint(1, 5)
 MYSQL_USERNAME = 'root'
+
+
+

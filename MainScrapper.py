@@ -22,7 +22,7 @@ def stock_parser():
 
 def update_db():
 
-    user_options = stock_parser()[ARG_SCRAP]
+    user_options = stock_parser()[0]
     print("Update Database. ")
     db = Database()
 
@@ -63,9 +63,9 @@ def main():
     """
     db = Database()
     user_options = stock_parser()
-    print(user_options[ARG_SCRAP])
-    print(user_options[ARG_TICKER])
-    if user_options[ARG_SCRAP] == 'concise':
+    print(user_options[0])
+    print(user_options[1])
+    if user_options[0] == 'concise':
         # printing info to console and file
         scrap_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY)
         top_industries = scrap_industries.summarizer()
@@ -75,7 +75,7 @@ def main():
 
         scrap_sectors = SectorScrapper.SectorScrapper(URL_SECTOR)
         top_sectors = scrap_sectors.summarizer()
-        print('Sectors Summary', top_sectors, sep='\n')
+        # print('Sectors Summary', top_sectors, sep='\n')
         db.insert_sectors_table(top_sectors)
 
         # Stock financial in depth info
@@ -88,31 +88,39 @@ def main():
         top_stocks = scrap_top.summarizer()
         print('', 'Stock Summary', top_stocks, sep='\n')
         db.insert_main_table(top_stocks)
+        # print(db.read_from_db('Main'))
 
     elif user_options[0] == 'expanded':
         scrap_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY)
         top_industries = scrap_industries.summarizer()
-        scrap_industries.create_csv()
         print('Industry Summary', top_industries, sep='\n')
         db.insert_industry_table(top_industries)
 
+
         scrap_sectors = SectorScrapper.SectorScrapper(URL_SECTOR)
         top_sectors = scrap_sectors.summarizer()
-        scrap_sectors.create_csv()
         print('Sectors Summary', top_sectors, sep='\n')
-        # db.insert_sectors_table(top_sectors)
+        db.insert_sectors_table(top_sectors)
+
 
         top_stocks = StockScrapper.main(user_options[1])
-        print('Stock Summary', top_stocks, sep='\n')
-        db.insert_valuation_table(top_stocks)
-        db.insert_metrics_table(top_stocks)
-        db.insert_balance_sheet_table(top_stocks)
-        db.insert_price_history_table(top_stocks)
-        db.insert_dividends_table(top_stocks)
-        db.insert_margins_table(top_stocks)
-        db.insert_income_table(top_stocks)
+        # print('Stock Summary', top_stocks, sep='\n')
+        # db.insert_valuation_table(top_stocks)
+        # print(db.read_from_db('Valuation'))
+        # db.insert_metrics_table(top_stocks)
+        # print(db.read_from_db('Metrics'))
+        # db.insert_balance_sheet_table(top_stocks)
+        # print(db.read_from_db('Balance_Sheet'))
+        # db.insert_price_history_table(top_stocks)
+        # print(db.read_from_db('Price_History'))
+        # db.insert_dividends_table(top_stocks)
+        # print(db.read_from_db('Dividends'))
+        # db.insert_margins_table(top_stocks)
+        # print(db.read_from_db('Margins'))
+        # db.insert_income_table(top_stocks)
+        # print(db.read_from_db('Income'))
 
-        api_overview = API_Scrapper.api_overview(user_options[ARG_TICKER])
+        api_overview = API_Scrapper.api_overview(user_options[1])
         print('API Summary', api_overview, sep='\n')
     db.close_connect_db()
 

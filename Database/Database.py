@@ -3,11 +3,11 @@ Database class:
     handle the database.
     first, can take data after the web scraping and create database with relevant tables.
 """
-import mysql.connector
+#import mysql.connector
 
 import pymysql.cursors
 from config import *
-from Classes import TopMarketScrapper, StockScrapper, IndustryScrapper, SectorScrapper, API_Scrapper
+from DataMining.Classes import TopMarketScrapper, StockScrapper, IndustryScrapper, SectorScrapper, API_Scrapper
 
 
 class Database:
@@ -42,7 +42,7 @@ class Database:
             INSERT INTO Main (id, Ticker, Last, Change_Percent, Change, Rating, Volume, Mkt_Cap, Price_to_Earnings, 
             EPS, Employees, Sector) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
             """
-            val = [i, r['TICKER'], r['LAST'], r['CHG PERCENT'], r['CHG'], r['RATING'], r['VOL'], r['MKT CAP'], r['P_E'],
+            val = [None, i , r['LAST'], r['CHG PERCENT'], r['CHG'], r['RATING'], r['VOL'], r['MKT CAP'], r['P_E'],
                    r['EPS'], r['EMPLOYEES'], r['SECTOR']]
             self.cur.execute(sql, val)
         self.con.commit()
@@ -184,7 +184,7 @@ def setup_mysql_db():
 
     con = pymysql.Connect(host='localhost',
                           user='root',
-                          password='12345678',
+                          password='Kevin248',
                           db='Stock_Stats',
                           charset='utf8mb4',
                           cursorclass=pymysql.cursors.DictCursor)
@@ -391,8 +391,8 @@ def main():
     top_market = TopMarketScrapper.TopMarketScrapper(URL).summarizer()
 
     db = Database()
-    db.insert_all_to_mysql(top_market, top_industries, top_sectors)
-    print(db.read_from_db('Main'))
+    # db.insert_all_to_mysql(top_market, top_industries, top_sectors)
+    print(db.read_from_db('Sectors'))
 
     db.close_connect_db()
     print("Done. ")
