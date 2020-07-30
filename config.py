@@ -1,6 +1,7 @@
 import os
 import random
 import pandas as pd
+import numpy as np
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
@@ -24,7 +25,7 @@ try:
     PATH_DB = os.path.join(os.getcwd().replace('Classes', 'Database'), filename)
 except:
     PATH_DB = os.path.join(os.getcwd(), filename)
-PATH_DB = os.path.join(os.getcwd().replace('Classes', 'Database'), filename)
+# PATH_DB = os.path.join(os.getcwd().replace('Classes', 'Database'), filename)
 CSV_FILE = 'Database/Industry info.csv'
 STOCK = 0
 SECTOR = 1

@@ -7,7 +7,7 @@ Database class:
 
 import pymysql.cursors
 from config import *
-from DataMining.Classes import TopMarketScrapper, StockScrapper, IndustryScrapper, SectorScrapper, API_Scrapper
+from Classes import TopMarketScrapper, StockScrapper, IndustryScrapper, SectorScrapper, API_Scrapper
 
 
 class Database:
@@ -24,21 +24,20 @@ class Database:
         """from CSV file, insert all tables:"""
 
         self.insert_main_table(top_stocks)
-        ids_dict = dict()
         self.insert_industry_table(top_industries)
         self.insert_sectors_table(top_sectors)
-        self.insert_valuation_table(top_stocks, ids_dict)
-        self.insert_metrics_table(top_stocks)
-        self.insert_balance_sheet_table(top_stocks)
-        self.insert_price_history_table(top_stocks)
-        self.insert_dividends_table(top_stocks)
-        self.insert_margins_table(top_stocks)
-        self.insert_income_table(top_stocks)
+        # ids_dict = dict()
+        # self.insert_valuation_table(top_stocks, ids_dict)
+        # self.insert_metrics_table(top_stocks)
+        # self.insert_balance_sheet_table(top_stocks)
+        # self.insert_price_history_table(top_stocks)
+        # self.insert_dividends_table(top_stocks)
+        # self.insert_margins_table(top_stocks)
+        # self.insert_income_table(top_stocks)
 
     def insert_main_table(self, top_stocks):
         """ from CSV file, insert Main table to mysql """
         df = top_stocks
-        print(df.columns)
         for i, r in df.iterrows():
             # sql = """
             # INSERT INTO Main (Ticker, Last, Change_Percent, Change, Rating, Volume, Mkt_Cap, Price_to_Earnings,
@@ -51,7 +50,6 @@ class Database:
             val = [r['TICKER'], r['LAST'], r['CHG PERCENT'], r['RATING'], r['VOL'], r['MKT CAP'], r['P_E'],
                    r['EPS'], r['EMPLOYEES'], r['SECTOR']]
 
-            print(sql, val)
             self.cur.execute(sql, val)
 
         self.con.commit()
@@ -186,7 +184,7 @@ def read_csv(file):
     """ read csv file to DataFrame of pandas package. """
 
     df = pd.read_csv(file)
-    df = df.fillna("empty")  # fillna beacause the python can't pass null to mysql db
+    df = df.fillna("empty")  # fillna because the python can't pass null to mysql db
     return df
 
 
@@ -195,7 +193,7 @@ def setup_mysql_db():
 
     con = pymysql.Connect(host='localhost',
                           user='root',
-                          password='Kevin248',
+                          password='12345678',
                           db='Stock_Stats',
                           charset='utf8mb4',
                           cursorclass=pymysql.cursors.DictCursor)
@@ -265,7 +263,7 @@ def create_tables(con):
       `change_Percent` DOUBLE,
       `Vol` DOUBLE,
       `Sector` VARCHAR(255),
-      `Stocks` DOUBLE
+      `Stocks` INT
       );'''
     cur.execute(create_Industry)
 
@@ -402,9 +400,11 @@ def main():
     top_market = TopMarketScrapper.TopMarketScrapper(URL).summarizer()
 
     db = Database()
-    # db.insert_all_to_mysql(top_market, top_industries, top_sectors)
-    print(db.read_from_db('Sectors'))
+    db.insert_all_to_mysql(top_market, top_industries, top_sectors)
 
+    print("Reading From Database.... ")
+    for table in ['Main', 'Industry', 'Sectors']:
+        print(f'{table.upper()}\n{db.read_from_db(table)}')
     db.close_connect_db()
     print("Done. ")
 

@@ -68,6 +68,9 @@ class SectorScrapper:
 
         # get main page headers
         header_sector = ['SECTOR', 'MKT CAP', 'DIV YIELD', 'CHG PERCENT', 'VOL', 'INDUSTRIES', 'STOCKS']
+        for ind, row in enumerate(final_list):
+            if len(row) > 7:
+                final_list[ind] = row[:7]
 
         # creating data frame
         df_sector = pd.DataFrame(data=final_list, columns=header_sector)

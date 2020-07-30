@@ -3,6 +3,7 @@ Get industry analysis, stats and updates
 """
 from itertools import takewhile
 from config import *
+import time
 
 
 class IndustryScrapper:
@@ -64,14 +65,17 @@ class IndustryScrapper:
         """
         driver.get(URL_INDUSTRY)
         industry, final_list = self.industry_scrapper()
+
         [final_list[i].insert(0, industry[i][:]) for i in range(len(industry))]
+        for ind, row in enumerate(final_list):
+            if len(row) > 7:
+                final_list[ind] = row[:7]
 
         # get main page headers
         header_industry = ['INDUSTRY', 'MKT CAP', 'DIV YIELD', 'CHG PERCENT', 'VOL', 'SECTOR', 'STOCKS']
 
         # creating data frame
         df_industry = pd.DataFrame(data=final_list, columns=header_industry)
-
         return df_industry
 
     def create_csv(self):
