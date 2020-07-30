@@ -24,9 +24,10 @@ class Database:
         """from CSV file, insert all tables:"""
 
         self.insert_main_table(top_stocks)
+        ids_dict = dict()
         self.insert_industry_table(top_industries)
         self.insert_sectors_table(top_sectors)
-        self.insert_valuation_table(top_stocks)
+        self.insert_valuation_table(top_stocks, ids_dict)
         self.insert_metrics_table(top_stocks)
         self.insert_balance_sheet_table(top_stocks)
         self.insert_price_history_table(top_stocks)
@@ -37,14 +38,22 @@ class Database:
     def insert_main_table(self, top_stocks):
         """ from CSV file, insert Main table to mysql """
         df = top_stocks
+        print(df.columns)
         for i, r in df.iterrows():
-            sql = """
-            INSERT INTO Main (id, Ticker, Last, Change_Percent, Change, Rating, Volume, Mkt_Cap, Price_to_Earnings, 
-            EPS, Employees, Sector) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-            """
-            val = [None, i , r['LAST'], r['CHG PERCENT'], r['CHG'], r['RATING'], r['VOL'], r['MKT CAP'], r['P_E'],
+            # sql = """
+            # INSERT INTO Main (Ticker, Last, Change_Percent, Change, Rating, Volume, Mkt_Cap, Price_to_Earnings,
+            # EPS, Employees, Sector) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
+            # """
+            # val = [r['TICKER'], r['LAST'], r['CHG PERCENT'], r['CHG'], r['RATING'], r['VOL'], r['MKT CAP'], r['P_E'],
+            #        r['EPS'], r['EMPLOYEES'], r['SECTOR']]
+            sql = """ INSERT INTO Main (Ticker, Last, Change_Percent, Rating, Volume, Mkt_Cap, Price_to_Earnings, 
+            EPS, Employees, Sector) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
+            val = [r['TICKER'], r['LAST'], r['CHG PERCENT'], r['RATING'], r['VOL'], r['MKT CAP'], r['P_E'],
                    r['EPS'], r['EMPLOYEES'], r['SECTOR']]
+
+            print(sql, val)
             self.cur.execute(sql, val)
+
         self.con.commit()
 
     def insert_industry_table(self, top_industries):
@@ -69,7 +78,7 @@ class Database:
             self.cur.execute(sql, val)
         self.con.commit()
 
-    def insert_valuation_table(self, top_stocks):
+    def insert_valuation_table(self, top_stocks, ids_dict):
         """ from CSV file, insert Valuation table to mysql """
         df = top_stocks
         for i, r in df.iterrows():
@@ -77,7 +86,7 @@ class Database:
                   "Enterprise_Value_to_EBITDA, Total_Shares_Outstanding, Number_of_Employees, Number_of_Shareholders, " \
                   "Price_to_Earnings, Price_to_Revenue, Price_to_Book, Price_to_Sales) " \
                   "VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s) "
-            val = (None, i, r['Ticker'], r['Market Capitalization'], r['Enterprise Value (MRQ)'], r['Enterprise Value/EBITDA (TTM)'],
+            val = (ids_dict[i], i, r['Market Capitalization'], r['Enterprise Value (MRQ)'], r['Enterprise Value/EBITDA (TTM)'],
             r['Total Shares Outstanding (MRQ)'], r['Number of Employees'], r['Number of Shareholders'], r['Price to Earnings Ratio (TTM)'],
                r['Price to Revenue Ratio (TTM)'], r['Price to Book (FY)'], r['Price to Sales (FY)'])
             self.cur.execute(sql, val)
@@ -97,11 +106,13 @@ class Database:
     def insert_balance_sheet_table(self, top_stocks):
         """ from CSV file, insert Balance_Sheet table to mysql """
         df = top_stocks
+        print(df.columns)
         for i, r in df.iterrows():
-            sql = "INSERT IGNORE INTO Balance_Sheet (ticker_id, Ticker, Quick_Ratio, Current_Ratio, Debt_to_Equity, " \
-                  "Net_Debt, Total_Debt, Total_Assets) VALUES (%s, %s, %s, %s, %s, %s, %s, $s)"
-            val = (None, i, r['Ticker'], r['Quick Ratio (MRQ)'], r['Current Ratio (MRQ)'], r['Debt to Equity Ratio (MRQ)'],
+            sql = "INSERT INTO Balance_Sheet (Ticker, Quick_Ratio, Current_Ratio, Debt_to_Equity, " \
+                  "Net_Debt, Total_Debt, Total_Assets) VALUES (%s, %s, %s, %s, %s, %s, %s)"
+            val = (i, r['Quick Ratio (MRQ)'], r['Current Ratio (MRQ)'], r['Debt to Equity Ratio (MRQ)'],
                    r['Net Debt (MRQ)'], r['Total Debt (MRQ)'], r['Total Assets (MRQ)'])
+            print(sql, val)
             self.cur.execute(sql, val)
         self.con.commit()
 
@@ -213,15 +224,15 @@ def create_tables(con):
     CREATE TABLE IF NOT EXISTS Main (
     `id` INT PRIMARY KEY AUTO_INCREMENT, 
     `Ticker` VARCHAR(255), 
-    `Last` DOUBLE, 
-    `Change_Percent` DOUBLE, 
-    `Change` DOUBLE, 
+    `Last` VARCHAR(255), 
+    `Change_Percent` VARCHAR(255), 
+    `Change` VARCHAR(255), 
     `Rating` VARCHAR(255), 
-    `Volume` DOUBLE, 
-    `Mkt_Cap` DOUBLE, 
-    `Price_to_Earnings` DOUBLE, 
-    `EPS` DOUBLE,
-    `Employees` DOUBLE, 
+    `Volume` VARCHAR(255), 
+    `Mkt_Cap` VARCHAR(255), 
+    `Price_to_Earnings` VARCHAR(255), 
+    `EPS` VARCHAR(255),
+    `Employees` VARCHAR(255), 
     `Sector` VARCHAR(255)
     );'''
     cur.execute(create_Main)
@@ -275,7 +286,7 @@ def create_tables(con):
     `Price_to_Revenue` DOUBLE,
     `Price_Book` DOUBLE,
     `Price_Sales` DOUBLE,
-     FOREIGN KEY (`Ticker_id`) REFERENCES `Main` (`id`)
+     FOREIGN KEY (`ticker_id`) REFERENCES `Main` (`id`)
         );
         '''
     cur.execute(create_Valuation)
@@ -291,7 +302,7 @@ def create_tables(con):
           `Return_on_Equity` DOUBLE,
           `Return_on_Invested_Capital` DOUBLE,
           `Revenue_per_Employee` DOUBLE,
-           FOREIGN KEY (`Ticker_id`) REFERENCES `Main` (`id`)
+           FOREIGN KEY (`ticker_id`) REFERENCES `Main` (`id`)
         );
         '''
     cur.execute(create_Metrics)
@@ -302,14 +313,14 @@ def create_tables(con):
           CREATE TABLE IF NOT EXISTS `Balance_Sheet` (
           `id` INT PRIMARY KEY AUTO_INCREMENT,
           `ticker_id` INT,
-          `Ticker` varchar(255),
-          `Quick_Ratio` DOUBLE,
-          `Current_Ratio` DOUBLE,
-          `Debt_to_Equity` DOUBLE,
-          `Net_Debt` DOUBLE,
-          `Total_Debt` DOUBLE,
-          `Total_Assets` DOUBLE,
-           FOREIGN KEY (`Ticker_id`) REFERENCES `Main` (`id`)
+          `Ticker` VARCHAR(255),
+          `Quick_Ratio` VARCHAR(255),
+          `Current_Ratio` VARCHAR(255),
+          `Debt_to_Equity` VARCHAR(255),
+          `Net_Debt` VARCHAR(255),
+          `Total_Debt` VARCHAR(255),
+          `Total_Assets` VARCHAR(255),
+           FOREIGN KEY (`ticker_id`) REFERENCES `Main` (`id`)
         );
         '''
     cur.execute(create_Balance_Sheet)
@@ -325,7 +336,7 @@ def create_tables(con):
     `1_Year_beta` DOUBLE,
     `52_Week_High` DOUBLE,
     `52_Week_Low` DOUBLE,
-     FOREIGN KEY (`Ticker_id`) REFERENCES `Main` (`id`)
+     FOREIGN KEY (`ticker_id`) REFERENCES `Main` (`id`)
     );'''
     cur.execute(create_Price_History)
 
@@ -339,7 +350,7 @@ def create_tables(con):
     `Dividends_Paid` DOUBLE,
     `Dividends_Yield` DOUBLE,
     `Dividends_per_Share` DOUBLE,
-     FOREIGN KEY (`Ticker_id`) REFERENCES `Main` (`id`)
+     FOREIGN KEY (`ticker_id`) REFERENCES `Main` (`id`)
     );'''
     cur.execute(create_Dividends)
 
@@ -354,7 +365,7 @@ def create_tables(con):
           `Gross_Margin` DOUBLE,
           `Operating_Margin` DOUBLE,
           `Pretax_Margin` DOUBLE,
-           FOREIGN KEY (`Ticker_id`) REFERENCES `Main` (`id`)
+           FOREIGN KEY (`ticker_id`) REFERENCES `Main` (`id`)
         );
         '''
     cur.execute(create_Margins)
@@ -376,7 +387,7 @@ def create_tables(con):
           `Last_Year_Revenue` DOUBLE,
           `Total_Revenue` DOUBLE,
           `Free_Cash_Flow` DOUBLE,
-           FOREIGN KEY (`Ticker_id`) REFERENCES `Main` (`id`)
+           FOREIGN KEY (`ticker_id`) REFERENCES `Main` (`id`)
         );
         '''
     cur.execute(create_Income)

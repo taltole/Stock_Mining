@@ -38,7 +38,7 @@ def update_db():
 
     # TopMarket DB
     # top_market = TopMarketScrapper.TopMarketScrapper(URL).summarizer()
-    # db.insert_main_table(top_market)
+    db.insert_main_table(top_market)
 
     top_stocks = StockScrapper.main(user_options)
 
@@ -66,19 +66,19 @@ def main():
     print(user_options[0])
     print(user_options[1])
     if user_options[0] == 'concise':
-        # printing info to console and file
-        scrap_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY)
-        top_industries = scrap_industries.summarizer()
-        print('Industry Summary', top_industries, sep='\n')
-        db.insert_industry_table(top_industries)
-        # printing info to console and file
-
-        scrap_sectors = SectorScrapper.SectorScrapper(URL_SECTOR)
-        top_sectors = scrap_sectors.summarizer()
-        # print('Sectors Summary', top_sectors, sep='\n')
-        db.insert_sectors_table(top_sectors)
-
-        # Stock financial in depth info
+        # # printing info to console and file
+        # scrap_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY)
+        # top_industries = scrap_industries.summarizer()
+        # print('Industry Summary', top_industries, sep='\n')
+        # db.insert_industry_table(top_industries)
+        # # printing info to console and file
+        #
+        # scrap_sectors = SectorScrapper.SectorScrapper(URL_SECTOR)
+        # top_sectors = scrap_sectors.summarizer()
+        # # print('Sectors Summary', top_sectors, sep='\n')
+        # db.insert_sectors_table(top_sectors)
+        #
+        # # Stock financial in depth info
 
         # getting urls for individual stock and sectors mining
         scrap_top = TopMarketScrapper.TopMarketScrapper(URL)
@@ -88,7 +88,8 @@ def main():
         top_stocks = scrap_top.summarizer()
         print('', 'Stock Summary', top_stocks, sep='\n')
         db.insert_main_table(top_stocks)
-        # print(db.read_from_db('Main'))
+        print(db.read_from_db('Main'))
+        quit()
 
     elif user_options[0] == 'expanded':
         scrap_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY)
@@ -104,13 +105,13 @@ def main():
 
 
         top_stocks = StockScrapper.main(user_options[1])
-        # print('Stock Summary', top_stocks, sep='\n')
+        print('Stock Summary', top_stocks, sep='\n')
         # db.insert_valuation_table(top_stocks)
         # print(db.read_from_db('Valuation'))
         # db.insert_metrics_table(top_stocks)
         # print(db.read_from_db('Metrics'))
-        # db.insert_balance_sheet_table(top_stocks)
-        # print(db.read_from_db('Balance_Sheet'))
+        db.insert_balance_sheet_table(top_stocks)
+        print(db.read_from_db('Balance_Sheet'))
         # db.insert_price_history_table(top_stocks)
         # print(db.read_from_db('Price_History'))
         # db.insert_dividends_table(top_stocks)
