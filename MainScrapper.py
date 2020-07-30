@@ -1,10 +1,7 @@
 from Classes import TopMarketScrapper, StockScrapper, IndustryScrapper, SectorScrapper, API_Scrapper
 from Database.Database import Database
 from config import *
-from selenium import webdriver
-import pandas as pd
 import argparse
-import sys
 
 
 def stock_parser():
@@ -21,7 +18,6 @@ def stock_parser():
 
 
 def update_db():
-
     user_options = stock_parser()[0]
     print("Update Database. ")
     db = Database()
@@ -97,12 +93,10 @@ def main():
         print('Industry Summary', top_industries, sep='\n')
         db.insert_industry_table(top_industries)
 
-
         scrap_sectors = SectorScrapper.SectorScrapper(URL_SECTOR)
         top_sectors = scrap_sectors.summarizer()
         print('Sectors Summary', top_sectors, sep='\n')
         db.insert_sectors_table(top_sectors)
-
 
         top_stocks = StockScrapper.main(user_options[1])
         print('Stock Summary', top_stocks, sep='\n')

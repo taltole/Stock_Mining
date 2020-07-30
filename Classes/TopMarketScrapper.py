@@ -23,7 +23,6 @@ class TopMarketScrapper:
         try:
             urls = [link.get_attribute("href") for link in links[1]]
         except:
-
             urls = [link.get_attribute("href") for link in links[0]]
         sectors_urls = []
         stocks_urls = []
@@ -32,7 +31,6 @@ class TopMarketScrapper:
                 stocks_urls.append(urls[i])
             else:
                 sectors_urls.append(urls[i])
-
         return stocks_urls, sectors_urls
 
     @classmethod
@@ -79,7 +77,6 @@ class TopMarketScrapper:
         # creating data frame
         df = pd.DataFrame(data=info, columns=header)
         return df
-
 
     def create_csv(self):
         """

@@ -21,15 +21,15 @@ URL = 'https://www.tradingview.com/markets/stocks-usa/market-movers-large-cap/'
 URL_SECTOR = 'https://www.tradingview.com/markets/stocks-usa/sectorandindustry-sector/'
 URL_INDUSTRY = 'https://www.tradingview.com/markets/stocks-usa/sectorandindustry-industry/'
 try:
-    driver = webdriver.Chrome(os.path.join(os.getcwd(), 'chromedriver_Mac'), options=chrome_options)
-except:
     driver = webdriver.Chrome(os.path.join(os.getcwd(), 'chromedriver_Linux'), options=chrome_options)
-
+    print('Linux Driver used!')
+except OSError:
+    print('OSx Driver used!')
+    driver = webdriver.Chrome(os.path.join(os.getcwd(), 'chromedriver_Mac'), options=chrome_options)
 try:
     PATH_DB = os.path.join(os.getcwd().replace('Classes', 'Database'), filename)
 except:
     PATH_DB = os.path.join(os.getcwd(), filename)
-# PATH_DB = os.path.join(os.getcwd().replace('Classes', 'Database'), filename)
 CSV_FILE = 'Database/Industry info.csv'
 STOCK = 0
 SECTOR = 1
