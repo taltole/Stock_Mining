@@ -1,10 +1,9 @@
 """
 This file contains contains a class which creates a table of rating elements and its respective values for a given url.
 """
-from DataMining.Classes import TopMarketScrapper
+from Classes import TopMarketScrapper
 from config import *
 import numpy as np
-
 
 
 class StockScrapper:
@@ -145,7 +144,6 @@ def main(user_option):
         driver.close()
         df_table = pd.DataFrame(np.array(list_values[0]).reshape(1, 41).tolist(), index=[list_stocks[index_stock]], columns=list_elements[0][0])
     return df_table
-
 
 
 if __name__ == '__main__':

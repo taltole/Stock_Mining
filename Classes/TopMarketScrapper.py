@@ -74,8 +74,18 @@ class TopMarketScrapper:
         header = ['TICKER', 'LAST', 'CHG PERCENT', 'CHG', 'RATING', 'VOL', 'MKT CAP', 'P_E', 'EPS', 'EMPLOYEES', 'SECTOR']
 
         # creating data frame
-        df = pd.DataFrame(data=info, columns=header)
-        return df
+        try:
+            df = pd.DataFrame(data=info, columns=header)
+            return df
+        except ValueError:
+            driver.close()
+            driver.get(URL)
+            stock, name, info = self.stock_scrapper()
+            [info[i].insert(0, stock[i]) for i in range(len(stock))]
+            df = pd.DataFrame(data=info, columns=header)
+            driver.close()
+
+            return df
 
     def create_csv(self):
         """

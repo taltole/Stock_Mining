@@ -24,7 +24,6 @@ try:
     PATH_DB = os.path.join(os.getcwd().replace('Classes', 'Database'), filename)
 except:
     PATH_DB = os.path.join(os.getcwd(), filename)
-PATH_DB = os.path.join(os.getcwd().replace('Classes', 'Database'), filename)
 CSV_FILE = 'Database/Industry info.csv'
 STOCK = 0
 SECTOR = 1
