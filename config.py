@@ -15,6 +15,11 @@ chrome_options.add_argument('disable-infobars')
 chrome_options.add_argument("--disable-extensions")
 chrome_options.headless = True
 
+desired_width = 320
+pd.set_option('display.width', desired_width)
+np.set_printoptions(linewidth=desired_width)
+pd.set_option('display.max_columns', 15)
+
 # constant
 filename = ''
 URL = 'https://www.tradingview.com/markets/stocks-usa/market-movers-large-cap/'
@@ -26,11 +31,8 @@ try:
 except OSError:
     print('OSx Driver used!')
     driver = webdriver.Chrome(os.path.join(os.getcwd(), 'chromedriver_Mac'), options=chrome_options)
-try:
-    PATH_DB = os.path.join(os.getcwd().replace('Classes', 'Database'), filename)
-except:
-    PATH_DB = os.path.join(os.getcwd(), filename)
-CSV_FILE = 'Database/Industry info.csv'
+PATH_DB = os.path.join(os.getcwd()+'/Database', filename)
+CSV_FILE = ''
 STOCK = 0
 SECTOR = 1
 ARG_SCRAP = 0
@@ -38,3 +40,4 @@ ARG_TICKER = 1
 REQUIRED_NUM_OF_ARGS = 3
 DELAY = random.randint(1, 5)
 MYSQL_USERNAME = 'root'
+API_KEY = 'IQGX1FT91GHD48FM'

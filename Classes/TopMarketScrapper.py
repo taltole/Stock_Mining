@@ -68,7 +68,7 @@ class TopMarketScrapper:
         stock, name, info = self.stock_scrapper()
         [info[i].insert(0, stock[i]) for i in range(len(stock))]
         for ind, row in enumerate(info):
-            if len(row) > 7:
+            if len(row) > 11:
                 info[ind] = row[:11]
 
         # get main page headers
@@ -76,19 +76,8 @@ class TopMarketScrapper:
 
         # creating data frame
         df = pd.DataFrame(data=info, columns=header)
+        filename = 'Stock Info.csv'
+        df.to_csv(PATH_DB + filename, encoding='utf-8', mode='w', header=True)
         return df
 
-    def create_csv(self):
-        """
-        get df and output to csv file
-        """
-        df = self.summarizer()
 
-        # create CSV file
-        if not df.empty:
-            # if file does not exist write header
-            filename = 'Stock Info.csv'
-            if not os.path.isfile(PATH_DB+filename):
-                df.to_csv(PATH_DB+filename, encoding='utf-8')
-            else:  # else it exists so append without writing the header
-                df.to_csv(PATH_DB+filename, encoding='utf-8', mode='w', header=True)

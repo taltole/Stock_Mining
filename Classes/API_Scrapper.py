@@ -1,17 +1,3 @@
-from config import *
-
-# ############################# ############################# ############################# ############################
-# todo add this to config (it for us to see df without truncated ... option
-import numpy as np
-desired_width = 320
-pd.set_option('display.width', desired_width)
-np.set_printoptions(linewidth=desired_width)
-pd.set_option('display.max_columns', 10)
-
-
-# ############################# ############################# ############################# ############################
-
-# todo api function might go to main or topmarket
 import requests
 from config import *
 
@@ -21,12 +7,11 @@ def api_overview(ticker='AAPL'):
     get data from api about specific stock.
     params: the stock name on trade view
     """
-    api_code = 'IQGX1FT91GHD48FM'
 
     querystring = {"symbol": ticker, "function": "OVERVIEW"}
 
     url = f'https://www.alphavantage.co/query?function={querystring["function"]}&symbol=' \
-          f'{querystring["symbol"]}&apikey={api_code}'
+          f'{querystring["symbol"]}&apikey={API_KEY}'
 
     headers = {'x-rapidapi-host': "alpha-vantage.p.rapidapi.com",
                'x-rapidapi-key': "712a7be151msh49c200d2095f135p1aeae2jsn864918dad2ed"}
@@ -52,13 +37,12 @@ def api_sma(ticker):
     params: the stock name on trade view
     """
 
-    api_code = 'IQGX1FT91GHD48FM'
     querystring = {"symbol": ticker, "function": "SMA", "interval": "daily", "time_period": "200",
                    "series_type": "close"}
 
     url = f'https://www.alphavantage.co/query?function={querystring["function"]}&symbol=' \
           f'{querystring["symbol"]}&interval='f'{querystring["interval"]}&time_period=' \
-          f'{querystring["time_period"]}&series_type='f'{querystring["series_type"]}&apikey={api_code}'
+          f'{querystring["time_period"]}&series_type='f'{querystring["series_type"]}&apikey={API_KEY}'
 
     headers = {'x-rapidapi-host': "alpha-vantage.p.rapidapi.com",
                'x-rapidapi-key': "712a7be151msh49c200d2095f135p1aeae2jsn864918dad2ed"}
@@ -97,9 +81,6 @@ def insert_data_from_api(self, api_df):
     self.con.commit()
 
 
-### todo here you dont need the def... line just shove it before create_Main
-
-def create_tables(con):
     create_InfoAPI = '''
             CREATE TABLE IF NOT EXISTS `InfoAPI` (
               `ticker_id` INT PRIMARY KEY AUTO_INCREMENT,

@@ -62,17 +62,19 @@ class SectorScrapper:
         """
         sum info in data frame
         """
-        driver.get(URL_INDUSTRY)
+        # driver.get(URL_INDUSTRY)
         sector, final_list = self.sector_scrapper()
         [final_list[i].insert(0, sector[i][:]) for i in range(len(sector))]
 
         # get main page headers
         header_sector = ['SECTOR', 'MKT CAP', 'DIV YIELD', 'CHG PERCENT', 'VOL', 'INDUSTRIES', 'STOCKS']
-        for ind, row in enumerate(final_list):
-            if len(row) > 7:
-                final_list[ind] = row[:7]
 
         # creating data frame
+        for ind, row in enumerate(final_list):
+            if row[0].startswith('Financials'):
+                final_list.remove(final_list[ind])
+            if len(row) > 7:
+                final_list[ind] = row[:7]
         df_sector = pd.DataFrame(data=final_list, columns=header_sector)
 
         return df_sector

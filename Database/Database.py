@@ -3,6 +3,7 @@ Database class:
     handle the database.
     first, can take data after the web scraping and create database with relevant tables.
 """
+#import mysql.connector
 
 import pymysql.cursors
 from config import *
@@ -12,6 +13,7 @@ from Classes import TopMarketScrapper, StockScrapper, IndustryScrapper, SectorSc
 class Database:
     def __init__(self):
         """ connect to database. if don't exists - create database and tables. """
+
         self.con, self.cur = setup_mysql_db()
 
     def close_connect_db(self):
@@ -36,6 +38,7 @@ class Database:
     def insert_main_table(self, top_stocks):
         """ from CSV file, insert Main table to mysql """
         df = top_stocks
+        print(df['CHG'])
         for i, r in df.iterrows():
             # sql = """
             # INSERT INTO Main (Ticker, Last, Change_Percent, Change, Rating, Volume, Mkt_Cap, Price_to_Earnings,
@@ -43,9 +46,10 @@ class Database:
             # """
             # val = [r['TICKER'], r['LAST'], r['CHG PERCENT'], r['CHG'], r['RATING'], r['VOL'], r['MKT CAP'], r['P_E'],
             #        r['EPS'], r['EMPLOYEES'], r['SECTOR']]
-            sql = """ INSERT INTO Main (Ticker, Last, Change_Percent, Rating, Volume, Mkt_Cap, Price_to_Earnings, 
-            EPS, Employees, Sector) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
-            val = [r['TICKER'], r['LAST'], r['CHG PERCENT'], r['RATING'], r['VOL'], r['MKT CAP'], r['P_E'],
+
+            sql = """ INSERT INTO Main (Ticker, Last, Change_Percent, Change, Rating, Volume, Mkt_Cap, Price_to_Earnings, 
+            EPS, Employees, Sector) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
+            val = [r['TICKER'], r['LAST'], r['CHG PERCENT'], r['CHG'], r['RATING'], r['VOL'], r['MKT CAP'], r['P_E'],
                    r['EPS'], r['EMPLOYEES'], r['SECTOR']]
 
             self.cur.execute(sql, val)
@@ -172,7 +176,7 @@ class Database:
 
         result = self.cur.fetchall()
 
-        return result
+        return pd.DataFrame(result)
 
 
 # ########## static functions ############
@@ -222,7 +226,7 @@ def create_tables(con):
     `Ticker` VARCHAR(255), 
     `Last` VARCHAR(255), 
     `Change_Percent` VARCHAR(255), 
-    `Change` VARCHAR(255), 
+    `Change` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci, 
     `Rating` VARCHAR(255), 
     `Volume` VARCHAR(255), 
     `Mkt_Cap` VARCHAR(255), 
@@ -240,12 +244,12 @@ def create_tables(con):
     CREATE TABLE IF NOT EXISTS `Sectors` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `Name` VARCHAR(255),
-    `Market_Cap` DOUBLE,
-    `Dividend_Yield` DOUBLE,
-    `Change_Percent` DOUBLE,
-    `Vol` DOUBLE,
-    `Industries` DOUBLE,
-    `Stocks` DOUBLE,
+    `Market_Cap` VARCHAR(255),
+    `Dividend_Yield` VARCHAR(255),
+    `Change_Percent` VARCHAR(255),
+    `Vol` VARCHAR(255),
+    `Industries` VARCHAR(255),
+    `Stocks` VARCHAR(255),
      UNIQUE (`Name`)
     );'''
 
@@ -256,12 +260,12 @@ def create_tables(con):
       CREATE TABLE IF NOT EXISTS `Industry` (
       `industry_id` INT PRIMARY KEY AUTO_INCREMENT,
       `Industry_Name` VARCHAR(255),
-      `Mkt_Cap` DOUBLE,
-      `Dividend_Yield` DOUBLE,
-      `change_Percent` DOUBLE,
-      `Vol` DOUBLE,
+      `Mkt_Cap` VARCHAR(255),
+      `Dividend_Yield` VARCHAR(255),
+      `Change_Percent` VARCHAR(255),
+      `Vol` VARCHAR(255),
       `Sector` VARCHAR(255),
-      `Stocks` INT
+      `Stocks` VARCHAR(255)
       );'''
     cur.execute(create_Industry)
 
@@ -391,21 +395,3 @@ def create_tables(con):
     con.commit()
 
 
-def main():
-
-    top_sectors = SectorScrapper.SectorScrapper(URL_SECTOR).summarizer()
-    top_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY).summarizer()
-    top_market = TopMarketScrapper.TopMarketScrapper(URL).summarizer()
-
-    db = Database()
-    db.insert_all_to_mysql(top_market, top_industries, top_sectors)
-
-    print("Reading From Database.... ")
-    for table in ['Main', 'Industry', 'Sectors']:
-        print(f'{table.upper()}\n{db.read_from_db(table)}')
-    db.close_connect_db()
-    print("Done. ")
-
-
-if __name__ == "__main__":
-    main()

@@ -59,35 +59,21 @@ def main():
     """
     db = Database()
     user_options = stock_parser()
-    print(user_options[0])
-    print(user_options[1])
-    if user_options[0] == 'concise':
-        # # printing info to console and file
-        # scrap_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY)
-        # top_industries = scrap_industries.summarizer()
-        # print('Industry Summary', top_industries, sep='\n')
-        # db.insert_industry_table(top_industries)
-        # # printing info to console and file
-        #
-        # scrap_sectors = SectorScrapper.SectorScrapper(URL_SECTOR)
-        # top_sectors = scrap_sectors.summarizer()
-        # # print('Sectors Summary', top_sectors, sep='\n')
-        # db.insert_sectors_table(top_sectors)
-        #
-        # # Stock financial in depth info
+    print(f'{user_options[ARG_SCRAP].title()} Scrapping On {user_options[ARG_TICKER]}...')
+    if user_options[ARG_SCRAP] == 'concise':
+        top_sectors = SectorScrapper.SectorScrapper(URL_SECTOR).summarizer()
+        top_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY).summarizer()
+        top_market = TopMarketScrapper.TopMarketScrapper(URL).summarizer()
 
-        # getting urls for individual stock and sectors mining
-        scrap_top = TopMarketScrapper.TopMarketScrapper(URL)
-        stock, sectors = scrap_top.get_urls()
-        # print('Links to Stocks and Sectors:', stock, sectors, sep='\n')
-        # printing info to console and file
-        top_stocks = scrap_top.summarizer()
-        print('', 'Stock Summary', top_stocks, sep='\n')
-        db.insert_main_table(top_stocks)
-        print(db.read_from_db('Main'))
-        quit()
+        db = Database()
+        db.insert_all_to_mysql(top_market, top_industries, top_sectors)
 
-    elif user_options[0] == 'expanded':
+        print("Reading From Database.... ")
+        for table in ['Main', 'Industry', 'Sectors']:
+            print(f'\n\t\t****{table.upper().center(81)}****\n\n{db.read_from_db(table)}')
+        print("Done. ")
+
+    elif user_options[ARG_SCRAP] == 'expanded':
         scrap_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY)
         top_industries = scrap_industries.summarizer()
         print('Industry Summary', top_industries, sep='\n')
