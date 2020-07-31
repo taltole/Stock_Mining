@@ -38,18 +38,10 @@ class Database:
     def insert_main_table(self, top_stocks):
         """ from CSV file, insert Main table to mysql """
         df = top_stocks
-        print(df['CHG'])
         for i, r in df.iterrows():
-            # sql = """
-            # INSERT INTO Main (Ticker, Last, Change_Percent, Change, Rating, Volume, Mkt_Cap, Price_to_Earnings,
-            # EPS, Employees, Sector) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
-            # """
-            # val = [r['TICKER'], r['LAST'], r['CHG PERCENT'], r['CHG'], r['RATING'], r['VOL'], r['MKT CAP'], r['P_E'],
-            #        r['EPS'], r['EMPLOYEES'], r['SECTOR']]
-
-            sql = """ INSERT INTO Main (Ticker, Last, Change_Percent, Change, Rating, Volume, Mkt_Cap, Price_to_Earnings, 
-            EPS, Employees, Sector) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
-            val = [r['TICKER'], r['LAST'], r['CHG PERCENT'], r['CHG'], r['RATING'], r['VOL'], r['MKT CAP'], r['P_E'],
+            sql = """ INSERT INTO Main (Ticker, Last, Change_Percent, Rating, Volume, Mkt_Cap, Price_to_Earnings, 
+            EPS, Employees, Sector) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
+            val = [r['TICKER'], r['LAST'], r['CHG PERCENT'], r['RATING'], r['VOL'], r['MKT CAP'], r['P_E'],
                    r['EPS'], r['EMPLOYEES'], r['SECTOR']]
 
             self.cur.execute(sql, val)
@@ -61,10 +53,10 @@ class Database:
         df = top_industries
         for i, r in df.iterrows():
             sql = """
-            INSERT IGNORE INTO Industry (Industry_Name, Mkt_Cap, Dividend_Yield, Change_Percent, 
-            Vol, Sector, Stocks) VALUES (%s, %s, %s, %s, %s, %s, %s)
+            INSERT IGNORE INTO Industry (Industry_Name, Mkt_Cap, Change_Percent, 
+            Vol, Sector, Stocks) VALUES (%s, %s, %s, %s, %s, %s)
             ;"""
-            val = (r['INDUSTRY'], r['MKT CAP'], r['DIV YIELD'], r['CHG PERCENT'], r['VOL'], r['SECTOR'], r['STOCKS'])
+            val = (r['INDUSTRY'], r['MKT CAP'], r['CHG PERCENT'], r['VOL'], r['SECTOR'], r['STOCKS'])
             self.cur.execute(sql, val)
         self.con.commit()
 
@@ -72,9 +64,9 @@ class Database:
         """ from CSV file, insert Sectors table to mysql """
         df = top_sectors
         for i, r in df.iterrows():
-            sql = "INSERT IGNORE INTO Sectors (Name, Market_Cap, Dividend_Yield, Change_Percent, " \
-                  "Vol, Industries, Stocks) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-            val = (r['SECTOR'], r['MKT CAP'], r['DIV YIELD'], r['CHG PERCENT'], r['VOL'], r['INDUSTRIES'], r['STOCKS'])
+            sql = "INSERT IGNORE INTO Sectors (Name, Market_Cap, Change_Percent, " \
+                  "Vol, Industries, Stocks) VALUES (%s, %s, %s, %s, %s, %s)"
+            val = (r['SECTOR'], r['MKT CAP'], r['CHG PERCENT'], r['VOL'], r['INDUSTRIES'], r['STOCKS'])
             self.cur.execute(sql, val)
         self.con.commit()
 
@@ -226,7 +218,7 @@ def create_tables(con):
     `Ticker` VARCHAR(255), 
     `Last` VARCHAR(255), 
     `Change_Percent` VARCHAR(255), 
-    `Change` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci, 
+    # `Change` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci, 
     `Rating` VARCHAR(255), 
     `Volume` VARCHAR(255), 
     `Mkt_Cap` VARCHAR(255), 
@@ -245,7 +237,7 @@ def create_tables(con):
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `Name` VARCHAR(255),
     `Market_Cap` VARCHAR(255),
-    `Dividend_Yield` VARCHAR(255),
+    # `Dividend_Yield` VARCHAR(255),
     `Change_Percent` VARCHAR(255),
     `Vol` VARCHAR(255),
     `Industries` VARCHAR(255),
@@ -261,7 +253,7 @@ def create_tables(con):
       `industry_id` INT PRIMARY KEY AUTO_INCREMENT,
       `Industry_Name` VARCHAR(255),
       `Mkt_Cap` VARCHAR(255),
-      `Dividend_Yield` VARCHAR(255),
+      # `Dividend_Yield` VARCHAR(255),
       `Change_Percent` VARCHAR(255),
       `Vol` VARCHAR(255),
       `Sector` VARCHAR(255),
