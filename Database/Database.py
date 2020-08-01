@@ -230,7 +230,6 @@ def create_tables(con):
 
     #############################
 
-
     create_Sectors = '''
     CREATE TABLE IF NOT EXISTS `Sectors` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
