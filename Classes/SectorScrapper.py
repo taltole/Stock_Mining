@@ -77,8 +77,9 @@ class SectorScrapper:
         df_sector = pd.DataFrame(data=final_list, columns=header_sector)
 
         # Create CSV
-        filename = 'Stock Info.csv'
-        df_sector.to_csv(PATH_DB + filename, encoding='utf-8', mode='w', header=True)
+        if create_csv:
+            filename = 'Sector Info.csv'
+            df_sector.to_csv(PATH_DB + filename, encoding='utf-8', mode='w', header=True)
 
         return df_sector
 
