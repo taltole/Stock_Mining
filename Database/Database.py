@@ -187,7 +187,7 @@ def setup_mysql_db():
 
     con = pymysql.Connect(host='localhost',
                           user='root',
-                          password='12345678',
+                          password='password',
                           db='Stock_Stats',
                           charset='utf8mb4',
                           cursorclass=pymysql.cursors.DictCursor)
@@ -221,9 +221,9 @@ def create_tables(con):
     `Rating` VARCHAR(255), 
     `Volume` VARCHAR(255), 
     `Mkt_Cap` VARCHAR(255), 
-    `Price_to_Earnings` FLOAT(10), 
-    `EPS` FLOAT(10),
-    `Employees` INT, 
+    `Price_to_Earnings` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci, 
+    `EPS` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+    `Employees` VARCHAR(255), 
     `Sector` VARCHAR(255)
     );'''
     cur.execute(create_Main)
