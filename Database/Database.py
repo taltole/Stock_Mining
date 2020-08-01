@@ -216,14 +216,14 @@ def create_tables(con):
     CREATE TABLE IF NOT EXISTS Main (
     `id` INT PRIMARY KEY AUTO_INCREMENT, 
     `Ticker` VARCHAR(255), 
-    `Last` VARCHAR(255), 
+    `Last` FLOAT(10), 
     `Change_Percent` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci, 
     `Rating` VARCHAR(255), 
     `Volume` VARCHAR(255), 
     `Mkt_Cap` VARCHAR(255), 
-    `Price_to_Earnings` VARCHAR(255), 
-    `EPS` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-    `Employees` VARCHAR(255), 
+    `Price_to_Earnings` FLOAT(10), 
+    `EPS` FLOAT(10),
+    `Employees` INT, 
     `Sector` VARCHAR(255)
     );'''
     cur.execute(create_Main)
@@ -238,8 +238,8 @@ def create_tables(con):
     `Market_Cap` VARCHAR(255),
     `Change_Percent` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     `Vol` VARCHAR(255),
-    `Industries` VARCHAR(255),
-    `Stocks` VARCHAR(255),
+    `Industries` INT,
+    `Stocks` INT,
      UNIQUE (`Name`)
     );'''
 
@@ -254,7 +254,7 @@ def create_tables(con):
       `Change_Percent` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
       `Vol` VARCHAR(255),
       `Sector` VARCHAR(255),
-      `Stocks` VARCHAR(255)
+      `Stocks` INT
       );'''
     cur.execute(create_Industry)
 
