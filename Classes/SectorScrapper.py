@@ -60,7 +60,7 @@ class SectorScrapper:
     @classmethod
     def summarizer(self):
         """
-        sum info in data frame
+        sum info in data frame and backup to csv on demand.
         """
         sector, final_list = self.sector_scrapper()
         [final_list[i].insert(0, sector[i][:]) for i in range(len(sector))]
@@ -82,18 +82,3 @@ class SectorScrapper:
             df_sector.to_csv(PATH_DB + filename, encoding='utf-8', mode='w', header=True)
 
         return df_sector
-
-    def create_csv(self):
-        """
-        get df and output to csv file
-        """
-        df_sector = self.summarizer()
-
-        # create CSV file
-        if not df_sector.empty:
-            # if file does not exist write header
-            filename = 'Sector info.csv'
-            if not os.path.isfile(PATH_DB+filename):
-                df_sector.to_csv(PATH_DB+filename, encoding='utf-8')
-            else:  # else it exists so append without writing the header
-                df_sector.to_csv(PATH_DB+filename, encoding='utf-8', mode='w', header=True)

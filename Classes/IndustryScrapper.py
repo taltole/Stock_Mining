@@ -61,7 +61,7 @@ class IndustryScrapper:
     @classmethod
     def summarizer(self):
         """
-        sum info in data frame
+        sum info in data frame and backup to csv on demand.
         """
         driver.get(URL_INDUSTRY)
         industry, final_list = self.industry_scrapper()
@@ -83,19 +83,4 @@ class IndustryScrapper:
             df_industry.to_csv(PATH_DB + filename, encoding='utf-8', mode='w', header=True)
 
         return df_industry
-
-    def create_csv(self):
-        """
-        get df and output to csv file
-        """
-        df_industry = self.summarizer()
-
-        # create CSV file
-        if not df_industry.empty:
-            # if file does not exist write header
-            filename = 'Industry info.csv'
-            if not os.path.isfile(PATH_DB+filename):
-                df_industry.to_csv(PATH_DB+filename, encoding='utf-8')
-            else:  # else it exists so append without writing the header
-                df_industry.to_csv(PATH_DB+filename, encoding='utf-8', mode='w', header=True)
 

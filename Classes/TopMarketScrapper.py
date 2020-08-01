@@ -62,7 +62,7 @@ class TopMarketScrapper:
 
     def summarizer(self):
         """
-        sum info in data frame
+        sum info in data frame and backup to csv on demand.
         """
         driver.get(URL)
         stock, name, info = self.stock_scrapper()
