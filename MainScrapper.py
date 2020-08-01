@@ -17,40 +17,6 @@ def stock_parser():
     return args.scrapper, args.ticker
 
 
-def update_db():
-    user_options = stock_parser()[0]
-    print("Update Database. ")
-    db = Database()
-
-    # Sectors DB
-    top_sectors = SectorScrapper.SectorScrapper(URL_SECTOR).summarizer()
-    # top_sectors = scrap_sectors
-    db.insert_sectors_table(top_sectors)
-
-    # Industry DB
-    top_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY).summarizer()
-    # top_industries = scrap_industries
-    db.insert_industry_table(top_industries)
-
-    # TopMarket DB
-    # top_market = TopMarketScrapper.TopMarketScrapper(URL).summarizer()
-    db.insert_main_table(top_market)
-
-    top_stocks = StockScrapper.main(user_options)
-
-    db.insert_valuation_table(top_stocks)
-    db.insert_metrics_table(top_stocks)
-    db.insert_balance_sheet_table(top_stocks)
-    db.insert_price_history_table(top_stocks)
-    # db.insert_dividends_table(top_stocks)
-    db.insert_margins_table(top_stocks)
-    db.insert_income_table(top_stocks)
-    db.read_from_db('Industry')
-
-    print("Done. ")
-    return db
-
-
 def main():
     """
     Given a URL of the stock market and the url's for each stock imported from TopMarketScrapper.py,
