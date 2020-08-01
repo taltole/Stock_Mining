@@ -76,8 +76,11 @@ class TopMarketScrapper:
 
         # creating data frame
         df = pd.DataFrame(data=info, columns=header)
+
+        # Create CSV
         filename = 'Stock Info.csv'
         df.to_csv(PATH_DB + filename, encoding='utf-8', mode='w', header=True)
+
         return df
 
 

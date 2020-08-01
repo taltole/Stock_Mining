@@ -75,6 +75,7 @@ class SectorScrapper:
             if len(row) > 7:
                 final_list[ind] = row[:7]
         df_sector = pd.DataFrame(data=final_list, columns=header_sector)
+
         # Create CSV
         filename = 'Stock Info.csv'
         df_sector.to_csv(PATH_DB + filename, encoding='utf-8', mode='w', header=True)
