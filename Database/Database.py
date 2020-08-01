@@ -236,7 +236,7 @@ def create_tables(con):
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `Name` VARCHAR(255),
     `Market_Cap` VARCHAR(255),
-    `Change_Percent` VARCHAR(255),
+    `Change_Percent` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     `Vol` VARCHAR(255),
     `Industries` VARCHAR(255),
     `Stocks` VARCHAR(255),
@@ -251,7 +251,7 @@ def create_tables(con):
       `industry_id` INT PRIMARY KEY AUTO_INCREMENT,
       `Industry_Name` VARCHAR(255),
       `Mkt_Cap` VARCHAR(255),
-      `Change_Percent` VARCHAR(255),
+      `Change_Percent` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
       `Vol` VARCHAR(255),
       `Sector` VARCHAR(255),
       `Stocks` VARCHAR(255)

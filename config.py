@@ -1,3 +1,4 @@
+# Imports
 import os
 import random
 import pandas as pd
@@ -5,6 +6,7 @@ import numpy as np
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
+# Selenium Options arguments
 chrome_options = Options()
 chrome_options.add_experimental_option('excludeSwitches', ['enable-logging'])
 chrome_options.add_argument("--disable-gpu")
@@ -15,12 +17,13 @@ chrome_options.add_argument('disable-infobars')
 chrome_options.add_argument("--disable-extensions")
 chrome_options.headless = True
 
+# Print Options
 desired_width = 320
 pd.set_option('display.width', desired_width)
 np.set_printoptions(linewidth=desired_width)
 pd.set_option('display.max_columns', 15)
 
-# constant
+# Constant
 filename = ''
 URL = 'https://www.tradingview.com/markets/stocks-usa/market-movers-large-cap/'
 URL_SECTOR = 'https://www.tradingview.com/markets/stocks-usa/sectorandindustry-sector/'

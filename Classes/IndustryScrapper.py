@@ -76,6 +76,11 @@ class IndustryScrapper:
 
         # creating data frame
         df_industry = pd.DataFrame(data=final_list, columns=header_industry)
+
+        # Create CSV backup
+        filename = 'Industry Info.csv'
+        df_industry.to_csv(PATH_DB + filename, encoding='utf-8', mode='w', header=True)
+
         return df_industry
 
     def create_csv(self):
