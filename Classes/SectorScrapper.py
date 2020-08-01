@@ -30,6 +30,7 @@ class SectorScrapper:
         temp_list = []
         for element in data_list_long:
             new_element = element.split()
+            new_element = [new_element[0], *[i.strip('BM%').replace('—', '0') for i in new_element[1:]]]
             digit_found = False
             index = 0
             i = 0

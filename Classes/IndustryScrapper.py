@@ -31,6 +31,9 @@ class IndustryScrapper:
         temp_list = []
         for element in data_list_long:
             new_element = element.split()
+            new_element = [new_element[0], *[i.strip('BM%').replace('—', '0') if not i.endswith('K')
+                                             else str(float(i[:-1]) / 1000) for i in new_element[1:]]]
+
             digit_found = False
             index = 0
             i = 0
@@ -83,4 +86,3 @@ class IndustryScrapper:
             df_industry.to_csv(PATH_DB + filename, encoding='utf-8', mode='w', header=True)
 
         return df_industry
-

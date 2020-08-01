@@ -53,8 +53,8 @@ class Database:
         df = top_industries
         for i, r in df.iterrows():
             sql = """
-            INSERT IGNORE INTO Industry (Industry_Name, Mkt_Cap, Change_Percent, 
-            Vol, Sector, Stocks) VALUES (%s, %s, %s, %s, %s, %s)
+            INSERT IGNORE INTO Industry (Industry_Name, Mkt_Cap_B, Change_Percent, 
+            Vol_M, Sector, Stocks) VALUES (%s, %s, %s, %s, %s, %s)
             ;"""
             val = (r['INDUSTRY'], r['MKT CAP'], r['CHG PERCENT'], r['VOL'], r['SECTOR'], r['STOCKS'])
             self.cur.execute(sql, val)
@@ -64,8 +64,8 @@ class Database:
         """ from CSV file, insert Sectors table to mysql """
         df = top_sectors
         for i, r in df.iterrows():
-            sql = "INSERT IGNORE INTO Sectors (Name, Market_Cap, Change_Percent, " \
-                  "Vol, Industries, Stocks) VALUES (%s, %s, %s, %s, %s, %s)"
+            sql = "INSERT IGNORE INTO Sectors (Name, Market_Cap_B, Change_Percent, " \
+                  "Vol_M, Industries, Stocks) VALUES (%s, %s, %s, %s, %s, %s)"
             val = (r['SECTOR'], r['MKT CAP'], r['CHG PERCENT'], r['VOL'], r['INDUSTRIES'], r['STOCKS'])
             self.cur.execute(sql, val)
         self.con.commit()
@@ -234,9 +234,9 @@ def create_tables(con):
     CREATE TABLE IF NOT EXISTS `Sectors` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `Name` VARCHAR(255),
-    `Market_Cap` VARCHAR(255),
+    `Market_Cap_B` FLOAT(10),
     `Change_Percent` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-    `Vol` VARCHAR(255),
+    `Vol_M` FLOAT(10),
     `Industries` INT,
     `Stocks` INT,
      UNIQUE (`Name`)
@@ -249,9 +249,9 @@ def create_tables(con):
       CREATE TABLE IF NOT EXISTS `Industry` (
       `industry_id` INT PRIMARY KEY AUTO_INCREMENT,
       `Industry_Name` VARCHAR(255),
-      `Mkt_Cap` VARCHAR(255),
+      `Mkt_Cap_B` FLOAT(10),
       `Change_Percent` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-      `Vol` VARCHAR(255),
+      `Vol_M` FLOAT(10),
       `Sector` VARCHAR(255),
       `Stocks` INT
       );'''
