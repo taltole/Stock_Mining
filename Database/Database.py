@@ -7,7 +7,7 @@ Database class:
 
 import pymysql.cursors
 from config import *
-from DataMining.Classes import TopMarketScrapper, StockScrapper, IndustryScrapper, SectorScrapper, API_Scrapper
+from Classes import TopMarketScrapper, StockScrapper, IndustryScrapper, SectorScrapper, API_Scrapper
 
 
 class Database:
@@ -24,34 +24,26 @@ class Database:
         """from CSV file, insert all tables:"""
 
         self.insert_main_table(top_stocks)
-        ids_dict = dict()
         self.insert_industry_table(top_industries)
         self.insert_sectors_table(top_sectors)
-        self.insert_valuation_table(top_stocks, ids_dict)
-        self.insert_metrics_table(top_stocks)
-        self.insert_balance_sheet_table(top_stocks)
-        self.insert_price_history_table(top_stocks)
-        self.insert_dividends_table(top_stocks)
-        self.insert_margins_table(top_stocks)
-        self.insert_income_table(top_stocks)
+        # ids_dict = dict()
+        # self.insert_valuation_table(top_stocks, ids_dict)
+        # self.insert_metrics_table(top_stocks)
+        # self.insert_balance_sheet_table(top_stocks)
+        # self.insert_price_history_table(top_stocks)
+        # self.insert_dividends_table(top_stocks)
+        # self.insert_margins_table(top_stocks)
+        # self.insert_income_table(top_stocks)
 
     def insert_main_table(self, top_stocks):
         """ from CSV file, insert Main table to mysql """
         df = top_stocks
-        print(df.columns)
         for i, r in df.iterrows():
-            # sql = """
-            # INSERT INTO Main (Ticker, Last, Change_Percent, Change, Rating, Volume, Mkt_Cap, Price_to_Earnings,
-            # EPS, Employees, Sector) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s);
-            # """
-            # val = [r['TICKER'], r['LAST'], r['CHG PERCENT'], r['CHG'], r['RATING'], r['VOL'], r['MKT CAP'], r['P_E'],
-            #        r['EPS'], r['EMPLOYEES'], r['SECTOR']]
             sql = """ INSERT INTO Main (Ticker, Last, Change_Percent, Rating, Volume, Mkt_Cap, Price_to_Earnings, 
             EPS, Employees, Sector) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s);"""
             val = [r['TICKER'], r['LAST'], r['CHG PERCENT'], r['RATING'], r['VOL'], r['MKT CAP'], r['P_E'],
                    r['EPS'], r['EMPLOYEES'], r['SECTOR']]
 
-            print(sql, val)
             self.cur.execute(sql, val)
 
         self.con.commit()
@@ -61,10 +53,10 @@ class Database:
         df = top_industries
         for i, r in df.iterrows():
             sql = """
-            INSERT IGNORE INTO Industry (Industry_Name, Mkt_Cap, Dividend_Yield, Change_Percent, 
-            Vol, Sector, Stocks) VALUES (%s, %s, %s, %s, %s, %s, %s)
+            INSERT IGNORE INTO Industry (Industry_Name, Mkt_Cap, Change_Percent, 
+            Vol, Sector, Stocks) VALUES (%s, %s, %s, %s, %s, %s)
             ;"""
-            val = (r['INDUSTRY'], r['MKT CAP'], r['DIV YIELD'], r['CHG PERCENT'], r['VOL'], r['SECTOR'], r['STOCKS'])
+            val = (r['INDUSTRY'], r['MKT CAP'], r['CHG PERCENT'], r['VOL'], r['SECTOR'], r['STOCKS'])
             self.cur.execute(sql, val)
         self.con.commit()
 
@@ -72,9 +64,9 @@ class Database:
         """ from CSV file, insert Sectors table to mysql """
         df = top_sectors
         for i, r in df.iterrows():
-            sql = "INSERT IGNORE INTO Sectors (Name, Market_Cap, Dividend_Yield, Change_Percent, " \
-                  "Vol, Industries, Stocks) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-            val = (r['SECTOR'], r['MKT CAP'], r['DIV YIELD'], r['CHG PERCENT'], r['VOL'], r['INDUSTRIES'], r['STOCKS'])
+            sql = "INSERT IGNORE INTO Sectors (Name, Market_Cap, Change_Percent, " \
+                  "Vol, Industries, Stocks) VALUES (%s, %s, %s, %s, %s, %s)"
+            val = (r['SECTOR'], r['MKT CAP'], r['CHG PERCENT'], r['VOL'], r['INDUSTRIES'], r['STOCKS'])
             self.cur.execute(sql, val)
         self.con.commit()
 
@@ -176,7 +168,7 @@ class Database:
 
         result = self.cur.fetchall()
 
-        return result
+        return pd.DataFrame(result)
 
 
 # ########## static functions ############
@@ -186,7 +178,7 @@ def read_csv(file):
     """ read csv file to DataFrame of pandas package. """
 
     df = pd.read_csv(file)
-    df = df.fillna("empty")  # fillna beacause the python can't pass null to mysql db
+    df = df.fillna("empty")  # fillna because the python can't pass null to mysql db
     return df
 
 
@@ -195,7 +187,7 @@ def setup_mysql_db():
 
     con = pymysql.Connect(host='localhost',
                           user='root',
-                          password='Kevin248',
+                          password='password',
                           db='Stock_Stats',
                           charset='utf8mb4',
                           cursorclass=pymysql.cursors.DictCursor)
@@ -224,14 +216,13 @@ def create_tables(con):
     CREATE TABLE IF NOT EXISTS Main (
     `id` INT PRIMARY KEY AUTO_INCREMENT, 
     `Ticker` VARCHAR(255), 
-    `Last` VARCHAR(255), 
-    `Change_Percent` VARCHAR(255), 
-    `Change` VARCHAR(255), 
+    `Last` FLOAT(10), 
+    `Change_Percent` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci, 
     `Rating` VARCHAR(255), 
     `Volume` VARCHAR(255), 
     `Mkt_Cap` VARCHAR(255), 
-    `Price_to_Earnings` VARCHAR(255), 
-    `EPS` VARCHAR(255),
+    `Price_to_Earnings` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci, 
+    `EPS` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
     `Employees` VARCHAR(255), 
     `Sector` VARCHAR(255)
     );'''
@@ -239,17 +230,15 @@ def create_tables(con):
 
     #############################
 
-
     create_Sectors = '''
     CREATE TABLE IF NOT EXISTS `Sectors` (
     `id` INT PRIMARY KEY AUTO_INCREMENT,
     `Name` VARCHAR(255),
-    `Market_Cap` DOUBLE,
-    `Dividend_Yield` DOUBLE,
-    `Change_Percent` DOUBLE,
-    `Vol` DOUBLE,
-    `Industries` DOUBLE,
-    `Stocks` DOUBLE,
+    `Market_Cap` VARCHAR(255),
+    `Change_Percent` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+    `Vol` VARCHAR(255),
+    `Industries` INT,
+    `Stocks` INT,
      UNIQUE (`Name`)
     );'''
 
@@ -260,12 +249,11 @@ def create_tables(con):
       CREATE TABLE IF NOT EXISTS `Industry` (
       `industry_id` INT PRIMARY KEY AUTO_INCREMENT,
       `Industry_Name` VARCHAR(255),
-      `Mkt_Cap` DOUBLE,
-      `Dividend_Yield` DOUBLE,
-      `change_Percent` DOUBLE,
-      `Vol` DOUBLE,
+      `Mkt_Cap` VARCHAR(255),
+      `Change_Percent` VARCHAR(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+      `Vol` VARCHAR(255),
       `Sector` VARCHAR(255),
-      `Stocks` DOUBLE
+      `Stocks` INT
       );'''
     cur.execute(create_Industry)
 
@@ -395,19 +383,3 @@ def create_tables(con):
     con.commit()
 
 
-def main():
-
-    top_sectors = SectorScrapper.SectorScrapper(URL_SECTOR).summarizer()
-    top_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY).summarizer()
-    top_market = TopMarketScrapper.TopMarketScrapper(URL).summarizer()
-
-    db = Database()
-    # db.insert_all_to_mysql(top_market, top_industries, top_sectors)
-    print(db.read_from_db('Sectors'))
-
-    db.close_connect_db()
-    print("Done. ")
-
-
-if __name__ == "__main__":
-    main()

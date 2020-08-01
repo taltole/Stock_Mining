@@ -60,9 +60,8 @@ class SectorScrapper:
     @classmethod
     def summarizer(self):
         """
-        sum info in data frame
+        sum info in data frame and backup to csv on demand.
         """
-        driver.get(URL_INDUSTRY)
         sector, final_list = self.sector_scrapper()
         [final_list[i].insert(0, sector[i][:]) for i in range(len(sector))]
 
@@ -70,21 +69,16 @@ class SectorScrapper:
         header_sector = ['SECTOR', 'MKT CAP', 'DIV YIELD', 'CHG PERCENT', 'VOL', 'INDUSTRIES', 'STOCKS']
 
         # creating data frame
+        for ind, row in enumerate(final_list):
+            if row[0].startswith('Financials'):
+                final_list.remove(final_list[ind])
+            if len(row) > 7:
+                final_list[ind] = row[:7]
         df_sector = pd.DataFrame(data=final_list, columns=header_sector)
 
+        # Create CSV
+        if create_csv:
+            filename = 'Sector Info.csv'
+            df_sector.to_csv(PATH_DB + filename, encoding='utf-8', mode='w', header=True)
+
         return df_sector
-
-    def create_csv(self):
-        """
-        get df and output to csv file
-        """
-        df_sector = self.summarizer()
-
-        # create CSV file
-        if not df_sector.empty:
-            # if file does not exist write header
-            filename = 'Sector info.csv'
-            if not os.path.isfile(PATH_DB+filename):
-                df_sector.to_csv(PATH_DB+filename, encoding='utf-8')
-            else:  # else it exists so append without writing the header
-                df_sector.to_csv(PATH_DB+filename, encoding='utf-8', mode='w', header=True)

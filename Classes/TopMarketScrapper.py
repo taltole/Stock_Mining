@@ -23,7 +23,6 @@ class TopMarketScrapper:
         try:
             urls = [link.get_attribute("href") for link in links[1]]
         except:
-
             urls = [link.get_attribute("href") for link in links[0]]
         sectors_urls = []
         stocks_urls = []
@@ -32,7 +31,6 @@ class TopMarketScrapper:
                 stocks_urls.append(urls[i])
             else:
                 sectors_urls.append(urls[i])
-
         return stocks_urls, sectors_urls
 
     @classmethod
@@ -64,40 +62,26 @@ class TopMarketScrapper:
 
     def summarizer(self):
         """
-        sum info in data frame
+        sum info in data frame and backup to csv on demand.
         """
         driver.get(URL)
         stock, name, info = self.stock_scrapper()
         [info[i].insert(0, stock[i]) for i in range(len(stock))]
+        for ind, row in enumerate(info):
+            if len(row) > 11:
+                info[ind] = row[:11]
 
         # get main page headers
         header = ['TICKER', 'LAST', 'CHG PERCENT', 'CHG', 'RATING', 'VOL', 'MKT CAP', 'P_E', 'EPS', 'EMPLOYEES', 'SECTOR']
 
         # creating data frame
-        try:
-            df = pd.DataFrame(data=info, columns=header)
-            return df
-        except ValueError:
-            driver.close()
-            driver.get(URL)
-            stock, name, info = self.stock_scrapper()
-            [info[i].insert(0, stock[i]) for i in range(len(stock))]
-            df = pd.DataFrame(data=info, columns=header)
-            driver.close()
+        df = pd.DataFrame(data=info, columns=header)
 
-            return df
-
-    def create_csv(self):
-        """
-        get df and output to csv file
-        """
-        df = self.summarizer()
-
-        # create CSV file
-        if not df.empty:
-            # if file does not exist write header
+        # Create CSV
+        if create_csv:
             filename = 'Stock Info.csv'
-            if not os.path.isfile(PATH_DB+filename):
-                df.to_csv(PATH_DB+filename, encoding='utf-8')
-            else:  # else it exists so append without writing the header
-                df.to_csv(PATH_DB+filename, encoding='utf-8', mode='w', header=True)
+            df.to_csv(PATH_DB + filename, encoding='utf-8', mode='w', header=True)
+
+        return df
+
+

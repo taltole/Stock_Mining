@@ -3,6 +3,7 @@ Get industry analysis, stats and updates
 """
 from itertools import takewhile
 from config import *
+import time
 
 
 class IndustryScrapper:
@@ -60,11 +61,15 @@ class IndustryScrapper:
     @classmethod
     def summarizer(self):
         """
-        sum info in data frame
+        sum info in data frame and backup to csv on demand.
         """
         driver.get(URL_INDUSTRY)
         industry, final_list = self.industry_scrapper()
+
         [final_list[i].insert(0, industry[i][:]) for i in range(len(industry))]
+        for ind, row in enumerate(final_list):
+            if len(row) > 7:
+                final_list[ind] = row[:7]
 
         # get main page headers
         header_industry = ['INDUSTRY', 'MKT CAP', 'DIV YIELD', 'CHG PERCENT', 'VOL', 'SECTOR', 'STOCKS']
@@ -72,20 +77,10 @@ class IndustryScrapper:
         # creating data frame
         df_industry = pd.DataFrame(data=final_list, columns=header_industry)
 
+        # Create CSV backup
+        if create_csv:
+            filename = 'Industry Info.csv'
+            df_industry.to_csv(PATH_DB + filename, encoding='utf-8', mode='w', header=True)
+
         return df_industry
-
-    def create_csv(self):
-        """
-        get df and output to csv file
-        """
-        df_industry = self.summarizer()
-
-        # create CSV file
-        if not df_industry.empty:
-            # if file does not exist write header
-            filename = 'Industry info.csv'
-            if not os.path.isfile(PATH_DB+filename):
-                df_industry.to_csv(PATH_DB+filename, encoding='utf-8')
-            else:  # else it exists so append without writing the header
-                df_industry.to_csv(PATH_DB+filename, encoding='utf-8', mode='w', header=True)
 
