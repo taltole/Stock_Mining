@@ -109,8 +109,6 @@ def main(user_option):
     if user_option == 'all_stocks':
         for url in urls:
             print(len(urls) - index_stock, url)
-            DRIVER = os.path.join(os.getcwd(), 'chromedriver2')
-            driver = webdriver.Chrome(DRIVER, chrome_options=chrome_options)
             table = StockScrapper(driver)
             driver.get(url)
             if len(list_elements[0]) < 1:
@@ -134,8 +132,6 @@ def main(user_option):
         except:
             print('Please input the correct name of the stock')
             quit()
-        DRIVER = os.path.join(os.getcwd(), 'chromedriver2')
-        driver = webdriver.Chrome(DRIVER, chrome_options=chrome_options)
         table = StockScrapper(driver)
         driver.get(url)
         list_elements[0].append(table.rating_elements())

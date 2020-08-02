@@ -3,11 +3,10 @@ Database class:
     handle the database.
     first, can take data after the web scraping and create database with relevant tables.
 """
-#import mysql.connector
 
 import pymysql.cursors
 from config import *
-from DataMining.Classes import TopMarketScrapper, StockScrapper, IndustryScrapper, SectorScrapper, API_Scrapper
+from Classes import TopMarketScrapper, StockScrapper, IndustryScrapper, SectorScrapper, API_Scrapper
 
 
 class Database:
@@ -302,7 +301,7 @@ def setup_mysql_db():
 
     con = pymysql.Connect(host='localhost',
                           user='root',
-                          password='Kevin248',
+                          password='password',
                           db='Stock_Stats',
                           charset='utf8mb4',
                           cursorclass=pymysql.cursors.DictCursor)
@@ -317,6 +316,7 @@ def setup_mysql_db():
 def create_database(con):
     """ create database if don't exists. """
     cur = con.cursor()
+    cur.execute(''' DROP DATABASE Stock_Stats;''')
     cur.execute(''' CREATE DATABASE IF NOT EXISTS Stock_Stats;''')
     cur.execute(''' USE Stock_Stats; ''')
 

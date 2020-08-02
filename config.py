@@ -21,7 +21,7 @@ chrome_options.headless = True
 desired_width = 320
 pd.set_option('display.width', desired_width)
 np.set_printoptions(linewidth=desired_width)
-pd.set_option('display.max_columns', 15)
+pd.set_option('display.max_columns', 42)
 
 # constant
 filename = ''
@@ -44,4 +44,4 @@ REQUIRED_NUM_OF_ARGS = 3
 DELAY = random.randint(1, 5)
 MYSQL_USERNAME = 'root'
 API_KEY = 'IQGX1FT91GHD48FM'
-create_csv = True
+create_csv = False

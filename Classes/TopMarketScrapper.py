@@ -85,16 +85,14 @@ class TopMarketScrapper:
         try:
             df = pd.DataFrame(data=info, columns=header)
         except ValueError:
-            print('Data scrapped was corrupted, running again...')
-            self.stock_scrapper()
-            df = pd.DataFrame(data=info, columns=header)
-
+            print('Data scrapped was corrupted, please run again...')
+            return
         # Create CSV
         if create_csv:
             filename = 'Stock Info.csv'
             try:
                 df.to_csv(PATH_DB + filename, encoding='utf-8', mode='w', header=True)
-            except UnboundLocalError:
+            except [UnboundLocalError, AttributeError]:
                 pass
         return df
 
