@@ -53,27 +53,18 @@ class TopMarketScrapper:
         for i in range(0, data_len - 2, 3):
             stock.append(data_list[i][:-1])
             name.append('_'.join(data_list[i + 1].split()))
-            info.append(data_list[i + 2].replace('Strong Buy', 'Strong_buy').replace('Strong Sell', 'Strong_Sell')
+            info.append(data_list[i + 2].replace('Strong Buy', 'Strong_Buy').replace('Strong Sell', 'Strong_Sell')
                         .replace('%', ''))
-            # convert values to homogeneous type
-            check = info[-1].split()
-            for j in range(len(check)):
-                try:
-                    if not isinstance(check[j], str) or check[j] == '—':
-                        check[j] = '0'
-                    elif check[j][-1] in conv_dist:
-                        num, magnitude = check[j][:-1], check[j][-1]
-                        check[j] = str(int(float(num) * conv_dist[magnitude]))
-                except IndexError:
-                    pass
-            info[-1] = ' '.join(check)
 
             if info[-1].split()[-1] not in ['Finance', 'Communications', 'Transportation', 'Utilities']:
                 data.append(info[-1].split()[:-2])
                 data[-1].insert(len(data[-1]), '_'.join(info[-1].split()[-2:]))
             else:
                 data.append(info[-1].split())
-
+            review = data[-1][3]
+            data[-1] = [i.strip('KBM%').replace('—', '0') for i in data[-1]]
+            data[-1].remove(data[-1][3])
+            data[-1].insert(3, review)
         return stock, name, data
 
     def summarizer(self):
@@ -96,6 +87,7 @@ class TopMarketScrapper:
         except ValueError:
             print('Data scrapped was corrupted, running again...')
             self.stock_scrapper()
+            df = pd.DataFrame(data=info, columns=header)
 
         # Create CSV
         if create_csv:

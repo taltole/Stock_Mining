@@ -1,130 +1,130 @@
 ,INDUSTRY,MKT CAP,DIV YIELD,CHG PERCENT,VOL,SECTOR,STOCKS
-0,Advertising/Marketing Services ,57.755B,—,1.45%,2.426M,Commercial Services,22
-1,Aerospace & Defense ,578.917B,—,−1.27%,19.517M,Electronic Technology,49
-2,Agricultural Commodities/Milling ,68.658B,—,−0.72%,3.47M,Process Industries,27
-3,Air Freight/Couriers ,222.047B,—,0.32%,4.988M,Transportation,13
-4,Airlines ,87.568B,—,−0.73%,12.689M,Transportation,19
-5,Alternative Power Generation ,28.742B,—,−1.25%,5.413M,Utilities,9
-6,Aluminum ,13.439B,—,−0.97%,3.697M,Non-Energy Minerals,6
-7,Apparel/Footwear ,229.966B,—,−0.22%,5.417M,Consumer Non-Durables,35
-8,Apparel/Footwear Retail ,191.329B,—,0.19%,3.31M,Retail Trade,36
-9,Auto Parts: OEM ,77.42B,—,−2.57%,1.789M,Producer Manufacturing,31
-10,Automotive Aftermarket ,16.463B,—,−3.29%,2.447M,Consumer Durables,7
-11,Beverages: Alcoholic ,380.332B,—,−2.68%,4.245M,Consumer Non-Durables,13
-12,Beverages: Non-Alcoholic ,523.178B,—,−0.47%,7.912M,Consumer Non-Durables,16
-13,Biotechnology ,1076.969B,—,0.41%,4.928M,Health Technology,376
-14,Broadcasting ,107.862B,—,−0.09%,10.509M,Consumer Services,28
-15,Building Products ,123.57B,—,−0.09%,1.564M,Producer Manufacturing,28
-16,Cable/Satellite TV ,735.767B,—,0.46%,9.068M,Consumer Services,18
-17,Casinos/Gaming ,97.492B,—,−4.34%,6.643M,Consumer Services,19
-18,Catalog/Specialty Distribution ,2.735B,—,3.64%,722.201K,Retail Trade,4
-19,Chemicals: Agricultural ,83.653B,—,−0.14%,3.14M,Process Industries,19
-20,Chemicals: Major Diversified ,80.867B,—,−0.42%,3.062M,Process Industries,10
-21,Chemicals: Specialty ,373.627B,—,−0.30%,2.527M,Process Industries,51
-22,Coal ,3.03B,—,−1.38%,430.668K,Energy Minerals,14
-23,Commercial Printing/Forms ,20.393B,—,0.92%,1.198M,Commercial Services,10
-24,Computer Communications ,82.689B,—,1.91%,788.536K,Electronic Technology,14
-25,Computer Peripherals ,72.165B,—,1.69%,3.575M,Electronic Technology,16
-26,Computer Processing Hardware ,87.787B,—,1.49%,8.727M,Electronic Technology,8
-27,Construction Materials ,79.907B,—,−1.85%,1.49M,Non-Energy Minerals,14
-28,Consumer Sundries ,3.994B,—,−2.13%,181.531K,Consumer Non-Durables,3
-29,Containers/Packaging ,139.196B,—,−1.05%,4.261M,Process Industries,21
-30,Contract Drilling ,4.729B,—,−1.74%,6.936M,Industrial Services,11
-31,Data Processing Services ,624.526B,—,0.62%,5.846M,Technology Services,42
-32,Department Stores ,12.341B,—,−1.76%,5.544M,Retail Trade,4
-33,Discount Stores ,79.69B,—,−0.67%,1.373M,Retail Trade,5
-34,Drugstore Chains ,119.344B,—,−1.09%,9.829M,Retail Trade,6
-35,Electric Utilities ,1632.274B,—,0.07%,2.284M,Utilities,91
-36,Electrical Products ,238.413B,—,−0.87%,1.7M,Producer Manufacturing,39
-37,Electronic Components ,140.874B,—,0.04%,2.486M,Electronic Technology,37
-38,Electronic Equipment/Instruments ,167.937B,—,−1.07%,1.499M,Electronic Technology,41
-39,Electronic Production Equipment ,132.205B,—,0.72%,1.581M,Electronic Technology,29
-40,Electronics Distributors ,16.446B,—,1.12%,446.001K,Distribution Services,9
-41,Electronics/Appliance Stores ,26.288B,—,−0.44%,1.869M,Retail Trade,5
-42,Electronics/Appliances ,137.063B,—,−0.11%,1.977M,Consumer Durables,17
-43,Engineering & Construction ,51.129B,—,−0.43%,798.642K,Industrial Services,34
-44,Environmental Services ,125.315B,—,0.12%,963.934K,Industrial Services,20
-45,Finance/Rental/Leasing ,852.829B,—,−1.16%,8.794M,Finance,84
-46,Financial Conglomerates ,206.519B,—,−1.36%,2.82M,Finance,265
-47,Financial Publishing/Services ,171.779B,—,−0.48%,922.877K,Commercial Services,3
-48,Food Distributors ,38.239B,—,−1.08%,2.686M,Distribution Services,9
-49,Food Retail ,414.415B,—,−0.48%,6.922M,Retail Trade,12
-50,Food: Major Diversified ,231.478B,—,−0.29%,6.781M,Consumer Non-Durables,13
-51,Food: Meat/Fish/Dairy ,62.166B,—,−0.24%,1.883M,Consumer Non-Durables,8
-52,Food: Specialty/Candy ,143.934B,—,0.42%,840.992K,Consumer Non-Durables,30
-53,Forest Products ,21.596B,—,−0.52%,590.672K,Non-Energy Minerals,6
-54,Gas Distributors ,95.319B,—,−0.03%,1.394M,Utilities,19
-55,Home Furnishings ,24.555B,—,−0.96%,1.583M,Consumer Durables,17
-56,Home Improvement Chains ,404.724B,—,−0.37%,3.692M,Retail Trade,3
-57,Homebuilding ,124.827B,—,−0.32%,1.846M,Consumer Durables,26
-58,Hospital/Nursing Management ,89.632B,—,−0.49%,2.006M,Health Services,16
-59,Hotels/Resorts/Cruise lines ,121.736B,—,−1.97%,5.15M,Consumer Services,21
-60,Household/Personal Care ,786.158B,—,0.06%,4.72M,Consumer Non-Durables,23
-61,Industrial Conglomerates ,240.61B,—,−0.49%,3.483M,Producer Manufacturing,11
-62,Industrial Machinery ,459.78B,—,−1.23%,1.991M,Producer Manufacturing,69
-63,Industrial Specialties ,126.506B,—,−0.08%,928.135K,Process Industries,26
-64,Information Technology Services ,1236.373B,—,0.57%,5.064M,Technology Services,116
-65,Insurance Brokers/Services ,213.332B,—,0.24%,1.479M,Finance,18
-66,Integrated Oil ,862.777B,—,−1.87%,14.001M,Energy Minerals,32
-67,Internet Retail ,2608.244B,—,2.38%,9.003M,Retail Trade,25
-68,Internet Software/Services ,3404.423B,—,0.20%,15.343M,Technology Services,106
-69,Investment Banks/Brokers ,790.144B,—,0.08%,7.819M,Finance,49
-70,Investment Managers ,499.939B,—,−0.46%,1.952M,Finance,124
-71,Investment Trusts/Mutual Funds ,205.746B,—,0.26%,4.216M,Miscellaneous,2846
-72,Life/Health Insurance ,162.417B,—,0.02%,2.74M,Finance,25
-73,Major Banks ,1535.598B,—,−1.12%,15.836M,Finance,64
-74,Major Telecommunications ,633.538B,—,0.03%,19.154M,Communications,19
-75,Managed Health Care ,522.702B,—,−1.35%,2.85M,Health Services,8
-76,Marine Shipping ,19.532B,—,−1.25%,1.126M,Transportation,51
-77,Media Conglomerates ,212.991B,—,1.10%,9.545M,Consumer Services,3
-78,Medical Distributors ,81.648B,—,−1.73%,1.916M,Distribution Services,9
-79,Medical Specialties ,1693.167B,—,−0.24%,2.116M,Health Technology,198
-80,Medical/Nursing Services ,104.675B,—,−1.15%,606.582K,Health Services,44
-81,Metal Fabrication ,18.216B,—,−1.28%,334.516K,Producer Manufacturing,23
-82,Miscellaneous ,1.247B,—,1.15%,3.014M,Miscellaneous,11
-83,Miscellaneous Commercial Services ,365.241B,—,−0.23%,1.008M,Commercial Services,139
-84,Miscellaneous Manufacturing ,33.925B,—,0.30%,1.2M,Producer Manufacturing,15
-85,Motor Vehicles ,622.072B,—,−2.83%,12.718M,Consumer Durables,16
-86,Movies/Entertainment ,93.181B,—,−0.24%,752.251K,Consumer Services,35
-87,Multi-Line Insurance ,1153.28B,—,0.69%,2.758M,Finance,31
-88,Office Equipment/Supplies ,34.35B,—,2.68%,7.234M,Producer Manufacturing,9
-89,Oil & Gas Pipelines ,409.04B,—,−0.49%,4.811M,Industrial Services,38
-90,Oil & Gas Production ,269.566B,—,−0.63%,4.832M,Energy Minerals,89
-91,Oil Refining/Marketing ,101.369B,—,−0.76%,5.77M,Energy Minerals,14
-92,Oilfield Services/Equipment ,84.359B,—,−1.33%,10.379M,Industrial Services,45
-93,Other Consumer Services ,312.291B,—,−0.19%,2.941M,Consumer Services,53
-94,Other Consumer Specialties ,7.32B,—,−0.78%,1.129M,Consumer Durables,10
-95,Other Metals/Minerals ,282.142B,—,−0.22%,2.761M,Non-Energy Minerals,41
-96,Other Transportation ,12.049B,—,1.06%,161.975K,Transportation,11
-97,Packaged Software ,3392.133B,—,0.59%,25.146M,Technology Services,159
-98,Personnel Services ,25.898B,—,−1.40%,528.592K,Commercial Services,26
-99,Pharmaceuticals: Generic ,106.689B,—,1.17%,2.536M,Health Technology,12
-100,Pharmaceuticals: Major ,2130.68B,—,−1.00%,8.782M,Health Technology,176
-101,Pharmaceuticals: Other ,117.198B,—,−1.93%,1.112M,Health Technology,71
-102,Precious Metals ,318.323B,—,3.34%,7.819M,Non-Energy Minerals,52
-103,Property/Casualty Insurance ,250.654B,—,0.06%,1.971M,Finance,47
-104,Publishing: Books/Magazines ,10.694B,—,−2.18%,365.513K,Consumer Services,6
-105,Publishing: Newspapers ,23.712B,—,−0.76%,1.135M,Consumer Services,8
-106,Pulp & Paper ,10.927B,—,−1.92%,301.867K,Process Industries,10
-107,Railroads ,344.611B,—,1.12%,3.394M,Transportation,7
-108,Real Estate Development ,71.615B,—,−0.51%,1.715M,Finance,49
-109,Real Estate Investment Trusts ,1177.303B,—,−0.23%,2.806M,Finance,220
-110,Recreational Products ,175.91B,—,0.78%,4.779M,Consumer Durables,28
-111,Regional Banks ,600.496B,—,−0.95%,2.347M,Finance,284
-112,Restaurants ,408.391B,—,−0.51%,3.352M,Consumer Services,47
-113,Savings Banks ,31.283B,—,−0.87%,1.043M,Finance,57
-114,Semiconductors ,1640.606B,—,−0.58%,16.297M,Electronic Technology,72
-115,Services to the Health Industry ,74.892B,—,−0.26%,870.551K,Health Services,10
-116,Specialty Insurance ,52.665B,—,−0.44%,1.099M,Finance,15
-117,Specialty Stores ,436.875B,—,−0.09%,1.945M,Retail Trade,54
-118,Specialty Telecommunications ,58.181B,—,−2.07%,7.338M,Communications,22
-119,Steel ,139.546B,—,−2.04%,10.05M,Non-Energy Minerals,28
-120,Telecommunications Equipment ,2084.056B,—,9.25%,85.265M,Electronic Technology,51
-121,Textiles ,1.833B,—,−0.52%,369.48K,Process Industries,3
-122,Tobacco ,279.294B,—,−1.89%,5.366M,Consumer Non-Durables,6
-123,Tools & Hardware ,31.582B,—,−0.45%,1.426M,Consumer Durables,3
-124,Trucking ,87.604B,—,−0.72%,1.316M,Transportation,23
-125,Trucks/Construction/Farm Machinery ,248.81B,—,−1.57%,2.796M,Producer Manufacturing,36
-126,Water Utilities ,66.69B,—,0.05%,829.284K,Utilities,15
-127,Wholesale Distributors ,118.972B,—,0.17%,1.498M,Distribution Services,49
-128,Wireless Telecommunications ,418.942B,—,−0.03%,2.585M,Communications,24
+0,Advertising/Marketing Services ,57.611,0,1.46,2.433,Commercial Services,22
+1,Aerospace & Defense ,578.856,0,−1.27,19.519,Electronic Technology,49
+2,Agricultural Commodities/Milling ,68.492,0,−0.72,3.463,Process Industries,27
+3,Air Freight/Couriers ,222.335,0,0.32,4.983,Transportation,13
+4,Airlines ,87.215,0,−0.72,12.737,Transportation,19
+5,Alternative Power Generation ,28.742,0,−1.25,5.413,Utilities,9
+6,Aluminum ,13.408,0,−0.96,3.705,Non-Energy inerals,6
+7,Apparel/Footwear ,229.975,0,−0.22,5.417,Consumer Non-Durables,35
+8,Apparel/Footwear Retail ,191.281,0,0.20,3.308,Retail Trade,36
+9,Auto Parts: OEM ,77.417,0,−2.57,1.788,Producer anufacturing,31
+10,Automotive Aftermarket ,16.463,0,−3.29,2.447,Consumer Durables,7
+11,Beverages: Alcoholic ,370.275,0,−2.60,4.129,Consumer Non-Durables,13
+12,Beverages: Non-Alcoholic ,523.014,0,−0.47,7.914,Consumer Non-Durables,16
+13,Biotechnology ,1054.565,0,−0.45,4.401,Health Technology,376
+14,Broadcasting ,107.554,0,−0.09,10.462,Consumer Services,28
+15,Building Products ,123.569,0,−0.09,1.564,Producer anufacturing,28
+16,Cable/Satellite TV ,735.766,0,0.46,9.068,Consumer Services,18
+17,Casinos/Gaming ,97.451,0,−4.34,6.645,Consumer Services,19
+18,Catalog/Specialty Distribution ,2.834,0,3.65,0.723059,Retail Trade,4
+19,Chemicals: Agricultural ,83.669,0,−0.14,3.14,Process Industries,19
+20,Chemicals: Major Diversified ,80.867,0,−0.42,3.062,Process Industries,10
+21,Chemicals: Specialty ,373.466,0,−0.30,2.527,Process Industries,51
+22,Coal ,3.03,0,−1.38,0.430668,Energy inerals,14
+23,Commercial Printing/Forms ,20.393,0,0.92,1.198,Commercial Services,10
+24,Computer Communications ,82.689,0,1.91,0.7885359999999999,Electronic Technology,14
+25,Computer Peripherals ,72.165,0,1.69,3.575,Electronic Technology,16
+26,Computer Processing Hardware ,87.787,0,1.49,8.727,Electronic Technology,8
+27,Construction Materials ,79.017,0,−1.85,1.483,Non-Energy inerals,14
+28,Consumer Sundries ,3.994,0,−2.13,0.181531,Consumer Non-Durables,3
+29,Containers/Packaging ,139.198,0,−1.05,4.261,Process Industries,21
+30,Contract Drilling ,4.729,0,−1.74,6.936,Industrial Services,11
+31,Data Processing Services ,624.537,0,0.62,5.845,Technology Services,42
+32,Department Stores ,12.341,0,−1.76,5.544,Retail Trade,4
+33,Discount Stores ,79.69,0,−0.67,1.373,Retail Trade,5
+34,Drugstore Chains ,119.348,0,−1.09,9.829,Retail Trade,6
+35,Electric Utilities ,1629.297,0,0.07,2.288,Utilities,91
+36,Electrical Products ,237.162,0,−0.86,1.698,Producer anufacturing,39
+37,Electronic Components ,140.874,0,0.04,2.486,Electronic Technology,37
+38,Electronic Equipment/Instruments ,166.944,0,−1.04,1.503,Electronic Technology,41
+39,Electronic Production Equipment ,132.208,0,0.73,1.581,Electronic Technology,29
+40,Electronics Distributors ,16.446,0,1.12,0.446001,Distribution Services,9
+41,Electronics/Appliance Stores ,26.288,0,−0.44,1.869,Retail Trade,5
+42,Electronics/Appliances ,136.381,0,−0.10,1.982,Consumer Durables,17
+43,Engineering & Construction ,51.129,0,−0.43,0.7986420000000001,Industrial Services,34
+44,Environmental Services ,125.315,0,0.12,0.963934,Industrial Services,20
+45,Finance/Rental/Leasing ,851.996,0,−1.16,8.798,Finance,84
+46,Financial Conglomerates ,309.42,0,−1.46,9.442,Finance,266
+47,Financial Publishing/Services ,171.779,0,−0.48,0.922877,Commercial Services,3
+48,Food Distributors ,38.239,0,−1.08,2.686,Distribution Services,9
+49,Food Retail ,414.246,0,−0.48,6.924,Retail Trade,12
+50,Food: Major Diversified ,231.478,0,−0.29,6.781,Consumer Non-Durables,13
+51,Food: Meat/Fish/Dairy ,62.036,0,−0.23,1.883,Consumer Non-Durables,8
+52,Food: Specialty/Candy ,143.934,0,0.42,0.840992,Consumer Non-Durables,30
+53,Forest Products ,21.596,0,−0.52,0.590672,Non-Energy inerals,6
+54,Gas Distributors ,95.305,0,−0.03,1.395,Utilities,19
+55,Home Furnishings ,24.555,0,−0.96,1.583,Consumer Durables,17
+56,Home Improvement Chains ,404.724,0,−0.37,3.692,Retail Trade,3
+57,Homebuilding ,124.827,0,−0.32,1.846,Consumer Durables,26
+58,Hospital/Nursing Management ,89.632,0,−0.49,2.006,Health Services,16
+59,Hotels/Resorts/Cruise lines ,121.432,0,−1.97,5.161,Consumer Services,21
+60,Household/Personal Care ,783.663,0,0.07,4.736,Consumer Non-Durables,23
+61,Industrial Conglomerates ,240.61,0,−0.49,3.483,Producer anufacturing,11
+62,Industrial Machinery ,455.908,0,−1.21,2,Producer anufacturing,69
+63,Industrial Specialties ,126.506,0,−0.08,0.928135,Process Industries,26
+64,Information Technology Services ,1236.298,0,0.57,5.062,Technology Services,116
+65,Insurance Brokers/Services ,213.534,0,0.24,1.479,Finance,18
+66,Integrated Oil ,850.978,0,−1.85,14.09,Energy inerals,32
+67,Internet Retail ,2614.944,0,2.39,8.999,Retail Trade,25
+68,Internet Software/Services ,3406.825,0,0.19,15.293,Technology Services,106
+69,Investment Banks/Brokers ,471.587,0,0.33,3.83,Finance,47
+70,Investment Managers ,500.3,0,−0.46,1.951,Finance,124
+71,Investment Trusts/Mutual Funds ,206.293,0,0.26,4.249,iscellaneous,2846
+72,Life/Health Insurance ,162.448,0,0.02,2.74,Finance,25
+73,Major Banks ,1737.088,0,−0.92,15.111,Finance,65
+74,Major Telecommunications ,633.001,0,0.03,19.17,Communications,19
+75,Managed Health Care ,522.702,0,−1.35,2.85,Health Services,8
+76,Marine Shipping ,19.532,0,−1.25,1.126,Transportation,51
+77,Media Conglomerates ,212.991,0,1.10,9.545,Consumer Services,3
+78,Medical Distributors ,81.648,0,−1.73,1.916,Distribution Services,9
+79,Medical Specialties ,1690.941,0,−0.23,2.117,Health Technology,198
+80,Medical/Nursing Services ,104.536,0,−1.15,0.607115,Health Services,44
+81,Metal Fabrication ,18.202,0,−1.28,0.33475900000000003,Producer anufacturing,23
+82,Miscellaneous ,1.247,0,1.16,3.015,iscellaneous,11
+83,Miscellaneous Commercial Services ,363.962,0,−0.22,1.008,Commercial Services,139
+84,Miscellaneous Manufacturing ,33.925,0,0.30,1.2,Producer anufacturing,15
+85,Motor Vehicles ,615.816,0,−2.83,12.821,Consumer Durables,16
+86,Movies/Entertainment ,93.212,0,−0.24,0.7538980000000001,Consumer Services,35
+87,Multi-Line Insurance ,1152.857,0,0.69,2.759,Finance,31
+88,Office Equipment/Supplies ,34.35,0,2.68,7.234,Producer anufacturing,9
+89,Oil & Gas Pipelines ,408.269,0,−0.49,4.82,Industrial Services,38
+90,Oil & Gas Production ,267.895,0,−0.62,4.861,Energy inerals,89
+91,Oil Refining/Marketing ,101.158,0,−0.75,5.781,Energy inerals,14
+92,Oilfield Services/Equipment ,84.359,0,−1.33,10.379,Industrial Services,45
+93,Other Consumer Services ,312.511,0,−0.19,2.94,Consumer Services,53
+94,Other Consumer Specialties ,7.319,0,−0.78,1.129,Consumer Durables,10
+95,Other Metals/Minerals ,281.585,0,−0.22,2.763,Non-Energy inerals,41
+96,Other Transportation ,12.235,0,1.10,0.16128,Transportation,11
+97,Packaged Software ,3391.285,0,0.59,25.153,Technology Services,159
+98,Personnel Services ,25.898,0,−1.40,0.528592,Commercial Services,26
+99,Pharmaceuticals: Generic ,106.814,0,1.17,2.532,Health Technology,12
+100,Pharmaceuticals: Major ,2117.207,0,−0.99,8.813,Health Technology,176
+101,Pharmaceuticals: Other ,116.876,0,−1.93,1.112,Health Technology,71
+102,Precious Metals ,318.462,0,3.34,7.822,Non-Energy inerals,52
+103,Property/Casualty Insurance ,250.655,0,0.06,1.971,Finance,47
+104,Publishing: Books/Magazines ,10.596,0,−2.18,0.366276,Consumer Services,6
+105,Publishing: Newspapers ,23.712,0,−0.76,1.135,Consumer Services,8
+106,Pulp & Paper ,10.826,0,−1.92,0.30323700000000003,Process Industries,10
+107,Railroads ,344.614,0,1.12,3.394,Transportation,7
+108,Real Estate Development ,71.683,0,−0.50,1.72,Finance,49
+109,Real Estate Investment Trusts ,1174.597,0,−0.22,2.794,Finance,220
+110,Recreational Products ,175.91,0,0.78,4.779,Consumer Durables,28
+111,Regional Banks ,597.563,0,−0.94,2.351,Finance,284
+112,Restaurants ,408.391,0,−0.51,3.352,Consumer Services,47
+113,Savings Banks ,31.283,0,−0.87,1.043,Finance,57
+114,Semiconductors ,1635.034,0,−0.57,16.313,Electronic Technology,72
+115,Services to the Health Industry ,74.892,0,−0.26,0.8705510000000001,Health Services,10
+116,Specialty Insurance ,52.665,0,−0.44,1.099,Finance,15
+117,Specialty Stores ,436.875,0,−0.09,1.945,Retail Trade,54
+118,Specialty Telecommunications ,56.794,0,−1.98,7.458,Communications,22
+119,Steel ,137.624,0,−2.04,10.033,Non-Energy inerals,28
+120,Telecommunications Equipment ,2085.995,0,9.24,85.29,Electronic Technology,51
+121,Textiles ,1.833,0,−0.52,0.36948000000000003,Process Industries,3
+122,Tobacco ,275.796,0,−1.86,5.384,Consumer Non-Durables,6
+123,Tools & Hardware ,31.582,0,−0.45,1.426,Consumer Durables,3
+124,Trucking ,87.519,0,−0.72,1.318,Transportation,23
+125,Trucks/Construction/Farm Machinery ,248.81,0,−1.57,2.796,Producer anufacturing,36
+126,Water Utilities ,66.771,0,0.06,0.830266,Utilities,15
+127,Wholesale Distributors ,118.972,0,0.17,1.498,Distribution Services,49
+128,Wireless Telecommunications ,416.596,0,−0.02,2.579,Communications,24

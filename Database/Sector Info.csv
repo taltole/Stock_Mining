@@ -1,21 +1,21 @@
 ,SECTOR,MKT CAP,DIV YIELD,CHG PERCENT,VOL,INDUSTRIES,STOCKS
-0,Commercial Services ,641.066B,—,−0.16%,1.1M,5,200
-1,Communications ,1110.661B,—,−0.10%,12.285M,3,65
-2,Consumer Durables ,1139.793B,—,−1.56%,8.235M,8,124
-3,Consumer Non-Durables ,2640.501B,—,−0.69%,5.309M,9,147
-4,Consumer Services ,2124.117B,—,−0.20%,6.356M,10,238
-5,Distribution Services ,255.305B,—,−0.56%,1.742M,4,76
-6,Electronic Technology ,4987.236B,—,3.59%,43.638M,9,317
-7,Energy Minerals ,1236.743B,—,−1.51%,11.295M,4,149
-8,Finance ,7598.073B,—,−0.42%,6.438M,14,1332
-9,Health Services ,791.901B,—,−1.12%,2.271M,4,78
-10,Health Technology ,5124.703B,—,−0.43%,5.464M,5,833
-11,Industrial Services ,674.571B,—,−0.48%,4.504M,5,148
-12,Miscellaneous ,206.993B,—,0.26%,4.209M,2,2857
-13,Non-Energy Minerals ,854.954B,—,0.64%,5.675M,6,147
-14,Process Industries ,885.266B,—,−0.44%,2.719M,8,167
-15,Producer Manufacturing ,1475.091B,—,−0.96%,2.36M,9,261
-16,Retail Trade ,4295.985B,—,1.31%,7.153M,10,154
-17,Technology Services ,8657.455B,—,0.43%,17.031M,4,423
-18,Transportation ,773.411B,—,0.41%,4.561M,6,124
-19,Utilities ,1823.025B,—,0.04%,2.234M,4,134
+0,Commercial Services ,639.643,0,−0.15,1.1,5,200
+1,Communications ,1106.392,0,−0.09,12.322,3,65
+2,Consumer Durables ,1132.852,0,−1.55,8.27,8,124
+3,Consumer Non-Durables ,2624.166,0,−0.67,5.304,9,147
+4,Consumer Services ,2123.617,0,−0.20,6.354,10,238
+5,Distribution Services ,255.306,0,−0.56,1.742,4,76
+6,Electronic Technology ,4982.553,0,3.60,43.709,9,317
+7,Energy Minerals ,1223.061,0,−1.49,11.348,4,149
+8,Finance ,7577.679,0,−0.41,6.438,14,1332
+9,Health Services ,791.762,0,−1.12,2.271,4,78
+10,Health Technology ,5086.402,0,−0.60,5.364,5,833
+11,Industrial Services ,673.8,0,−0.48,4.509,5,148
+12,Miscellaneous ,207.539,0,0.27,4.242,2,2857
+13,Non-Energy Minerals ,851.693,0,0.65,5.67,6,147
+14,Process Industries ,884.857,0,−0.44,2.719,8,167
+15,Producer Manufacturing ,1469.952,0,−0.95,2.364,9,261
+16,Retail Trade ,4302.571,0,1.32,7.153,10,154
+17,Technology Services ,8658.945,0,0.43,17.012,4,423
+18,Transportation ,773.449,0,0.41,4.561,6,124
+19,Utilities ,1820.116,0,0.04,2.237,4,134

@@ -44,4 +44,4 @@ REQUIRED_NUM_OF_ARGS = 3
 DELAY = random.randint(1, 5)
 MYSQL_USERNAME = 'root'
 API_KEY = 'IQGX1FT91GHD48FM'
-create_csv = False
+create_csv = True
