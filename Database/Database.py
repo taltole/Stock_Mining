@@ -316,7 +316,6 @@ def setup_mysql_db():
 def create_database(con):
     """ create database if don't exists. """
     cur = con.cursor()
-    cur.execute(''' DROP DATABASE Stock_Stats;''')
     cur.execute(''' CREATE DATABASE IF NOT EXISTS Stock_Stats;''')
     cur.execute(''' USE Stock_Stats; ''')
 
