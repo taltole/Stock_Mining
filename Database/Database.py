@@ -82,6 +82,7 @@ class Database:
                 Volume = %s, Mkt_Cap = %s, Price_to_Earnings = %s, EPS = %s, Employees = %s, Sector = %s WHERE Ticker = %s""",
                 (sector_id, r['LAST'], r['CHG PERCENT'], r['RATING'], r['VOL'], r['MKT CAP'], r['P_E'],
                  r['EPS'], r['EMPLOYEES'], r['SECTOR'], r['TICKER']))
+            print('Updated Main')
         else:
             for i, r in df.iterrows():
                 sector_id = dict_sectors[' '.join(r['SECTOR'].split('_'))]
@@ -90,26 +91,32 @@ class Database:
                 val = [sector_id, r['TICKER'], r['LAST'], r['CHG PERCENT'], r['RATING'], r['VOL'], r['MKT CAP'], r['P_E'],
                        r['EPS'], r['EMPLOYEES'], r['SECTOR']]
                 self.cur.execute(sql, val)
+            print('Inserted Main')
         self.con.commit()
 
     def insert_valuation_table(self, top_stocks, ids_list):
         """ insert or update Valuation table to mysql """
-        df = top_stocks
-        for i, r in df.iterrows():
-            for ticker_dict in ids_list:
-                if ticker_dict['Ticker'] == i:
-                    count_id = self.cur.execute("""SELECT ticker_id FROM Valuation WHERE Ticker = %s""", (i))
-                    if count_id > 0:
-                        self.cur.execute("""UPDATE Valuation SET ticker_id = %s, 
-                            Price_to_Revenue = %s, Price_to_Book = %s, Price_to_Sales = %s
-                            WHERE Ticker = %s""", (ticker_dict['ticker_id'],r['Price to Revenue Ratio (TTM)'],
-                            r['Price to Book (FY)'], r['Price to Sales (FY)'], i))
-                    else:
-                        sql = """INSERT INTO Valuation (ticker_id, Ticker, Price_to_Revenue, Price_to_Book, Price_to_Sales) VALUES (%s, %s, %s, %s, %s)"""
-                        val = (ticker_dict['ticker_id'], i,
-                               r['Price to Revenue Ratio (TTM)'], r['Price to Book (FY)'], r['Price to Sales (FY)'])
-                        self.cur.execute(sql, val)
-        self.con.commit()
+        try:
+            df = top_stocks
+            for i, r in df.iterrows():
+                for ticker_dict in ids_list:
+                    if ticker_dict['Ticker'] == i:
+                        count_id = self.cur.execute("""SELECT ticker_id FROM Valuation WHERE Ticker = %s""", (i))
+                        if count_id > 0:
+                            self.cur.execute("""UPDATE Valuation SET ticker_id = %s, 
+                                Price_to_Revenue = %s, Price_to_Book = %s, Price_to_Sales = %s
+                                WHERE Ticker = %s""", (ticker_dict['ticker_id'],r['Price to Revenue Ratio (TTM)'],
+                                r['Price to Book (FY)'], r['Price to Sales (FY)'], i))
+                            print(f'Updated Valuation for {i}')
+                        else:
+                            sql = """INSERT INTO Valuation (ticker_id, Ticker, Price_to_Revenue, Price_to_Book, Price_to_Sales) VALUES (%s, %s, %s, %s, %s)"""
+                            val = (ticker_dict['ticker_id'], i,
+                                   r['Price to Revenue Ratio (TTM)'], r['Price to Book (FY)'], r['Price to Sales (FY)'])
+                            self.cur.execute(sql, val)
+                            print(f'Inserted Valuation for {i} ')
+            self.con.commit()
+        except:
+            pass
 
     def insert_metrics_table(self, top_stocks, ids_list):
         """ insert or update Metrics table to mysql """
@@ -124,12 +131,14 @@ class Database:
                             Return_on_Equity = %s, Return_on_Invested_Capital = %s, Revenue_per_Employee = %s
                             WHERE Ticker = %s""",(ticker_dict['ticker_id'],r['Return on Assets (TTM)'],
                             r['Return on Equity (TTM)'], r['Return on Invested Capital (TTM)'], r['Revenue per Employee (TTM)'], i))
+                            print(f'Updated Metrics for {i}')
                         else:
                             sql = "INSERT INTO Metrics (ticker_id, Ticker, Return_on_Assets, Return_on_Equity, " \
                                   "Return_on_Invested_Capital, Revenue_per_Employee) VALUES (%s, %s, %s, %s, %s, %s)"
                             val = (ticker_dict['ticker_id'], i, r['Return on Assets (TTM)'], r['Return on Equity (TTM)'],
                                    r['Return on Invested Capital (TTM)'], r['Revenue per Employee (TTM)'])
                             self.cur.execute(sql, val)
+                            print(f'Inserted Metrics for {i}')
             self.con.commit()
         except:
             pass
@@ -147,12 +156,14 @@ class Database:
                             Current_Ratio = %s, Debt_to_Equity = %s, Net_Debt = %s, Total_Debt = %s, Total_Assets = %s 
                             WHERE Ticker = %s""",(ticker_dict['ticker_id'], r['Quick Ratio (MRQ)'], r['Current Ratio (MRQ)'],
                             r['Debt to Equity Ratio (MRQ)'], r['Net Debt (MRQ)'], r['Total Debt (MRQ)'], r['Total Assets (MRQ)'], i))
+                            print(f'Updated Balance Sheet for {i}')
                         else:
                             sql = "INSERT INTO Balance_Sheet (ticker_id, Ticker, Quick_Ratio, Current_Ratio, Debt_to_Equity, " \
                                   "Net_Debt, Total_Debt, Total_Assets) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)"
                             val = (ticker_dict['ticker_id'], i, r['Quick Ratio (MRQ)'], r['Current Ratio (MRQ)'],
                                    r['Debt to Equity Ratio (MRQ)'],r['Net Debt (MRQ)'], r['Total Debt (MRQ)'], r['Total Assets (MRQ)'])
                             self.cur.execute(sql, val)
+                            print(f'Inserted Balance Sheet for {i}')
             self.con.commit()
         except:
             pass
@@ -170,11 +181,13 @@ class Database:
                             1_Year_beta = %s, 52_week_high = %s, 52_week_low = %s WHERE Ticker = %s""",
                             (ticker_dict['ticker_id'], r['1-Year Beta'], r['52 Week High'],
                              r['52 Week Low'], i))
+                            print(f'Updated Price History for {i}')
                         else:
                             sql = "INSERT INTO Price_History (ticker_id, Ticker, 1_Year_beta, 52_week_high," \
                           "52_week_low) VALUES (%s, %s, %s, %s, %s)"
                             val = (ticker_dict['ticker_id'], i, r['1-Year Beta'], r['52 Week High'], r['52 Week Low'])
                             self.cur.execute(sql, val)
+                            print(f'Inserted Price History for {i}')
             self.con.commit()
         except:
             pass
@@ -193,11 +206,13 @@ class Database:
                             Dividends_Yield = %s, Dividends_per_Share = %s, 52_week_low = %s WHERE Ticker = %s""",
                             (ticker_dict['ticker_id'], r['Dividends Paid (FY)'], r['Dividends Yield (FY)'],
                              r['Dividends per Share (FY)'], i))
+                            print(f'Updated Dividend Table for {i}')
                         else:
                             sql = "INSERT INTO Dividends (ticker_id, Ticker, Dividends_Paid, Dividends_Yield, " \
                                   "Dividends_per_Share) VALUES (%s, %s, %s, %s, %s)"
                             val = (ticker_dict['ticker_id'], i, r['Dividends Paid (FY)'], r['Dividends Yield (FY)'],
                                    r['Dividends per Share (FY)'])
+                            print(f'Inserted Dividend Table for {i}')
                             self.cur.execute(sql, val)
             self.con.commit()
         except:
@@ -216,11 +231,13 @@ class Database:
                                Gross_Margin = %s, Operating_Margin = %s, Pretax_Margin = %s WHERE Ticker = %s""",
                                 (ticker_dict['ticker_id'], r['Net Margin (TTM)'], r['Gross Margin (TTM)'],
                                 r['Operating Margin (TTM)'], r['Pretax Margin (TTM)'], i))
+                            print(f'Updated Margins for {i}')
                         else:
                             sql = "INSERT INTO Margins (ticker_id, Ticker, Net_Margin, Gross_Margin, Operating_Margin, " \
                                   "Pretax_Margin) VALUES (%s, %s, %s, %s, %s, %s)"
                             val = (ticker_dict['ticker_id'], i, r['Net Margin (TTM)'], r['Gross Margin (TTM)'],
                                    r['Operating Margin (TTM)'], r['Pretax Margin (TTM)'])
+                            print(f'Insert Margins for {i}')
                             self.cur.execute(sql, val)
             self.con.commit()
         except:
@@ -242,6 +259,7 @@ class Database:
                                  r['EPS Diluted (FY)'], r['Net Income (FY)'], r['EBITDA (TTM)'],
                                  r['Gross Profit (MRQ)'], r['Gross Profit (FY)'], r['Last Year Revenue (FY)'],
                                  r['Total Revenue (FY)'], r['Free Cash Flow (TTM)'], i))
+                            print(f'Updated Income for {i}')
                         else:
                             sql = "INSERT INTO Income (ticker_id, Ticker, Basic_EPS_FY, Basic_EPS_TTM, EPS_Diluted, Net_Income, " \
                                   "EBITDA, Gross_Profit_MRQ, Gross_Profit_FY, Last_Year_Revenue, Total_Revenue, Free_Cash_Flow)" \
@@ -250,6 +268,7 @@ class Database:
                                    r['Net Income (FY)'], r['EBITDA (TTM)'], r['Gross Profit (MRQ)'], r['Gross Profit (FY)'],
                                    r['Last Year Revenue (FY)'], r['Total Revenue (FY)'], r['Free Cash Flow (TTM)'])
                             self.cur.execute(sql, val)
+                            print(f'Inserted Income for {i}')
             self.con.commit()
         except:
             pass
@@ -265,11 +284,13 @@ class Database:
                         self.cur.execute("""UPDATE API SET ticker_id = %s, Moving_Average_200_days_Exchange = %s, 
                              Address = %s, Description = %s WHERE Ticker = %s""", (ticker_dict['ticker_id'],
                             r[1], r[3], r[4][:255], r[0]))
+                        print(f'Updated API for {r[0]}')
                     else:
                         sql = "INSERT INTO API (ticker_id, Ticker, Moving_Average_200_days_Exchange, Address, Description) " \
                               "VALUES (%s, %s, %s, %s, %s) "
                         val = (ticker_dict['ticker_id'], r[0], r[1], r[3], r[4][:255])
                         self.cur.execute(sql, val)
+                        print(f'Inserted API for {r[0]}')
         self.con.commit()
 
 
