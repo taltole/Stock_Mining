@@ -13,12 +13,48 @@ def stock_parser():
     The program receives user arguments and prints the info under query.
     """
     parser = argparse.ArgumentParser(
-        description="usage: MainScrapper.py [-h] [concise|expanded] [-ticker_to_scrap]")
+        description="usage: MainScrapper2.py [-h] [concise|expanded] [-ticker_to_scrap]")
     parser.add_argument('scrapper', choices=['concise', 'expanded'], help='select the query to perform')
     parser.add_argument('-ticker_to_scrap', '--ticker', type=str, nargs='?', default='all_stocks',
                         help='choose stock to scrap')
     args = parser.parse_args()
     return args.scrapper, args.ticker
+
+
+def update_db():
+
+    user_options = stock_parser()[0]
+    print("Update Database. ")
+    db = Database()
+
+    # Sectors DB
+    top_sectors = SectorScrapper.SectorScrapper(URL_SECTOR).summarizer()
+    # top_sectors = scrap_sectors
+    db.insert_sectors_table(top_sectors)
+
+    # Industry DB
+    top_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY).summarizer()
+    # top_industries = scrap_industries
+    db.insert_industry_table(top_industries)
+
+    # TopMarket DB
+    # top_market = TopMarketScrapper.TopMarketScrapper(URL).summarizer()
+    db.insert_main_table(top_market)
+
+    top_stocks = StockScrapper.main(user_options)
+
+    db.insert_valuation_table(top_stocks)
+    db.insert_metrics_table(top_stocks)
+    db.insert_balance_sheet_table(top_stocks)
+    db.insert_price_history_table(top_stocks)
+    # db.insert_dividends_table(top_stocks)
+    db.insert_margins_table(top_stocks)
+    db.insert_income_table(top_stocks)
+    db.read_from_db('Industry')
+
+    print("Done. ")
+    return db
+
 
 def main():
     """
@@ -31,25 +67,33 @@ def main():
     print(user_options[0])
     print(user_options[1])
     if user_options[0] == 'concise':
+        # # printing info to console and file
+        # scrap_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY)
+        # top_industries = scrap_industries.summarizer()
+        # print('Industry Summary', top_industries, sep='\n')
+        # db.insert_industry_table(top_industries)
+        # # printing info to console and file
+        #
         scrap_sectors = SectorScrapper.SectorScrapper(URL_SECTOR)
         top_sectors = scrap_sectors.summarizer()
-        dict_sectors = db.dict_sectors(top_sectors)
-        print(dict_sectors)
         print('Sectors Summary', top_sectors, sep='\n')
         db.insert_sectors_table(top_sectors)
+        #
+        # # Stock financial in depth info
 
-        scrap_industries = IndustryScrapper.IndustryScrapper(URL_INDUSTRY)
-        top_industries = scrap_industries.summarizer()
-        print('Industry Summary', top_industries, sep='\n')
-        db.insert_industry_table(top_industries, dict_sectors)
-
+        # getting urls for individual stock and sectors mining
         scrap_top = TopMarketScrapper.TopMarketScrapper(URL)
+        stock, sectors = scrap_top.get_urls()
+        # print('Links to Stocks and Sectors:', stock, sectors, sep='\n')
+        # printing info to console and file
         top_stocks = scrap_top.summarizer()
-        db.insert_main_table(top_stocks, dict_sectors)
         print('', 'Stock Summary', top_stocks, sep='\n')
-
+        db.insert_main_table(top_stocks)
+        print(db.read_from_db('Main'))
 
     elif user_options[0] == 'expanded':
+
+
         scrap_sectors = SectorScrapper.SectorScrapper(URL_SECTOR)
         top_sectors = scrap_sectors.summarizer()
         dict_sectors = db.dict_sectors(top_sectors)
@@ -80,6 +124,7 @@ def main():
 
     db.close_connect_db()
 
+    # db = update_db()
 
 if __name__ == '__main__':
     main()
