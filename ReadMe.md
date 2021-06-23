@@ -1,6 +1,6 @@
 ## Data Mining Project
-### By Kevin Daniels, Itamar Meimon  & Tal Toledano.
-#### This "Web Scraping Project" currently includes the first three checkpoints required for the ITC data science group project assignment. The purpose is to retrieve data from a selected website and transfer it for storage in a separate database designed by the team. Additional relevant information is extracted from another website via an API. 
+
+#### The purpose is to retrieve data from a selected website and transfer it for storage in a separate database. Additional relevant information is extracted from another website via an API. 
 
 ### The website of choice: https://www.tradingview.com/
 Containing real time information about the U.S stock market.
