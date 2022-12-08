@@ -23,7 +23,7 @@ boto==2.49.0
 Bottleneck==1.2.1
 branca==0.3.1
 bubble-plot==0.3.4
-certifi==2020.6.20
+certifi==2022.12.7
 cffi==1.12.3
 chardet==3.0.4
 chart-studio==1.1.0
