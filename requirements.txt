@@ -39,7 +39,7 @@ conda-package-handling==1.7.0+0.g7c4a471.dirty
 conda-verify==3.4.2
 constants==0.6.0
 contextlib2==0.6.0
-cryptography==2.7
+cryptography==3.2
 cycler==0.10.0
 Cython==0.29.13
 cytoolz==0.10.0
